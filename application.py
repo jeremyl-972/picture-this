@@ -40,4 +40,4 @@ def index():
     id = session["user_id"]
     # set expected data structure
     data = []
-    return render_template("index.html", data)
+    return render_template("index.html", data=data)

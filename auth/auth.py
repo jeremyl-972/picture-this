@@ -6,7 +6,6 @@ from helpers import apology, get_db
 auth = Blueprint("auth", __name__, static_folder="static",
                   template_folder="templates")
 
-
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -39,7 +38,7 @@ def login():
             else:
                 # Remember which user has logged in
                 session["user_id"] = rows[0]["id"]                
-                return redirect(url_for("/"))
+                return redirect(url_for("index"))
 
         flash(error)
     # User reached route via GET (as by clicking a link or via redirect)
