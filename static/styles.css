@@ -2,7 +2,7 @@ body {
     color: #DC7D19;
     position: relative;
     min-height: 100vh;
-    font-family: 'EB Garamond', serif;;
+    font-family: 'EB Garamond', serif;
 }
 
 .btn-primary {
@@ -56,7 +56,8 @@ footer > a {
 
 nav a.frame {
     font-size: 25px;
-    border: 3px solid #DC7D19;
+    border: 1.5px solid #DC7D19;
+    border-radius: 4px;
 }
 
 .intro {
@@ -125,10 +126,27 @@ footer {
     max-width: 970px;
 }
 
+.responsive-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border: 5px solid #DC7D19;
+    border-radius: 4px;
+}
+
 @media only screen and (min-width: 768px) {
    
 }
 
 @media only screen and (max-width: 768px) {
-    
+    h1 .brand {
+        font-size: 60px;
+        letter-spacing: .5px;
+    }
+    .intro {
+        font-size: 25px;
+    }
+    .responsive-img {
+        max-width: 300px;
+    }
  }

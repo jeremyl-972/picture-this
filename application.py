@@ -41,3 +41,23 @@ def index():
     # set expected data structure
     data = []
     return render_template("index.html", data=data)
+
+@application.route("/players")
+@login_required
+def players():
+    """Show players view"""
+    # define userId
+    id = session["user_id"]
+    # set expected data structure
+    data = []
+    return render_template("players.html", data=data)
+
+@application.route("/words")
+@login_required
+def words():
+    """Show words view"""
+    # define userId
+    id = session["user_id"]
+    # set expected data structure
+    data = []
+    return render_template("words.html", data=data)
