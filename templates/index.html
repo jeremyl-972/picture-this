@@ -1,5 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block header %}
-<h1>{% block title %}Welcome To Picture This!{% endblock %}</h1>
+    <div class="center-up-flex-column">
+        <h1 class="center-up-flex-row intro">{% block title %}Fast Sketching, Fun Guessing!{% endblock %}</h1>
+        <h1 class="center-up-flex-row brand mb-5">
+            {{ brand() }} <!-- defined in layout.html  -->
+        </h1>
+
+        <button class="btn btn-primary">Start The Game</button>
+    </div>
+    
 {% endblock %}

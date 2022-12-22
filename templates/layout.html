@@ -12,18 +12,26 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
     <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=Tillana&display=swap" rel="stylesheet">
     <link href="/static/styles.css" rel="stylesheet">
 
     <title>Picture This: {% block title %}{% endblock %}</title>
 
 </head>
 
-<body>
+<body class="stripe-1">
 
-    <nav class="bg-light border navbar navbar-expand-md navbar-light">
+    <nav class="stripe-1 border navbar navbar-expand-md navbar-light">
         <div class="container-fluid wrapper">
-            <a class="navbar-brand" href="/">Picture_This</a>
+            <a class="navbar-brand frame" href="/">
+                {% macro brand() -%}
+                    <div class="brand">
+                        <span class="slant-left offset-down">P</span><span class="slant-right">i</span ><span class="offset-down">c</span><span class="slant-left">t</span><span class="slant-right offset-up">u</span><span>r</span><span class="slant-left offset-up">e</span>
+                        <span class="slant-right">T</span><span class="offset-down">h</span><span class="slant-left offset-up">i</span><span class="slant-right offset-up">s</span>  
+                    </div>
+                {%- endmacro %}
+                {{ brand() }}
+            </a>
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                 data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -34,12 +42,12 @@
                     <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/logout">Log Out</a></li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav ms-auto mt-2">
                     <li class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
                 </ul>
                 {% endif %}
             </div>
@@ -65,10 +73,19 @@
         </main>
     </div>
 
-    <footer class="small center-up-flex-row text-muted">
+    <footer class="small center-up-flex-row">
         See the code on&#160<a href="https://github.com/Jdubbs702/picture-this">Github</a>
     </footer>
 
+    <script>
+        function toggle(btnId, loadBtnId) {
+            console.log(btnId, loadBtnId)
+            let btn = document.getElementById(btnId);
+            let loadingBtn = document.getElementById(loadBtnId);
+            btn.setAttribute("hidden", "hidden");
+            loadingBtn.removeAttribute("hidden");
+        }
+    </script>
 
 </body>
 

@@ -19,6 +19,10 @@
             <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Re-enter Password" type="password">
         </div>
 
-        <button class="btn btn-primary" type="submit">Register</button>
+        <button id="regBtn" onclick="toggle('regBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Register</button>
+        <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
     </form>
 {% endblock %}

@@ -12,6 +12,10 @@
     <div class="mb-3">
         <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
     </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
+    <button id="logBtn" onclick="toggle('logBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Log In</button>
+    <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
 </form>
 {% endblock %}
