@@ -3,13 +3,16 @@
 {% block header %}
 <h1>{% block title %}Login{% endblock %}</h1>
 {% endblock %}
+
 {% block main %}
-<form action="/auth/login" method="post" class="text-center">
+<form action="/auth/login" method="post" class="center-up-flex-column">
     <div class="mb-3">
+        <label for="username" class="form-label">Email</label>
         <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username"
             placeholder="Username" type="text">
     </div>
     <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
         <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
     </div>
     <button id="logBtn" onclick="toggle('logBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Login</button>

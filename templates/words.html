@@ -2,8 +2,16 @@
 
 {% block header %}
     <div class="center-up-flex-column">
-        <h1 class="center-up-flex-row">{% block title %}Words View{% endblock %}</h1>
-        
+        <h1 class="center-up-flex-row">{% block title %}Select Your Word{% endblock %}</h1>   
     </div>
-    
+{% endblock %}
+
+{% block main %}
+<div class="center-up-flex-column">
+    <div id="messages"></div>
+    <form id="input_form" class="center-up-flex-column">    
+        <input class="form-control mx-auto w-auto mb-2" type="text" id="input" placeholder="Word">
+        <button class="btn btn-primary">Select</button>
+    </form>
+</div>
 {% endblock %}

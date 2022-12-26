@@ -2,10 +2,13 @@ from datetime import timedelta, datetime
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
+from flask_socketio import SocketIO, send, join_room
+from flask_login import LoginManager, login_required, current_user
 from dotenv import load_dotenv
 
 from auth.auth import auth
-from helpers import apology, login_required
+from helpers import apology
+from db import get_user
 
 
 # Configure application
@@ -13,15 +16,11 @@ load_dotenv()
 application = Flask(__name__)
 application.register_blueprint(auth, url_prefix="/auth")
 
-# Ensure templates are auto-reloaded
-application.config["TEMPLATES_AUTO_RELOAD"] = True
-# setup server-side sessions
-application.config['SESSION_PERMANENT'] = True
-application.config['SESSION_TYPE'] = 'filesystem'
-application.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
-# The max # of items the session stores before it starts deleting some, default 500
-application.config['SESSION_FILE_THRESHOLD'] = 100
-Session(application)
+application.secret_key = "sfdjkafnk"
+socketio = SocketIO(application, cors_allowed_origins="*")
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(application)
 
 # Ensure responses aren't cached
 @application.after_request
@@ -31,13 +30,11 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 @application.route("/")
 @login_required
 def index():
     """Show welcome view"""
-    # define userId
-    id = session["user_id"]
+    # define user
     # set expected data structure
     data = []
     return render_template("index.html", data=data)
@@ -46,10 +43,12 @@ def index():
 @login_required
 def players():
     """Show players view"""
-    # define userId
-    id = session["user_id"]
+    # define room
+    room = "gameroom"
     # set expected data structure
-    data = []
+    data = {}
+    data["user"] = current_user.username
+    data["room"] = room
     return render_template("players.html", data=data)
 
 @application.route("/words")
@@ -61,3 +60,20 @@ def words():
     # set expected data structure
     data = []
     return render_template("words.html", data=data)
+
+@socketio.on('join_room')
+def handle_join_room_event(data):
+    join_room(data['room'])
+    socketio.emit('join_room_announcement', data)
+
+@socketio.on('send_message')
+def handle_send_message_event(data):
+    application.logger.info("{} has sent message to room {}: {}".format(data['username'], data['room'], data['message']))
+    socketio.emit('receive_message', data, room=data['room'])
+
+@login_manager.user_loader
+def load_user(username):
+    return get_user(username)
+
+if __name__ == "__main__":
+    socketio.run(application, debug=True)

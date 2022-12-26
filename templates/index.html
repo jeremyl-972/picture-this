@@ -1,17 +1,19 @@
 {% extends 'layout.html' %}
 
-{% block header %}
+{% block main %}
     <div class="center-up-flex-column">
         <h1 class="center-up-flex-row intro">{% block title %}Fast Sketching, Fun Guessing!{% endblock %}</h1>
         <h1 class="center-up-flex-row brand mb-4">
             {{ brand() }} <!-- defined in layout.html  -->
         </h1>
 
-        <img src="../static/family.png" alt="Nature" class="responsive-img frame mb-5">
+        <div class="index-content">
+            <img src="../static/family.png" alt="Nature" class="responsive-img frame mb-5">
 
-        <a href="{{ url_for('players') }}">
-            <button class="btn btn-primary">Start The Game</button>
-        </a>
+            <a class="startBtn" href="{{ url_for('players') }}">
+                <button class="btn btn-primary">Start The Game</button>
+            </a>
+        </div>
         
     </div>
     
