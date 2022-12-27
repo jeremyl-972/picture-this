@@ -1,5 +1,3 @@
-from datetime import timedelta, datetime
-
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from flask_socketio import SocketIO, send, join_room
@@ -7,6 +5,7 @@ from flask_login import LoginManager, login_required, current_user
 from dotenv import load_dotenv
 
 from auth.auth import auth
+from rooms.rooms import rooms
 from helpers import apology
 from db import get_user
 
@@ -15,12 +14,14 @@ from db import get_user
 load_dotenv()
 application = Flask(__name__)
 application.register_blueprint(auth, url_prefix="/auth")
+application.register_blueprint(rooms, url_prefix="/rooms")
 
 application.secret_key = "sfdjkafnk"
 socketio = SocketIO(application, cors_allowed_origins="*")
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(application)
+login_manager.login_message = "User needs to be logged in"
 
 # Ensure responses aren't cached
 @application.after_request
