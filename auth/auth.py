@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request
-from werkzeug.security import generate_password_hash
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user, current_user
 
-from helpers import apology
-from db import get_user, save_user
+from mysql.db import get_user, save_user
 
 auth = Blueprint("auth", __name__, static_folder="static",
                   template_folder="templates")

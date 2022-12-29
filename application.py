@@ -1,13 +1,13 @@
-from flask import Flask, flash, redirect, render_template, request, session, url_for
-from flask_session import Session
-from flask_socketio import SocketIO, send, join_room
+from datetime import datetime
+
+from flask import Flask, render_template, request, session, url_for
+from flask_socketio import SocketIO, send, join_room, leave_room
 from flask_login import LoginManager, login_required, current_user
 from dotenv import load_dotenv
 
 from auth.auth import auth
 from rooms.rooms import rooms
-from helpers import apology
-from db import get_user
+from mysql.db import get_user
 
 
 # Configure application
@@ -67,10 +67,18 @@ def handle_join_room_event(data):
     join_room(data['room'])
     socketio.emit('join_room_announcement', data)
 
-@socketio.on('send_message')
+@socketio.on('send_sketch')
 def handle_send_message_event(data):
-    application.logger.info("{} has sent message to room {}: {}".format(data['username'], data['room'], data['message']))
-    socketio.emit('receive_message', data, room=data['room'])
+    application.logger.info("{} has sent message to room {}: {}".format(data['username'], data['room'], data['sketch']))
+    data['created_at'] = datetime.now().strftime("%d %b, %H:%M")
+    socketio.emit('receive_sketch', data, room=data['room'])
+
+
+@socketio.on('leave_room')
+def handle_leave_room_event(data):
+    application.logger.info("{} has left the room {}".format(data['username'], data['room']))
+    leave_room(data['room'])
+    socketio.emit('leave_room_announcement', data, room=data['room'])
 
 @login_manager.user_loader
 def load_user(username):
