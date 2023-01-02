@@ -146,9 +146,7 @@ footer {
 }
 
 @media only screen and (max-width: 768px) {
-    main {
-        padding-top: 3rem;
-    }
+
     h1 .brand {
         font-size: 60px;
         letter-spacing: .5px;

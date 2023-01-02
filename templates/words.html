@@ -1,12 +1,7 @@
-{% extends 'layout.html' %}
+{% extends 'view_room.html' %}
 
-{% block header %}
-    <div class="center-up-flex-column">
-        <h1 class="center-up-flex-row">{% block title %}Select Your Word{% endblock %}</h1>   
-    </div>
-{% endblock %}
+{% block content %}
 
-{% block main %}
 <div class="center-up-flex-column">
     <div id="messages"></div>
     <form id="input_form" class="center-up-flex-column">    
@@ -14,4 +9,5 @@
         <button class="btn btn-primary">Select</button>
     </form>
 </div>
+
 {% endblock %}

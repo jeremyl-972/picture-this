@@ -1,0 +1,14 @@
+{% extends 'view_room.html' %}
+
+{% block content %}
+<div class="center-up-flex-column mt-2 mb-3">
+    <h3>{{message}}</h3>
+</div>
+
+<script>
+    const username = '{{current_user.username}}';
+    const user_id = '{{current_user.id}}';
+    const roomname = '{{room_name}}';
+    const connected_members = '{{connected_members}}';
+</script>
+{% endblock %}

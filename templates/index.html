@@ -10,9 +10,14 @@
         <div class="index-content">
             <img src="../static/family.png" alt="Nature" class="responsive-img frame mb-5">
 
-            <a class="startBtn" href="{{ url_for('players') }}">
-                <button class="btn btn-primary">Start The Game</button>
+            <a class="startBtn" href="{{ url_for('rooms.choose_room') }}">
+                <button id="startBtn" onclick="toggle('startBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Start</button>
+                <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
             </a>
+            
         </div>
         
     </div>

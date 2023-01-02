@@ -1,38 +1,47 @@
 {% extends 'layout.html' %}
 
+{% macro wait_for_player() -%}
+    <div class="center-up-flex-column mt-2 mb-3">
+        <h3>{{message}}</h3>
+    </div>
+{%- endmacro %}
+
 {% block header %}
-<div class="center-up-flex-column">
-    <h1 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}</h1> 
+<div class="center-up-flex-column  mt-2 mb-3">
+    <h1 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: {{ room_name }}</h1> 
 </div>
 {% endblock %}
 
 {% block main %}
-    <h1>Welcome to the GameRoom: {{ room.name }}</h1>
-    <button class="btn btn-primary" type="button" id="load_older_sketches_btn">Load Older Sketches</button>
-    <div id="sketches">
-        {% for sketch in sketches %}
-            <div><b>{{ sketch.created_by }}&nbsp;[{{ sketch.created_at }}]:&nbsp;</b> {{ sketch.sketch }}</div>
-        {% endfor %}
-    </div>
 
-    <form id="sketch_input_form" class="center-up-flex-column">
+    <!-- <form id="sketch_input_form" class="center-up-flex-column" autocomplete="off">
         <input type="text" id="sketch_input" placeholder="Enter your sketch here">
         <button id="sendBtn" onclick="toggle('sendBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Send</button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         </button>    
-    </form>
+    </form> -->
+    <div id="announcements">announcements</div>
 
-    <h3>Members</h3>
+    {% if message %}
+        {{ wait_for_player() }}
+    {% endif %}
+
+    <h4>Connected Members:</h4>
     <ul>
-        {% for member in room_members %}
+        {% for member in connected_members %}
             <li>{{ member }}</li>
         {% endfor %}
     </ul>
+
+    <button id="test" class="btn btn-primary" style="width:120px" type="submit">test</button>
+
     <script>
-        const username = '{{username}}';
-        const room = '{{room}}'
+        const username = '{{current_user.username}}';
+        const user_id = '{{current_user.id}}';
+        const room_name = '{{room_name}}';
+        const connected_members = '{{connected_members}}';
     </script>
     <script src="{{url_for('rooms.static', filename='rooms.js')}}"></script>
 {% endblock %}
