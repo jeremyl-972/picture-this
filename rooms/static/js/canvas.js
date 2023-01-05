@@ -99,7 +99,7 @@ class DrawableCanvasElement {
 // /////////////////////////////////////////////////////////////////////////////////////
 
 const make_canvas = () => {
-    const onClick = async (e) => {
+    const onSend = async (e) => {
         clearComponent();
         heading.innerText = 'The Waiting Place'
         setLoader();
@@ -115,23 +115,25 @@ const make_canvas = () => {
             });
         });
     };
-    const div = make__div("center-up-flex-column");
+    const canvasContainer = make__div("center-up-flex-column");
+    const canvasContent = make__div("center-up-flex-column")
+    canvasContent.style.width = "300px";
+    
     const canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'canvas');
     canvas.setAttribute('width', '300px');
     canvas.setAttribute('height', '350px');
     canvas.style.backgroundColor = "aliceblue";
     const canvas_url = 'some.url';
-    btn = make_button(canvas_url, '', '', "Send", onClick);
-    div.append(canvas, btn);
-    heading.innerText = 'Start Drawing!'
 
-    // const html = document.getElementsByTagName('html');
-    // html.className = 'stop-scrolling';
-    // const body = document.getElementsByTagName('body');
-    // body.className = 'stop-scrolling';
-    // console.log(body.className);
-    return div;
+    const btnContainer = make__div("flex-row-between")
+    const sendBtn = make_button(canvas_url, '', '', "Send", onSend, '');
+    const clearBtn = make_button('', '', '', "Clear", null, "clearBtn");
+    btnContainer.append(clearBtn, sendBtn) 
+
+    canvasContent.append(canvas, btnContainer)
+    canvasContainer.appendChild(canvasContent);
+    return canvasContainer;
 };
 
 

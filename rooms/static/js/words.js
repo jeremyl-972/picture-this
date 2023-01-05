@@ -35,12 +35,13 @@ const word_buttons = (list) => {
             response.json().then(data => {
                 console.log(data);
                 const node = document.createTextNode(data.word);
-                const div = make__div("center-up-flex-column");
-                div.appendChild(node);
+                const wordDiv = make__div("center-up-flex-column");
+                wordDiv.appendChild(node);
                 // on click, display canvas
-                const canvas = make_canvas();
+                const canvasContainer = make_canvas();
                 clearComponent();
-                component.append(div, canvas);
+                heading.innerText = 'Start Drawing!'
+                component.append(wordDiv, canvasContainer);
                 new DrawableCanvasElement("canvas", "clearBtn");
             });
         });

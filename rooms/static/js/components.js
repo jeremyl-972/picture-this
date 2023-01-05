@@ -4,13 +4,14 @@ const setLoader = () => {
     component.appendChild(loader_component());
 };
 
-const make_button = (value, style, added_class, text, onClick) => {
+const make_button = (value, style, added_class, text, onClick, id) => {
     const btn = document.createElement('button');
     btn.className = "btn btn-primary m-1";
     if (value) { btn.setAttribute('value', value) };
     if (style) { btn.setAttribute('style', style) };
     if (added_class) { btn.classList.add(added_class) };
     if (onClick) { btn.onclick = onClick };
+    if (id) { btn.setAttribute('id', id) };
     textNode = document.createTextNode(text);
     btn.appendChild(textNode); 
     return btn;
@@ -21,7 +22,7 @@ const create_buttons_array = (list, style, added_class, onClick) => {
     btnContainer.className = "image_container";
 
     for (let i=0; i < list.length; i++) {
-        btn = make_button(list[i], style, added_class, list[i], onClick)
+        btn = make_button(list[i], style, added_class, list[i], onClick, '')
         btnContainer.appendChild(btn);
     }
     return btnContainer;
