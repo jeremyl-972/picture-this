@@ -118,8 +118,8 @@ const make_canvas = () => {
     const div = make__div("center-up-flex-column");
     const canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'canvas');
-    canvas.style.height = "350px";
-    canvas.style.width = "300px";
+    canvas.setAttribute('width', '300px');
+    canvas.setAttribute('height', '350px');
     canvas.style.backgroundColor = "aliceblue";
     const canvas_url = 'some.url';
     btn = make_button(canvas_url, '', '', "Send", onClick);
