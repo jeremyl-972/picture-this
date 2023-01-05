@@ -1,10 +1,12 @@
 {% extends 'layout.html' %}
-
-{% macro wait_for_player() -%}
+{% block link %}
+    <link rel="stylesheet" href="/rooms/static/styles.css">
+{% endblock %}
+<!-- {% macro wait_for_player() -%}
     <div class="center-up-flex-column mt-2 mb-3">
         <h3>{{message}}</h3>
     </div>
-{%- endmacro %}
+{%- endmacro %} -->
 
 {% block header %}
 <div class="center-up-flex-column  mt-2 mb-3">
@@ -14,28 +16,36 @@
 
 {% block main %}
 
-    <!-- <form id="sketch_input_form" class="center-up-flex-column" autocomplete="off">
+    <div id="announcements">announcements</div>
+
+    <!-- {% if message %}
+        {{ wait_for_player() }}
+    {% endif %} -->
+    <!-- WORDS SELECTION HERE -->
+
+    <!-- <form id="sketch_input_form" class="d-none center-up-flex-column" autocomplete="off">
         <input type="text" id="sketch_input" placeholder="Enter your sketch here">
         <button id="sendBtn" onclick="toggle('sendBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Send</button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         </button>    
-    </form> -->
-    <div id="announcements">announcements</div>
-
-    {% if message %}
-        {{ wait_for_player() }}
-    {% endif %}
+    </form>
 
     <h4>Connected Members:</h4>
     <ul>
         {% for member in connected_members %}
             <li>{{ member }}</li>
         {% endfor %}
-    </ul>
-
-    <button id="test" class="btn btn-primary" style="width:120px" type="submit">test</button>
+    </ul> -->
+    <div class="center-up-flex-column">
+        <h4 id="heading" class="m-2"></h4>
+    </div>
+    <div id="component">
+        
+    </div>
+    
+    <button value="easy" id="clearBtn" class="btn btn-primary" style="width:60px" type="submit">test</button>
 
     <script>
         const username = '{{current_user.username}}';
@@ -43,6 +53,10 @@
         const room_name = '{{room_name}}';
         const connected_members = '{{connected_members}}';
     </script>
-    <script src="{{url_for('rooms.static', filename='rooms.js')}}"></script>
+    <!-- <script src="{{url_for('rooms.static', filename='rooms.js')}}"></script> -->
+    <script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
+    <script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
+    <script src="{{url_for('rooms.static', filename='js/words.js')}}"></script>
+
 {% endblock %}
 

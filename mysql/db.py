@@ -181,3 +181,11 @@ def get_sketches(room_id, page=0):
     print(sketches)
     close_db()
     return sketches
+
+def get_word_rows(int_list):
+    db["cur"].execute("SELECT word FROM words WHERE id IN%(int_list)s", {'int_list': tuple(int_list)})
+    word_dict_list = list(db["cur"].fetchall())        
+    close_db()
+    word_list = [dict['word'] for dict in word_dict_list]
+
+    return word_list

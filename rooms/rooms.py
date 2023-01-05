@@ -1,7 +1,9 @@
+import random
+
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_user_id, get_username_by_id, connect_to_room, disconnect_from_room, get_all_rooms, get_connected_members, save_room, add_room_member, add_room_members, get_room, is_room_member, is_room_admin, get_room_members, get_sketches, update_room, remove_room_members
+from mysql.db import get_user_id, get_username_by_id, connect_to_room, disconnect_from_room, get_all_rooms, get_connected_members, save_room, add_room_member, add_room_members, get_room, is_room_member, is_room_admin, get_room_members, get_sketches, update_room, remove_room_members, get_word_rows
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -48,7 +50,7 @@ def choose_room():
         if not rooms:
             return redirect(url_for("rooms.create_room"))
         # set expected data structure
-        return render_template("rooms.html", username=username, rooms=rooms)
+        return render_template("join_room.html", username=username, rooms=rooms)
 
     room_name = request.form.get('roomSelect')
     id = current_user.id
@@ -117,5 +119,36 @@ def get_older_sketches(room_id):
 @rooms.route('/<room_name>/<user_id>/disconnect/')
 def disconnect(room_name, user_id):
     disconnect_from_room(room_name, user_id)
-    print(f"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
     return "room_member disconnected", 200
+
+@rooms.route('/get_words/<difficulty>')
+def get_words(difficulty):
+
+    diff_ranges = [
+        {'range': 'Easy', 'start': 1, 'end': 123},
+        {'range': 'Med', 'start': 124, 'end': 331},
+        {'range': 'Hard', 'start': 332, 'end': 544}
+    ]
+
+    start = 1
+    end = 1
+    for r in diff_ranges:
+        if difficulty == r['range']:
+            start = r['start']
+            end = r['end']
+
+    random_ids = [random.randint(start, end) for i in range(10)]
+
+    word_dict_list = get_word_rows(random_ids)
+    return word_dict_list
+
+
+@rooms.route('/selected_word/<word>')
+def selected_word(word):
+    print(word)
+    return {"word": word}
+
+@rooms.route('/sent_sketch/<sketch_url>')
+def sent_sketch(sketch_url):
+    print(sketch_url)
+    return {"message": "sketch sent successfully"}
