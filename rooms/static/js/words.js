@@ -33,7 +33,6 @@ const word_buttons = (list) => {
         const word = e.currentTarget.value;
         await fetch(`/rooms/selected_word/${word}`).then(response => {
             response.json().then(data => {
-                console.log(data);
                 const node = document.createTextNode(data.word);
                 const wordDiv = make__div("center-up-flex-column");
                 wordDiv.appendChild(node);
@@ -42,7 +41,7 @@ const word_buttons = (list) => {
                 clearComponent();
                 heading.innerText = 'Start Drawing!'
                 component.append(wordDiv, canvasContainer);
-                new DrawableCanvasElement("canvas", "clearBtn");
+                new DrawableCanvasElement("canvas", "clearBtn", "sendBtn", onSendSketch);
             });
         });
     };

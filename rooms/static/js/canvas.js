@@ -1,7 +1,9 @@
 class DrawableCanvasElement {
-    constructor(canvasElementId, clearBtnId) {
+    constructor(canvasElementId, clearBtnId, sendBtnId, onSendSketch) {
         this.canvasElementId = canvasElementId;
         this.clearBtn = document.getElementById(clearBtnId);
+        this.sendBtn = document.getElementById(sendBtnId);
+        this.onSendSketch = onSendSketch;
         this.paintCanvas = document.getElementById(canvasElementId);
         this.paintContext = this.paintCanvas.getContext("2d");
 
@@ -14,6 +16,7 @@ class DrawableCanvasElement {
         this.paintCanvas.onmouseout = (e) => { this.onMouseUpHandler(e); };
         this.paintCanvas.onmousemove = (e) => { this.onMouseMoveHandler(e); };
         this.clearBtn.onclick = (e) => { this.clearCanvas(e); };
+        this.sendBtn.onclick = (e) => { this.insertUrlValue(e); };
                          
         const canvas = this.paintCanvas;
 
@@ -39,6 +42,10 @@ class DrawableCanvasElement {
     clearCanvas(whenPress) {
         const square = document.getElementById(this.canvasElementId);
         this.paintContext.clearRect(0, 0, square.width, square.height);
+    }
+
+    insertUrlValue(whenSend) {
+        this.onSendSketch(this.toString());
     }
 
     onMouseDownHandler(e) {
@@ -99,22 +106,7 @@ class DrawableCanvasElement {
 // /////////////////////////////////////////////////////////////////////////////////////
 
 const make_canvas = () => {
-    const onSend = async (e) => {
-        clearComponent();
-        heading.innerText = 'The Waiting Place'
-        setLoader();
-        const canvas_url = e.currentTarget.value;
-        await fetch(`/rooms/sent_sketch/${canvas_url}`).then(response => {
-            response.json().then(data => {
-                console.log(data);
-                const node = document.createTextNode(data.message);
-                const div = make__div("center-up-flex-column");
-                div.appendChild(node);
-                clearComponent();
-                component.append(div);
-            });
-        });
-    };
+    
     const canvasContainer = make__div("center-up-flex-column");
     const canvasContent = make__div("center-up-flex-column")
     canvasContent.style.width = "300px";
@@ -124,16 +116,31 @@ const make_canvas = () => {
     canvas.setAttribute('width', '300px');
     canvas.setAttribute('height', '350px');
     canvas.style.backgroundColor = "aliceblue";
-    const canvas_url = 'some.url';
 
     const btnContainer = make__div("flex-row-between")
-    const sendBtn = make_button(canvas_url, '', '', "Send", onSend, '');
+    const sendBtn = make_button('', '', '', "Send", null, 'sendBtn');
     const clearBtn = make_button('', '', '', "Clear", null, "clearBtn");
     btnContainer.append(clearBtn, sendBtn) 
 
     canvasContent.append(canvas, btnContainer)
     canvasContainer.appendChild(canvasContent);
     return canvasContainer;
+};
+
+const onSendSketch = async (url) => {
+    clearComponent();
+    heading.innerText = 'The Waiting Place'
+    setLoader();
+
+    var data = new FormData();
+    data.append("sketch_url", url);
+
+    await fetch(`/rooms/sent_sketch/`, { method: "POST", body: data }
+    ).then(response => {
+        response.json().then(data => {
+            emitSketch(url)
+        });
+    });
 };
 
 

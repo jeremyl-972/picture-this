@@ -145,10 +145,10 @@ def get_words(difficulty):
 
 @rooms.route('/selected_word/<word>')
 def selected_word(word):
-    print(word)
     return {"word": word}
 
-@rooms.route('/sent_sketch/<sketch_url>')
-def sent_sketch(sketch_url):
-    print(sketch_url)
-    return {"message": "sketch sent successfully"}
+@rooms.route('/sent_sketch/', methods=['GET', 'POST'])
+def sent_sketch():
+    sketch_url = request.form.get('sketch_url')
+    return {"sketch_url": sketch_url}
+    # return {"message": "sketch sent successfully"}

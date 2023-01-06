@@ -44,7 +44,6 @@ def get_user(username):
         return user
 
 def get_user_id(username):
-    print(username)
     db["cur"].execute("SELECT id FROM users WHERE username = %s", username)
     row = db["cur"].fetchone()
     user_id = row['id']
@@ -167,8 +166,8 @@ def is_room_admin(room_id, user_id):
     return admin_id
 
 
-def save_sketch(room_id, sketch, artist_id, created_at):
-    db['cur'].execute("INSERT INTO sketches (room_id, sketch, created_by, created_at) VALUES(%s, %s, %s, %s)", (room_id, sketch, artist_id, created_at))
+def save_sketch(room_name, dataUrl, artist_id, created_at):
+    db['cur'].execute("INSERT INTO sketches (room_name, dataUrl, created_by, created_at) VALUES(%s, %s, %s, %s)", (room_name, dataUrl, artist_id, created_at))
     db['conn'].commit()
     close_db()
 
@@ -178,7 +177,6 @@ def get_sketches(room_id, page=0):
     offset = page * MESSAGE_FETCH_LIMIT
     db["cur"].execute("SELECT sketch, created_at FROM sketches WHERE room_id = %s LIMIT %s OFFSET %s", (room_id, MESSAGE_FETCH_LIMIT, offset))
     sketches = list(db["cur"].fetchall())
-    print(sketches)
     close_db()
     return sketches
 

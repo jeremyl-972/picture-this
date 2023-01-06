@@ -44,6 +44,25 @@ socket.on('leave_room_announcement', function (data) {
     document.getElementById('announcements').appendChild(newNode);
 });
 
+const emitSketch = (sketch_url) => {
+    console.log("emitSketch fired");
+    socket.emit('emit_sketch', {
+        username: username,
+        user_id: user_id,
+        room: room_name,
+        url: sketch_url
+    });
+};
+
+socket.on('receive_sketch', function (data) {
+    console.log("got something back");
+    var img = new Image;
+    img.src = data.url;
+    const div = make__div("center-up-flex-column");
+    div.appendChild(img);
+    clearComponent();
+    component.append(div);
+});
 // // client emits send_message event on form input submission
 // const input_form = document.getElementById('input_form')
 // input_form.onsubmit = (e) => {

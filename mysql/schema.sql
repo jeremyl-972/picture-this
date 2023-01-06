@@ -27,6 +27,7 @@ CREATE TABLE sketches (
     created_at VARCHAR(50) NOT NULL,
     created_by INT NOT NULL,
     room_id VARCHAR(50) NOT NULL,
+    dataUrl VARCHAR(2083) NOT NULL,
     FOREIGN KEY (created_by) REFERENCES users (id),
     FOREIGN KEY (room_id) REFERENCES rooms (id)
 );

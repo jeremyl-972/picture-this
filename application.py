@@ -62,11 +62,11 @@ def handle_leave_room_event(data):
     leave_room(data['room'])
     socketio.emit('leave_room_announcement', data, room=data['room'])
 
-@socketio.on('send_sketch')
-def handle_send_sketch_event(data):
-    application.logger.info("{} has sent message to room {}: {}".format(data['username'], data['room'], data['sketch']))
+@socketio.on('emit_sketch')
+def handle_emit_sketch_event(data):
+    application.logger.info("{} has sent a sketch to room {}".format(data['username'], data['room']))
     data['created_at'] = datetime.now().strftime("%d %b, %H:%M")
-    save_sketch(data['room_id'], data['sketch'], data['user_id'], data['created_at'])
+    save_sketch(data['room'], data['url'], data['user_id'], data['created_at'])
     socketio.emit('receive_sketch', data, room=data['room'])
 
 
