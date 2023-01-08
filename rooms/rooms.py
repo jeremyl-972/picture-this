@@ -1,9 +1,10 @@
 import random
+from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_user_id, get_username_by_id, connect_to_room, disconnect_from_room, get_all_rooms, get_connected_members, save_room, add_room_member, add_room_members, get_room, is_room_member, is_room_admin, get_room_members, get_sketches, update_room, remove_room_members, get_word_rows
+from mysql.db import save_sketch, get_user_id, get_username_by_id, connect_to_room, disconnect_from_room, get_all_rooms, get_connected_members, save_room, add_room_member, add_room_members, get_room, is_room_member, is_room_admin, get_room_members, get_sketches, update_room, remove_room_members, get_word_rows
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -67,12 +68,11 @@ def view_room(room_name):
     room = get_room(room_name)
     if room:
         connected_members = get_connected_members(room_name)
-        message = ''
-        if not len(connected_members) > 1:
-            message = "Please wait for another player to join"
-        return render_template('view_room.html',message=message, current_user=current_user, room_name=room_name, connected_members=connected_members)
+        print(connected_members)
+        return render_template('view_room.html', current_user=current_user, room_name=room_name, connected_members=connected_members)
     else:
         return "Room not found", 404
+
 
 @rooms.route('/<room_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -104,6 +104,7 @@ def edit_room(room_id):
         return render_template('edit_room.html', room=room, room_members_str=room_members_str, message=message)
     else:
         return "Room not found", 404
+
 
 @rooms.route('/<room_id>/sketches/')
 @login_required
@@ -143,12 +144,11 @@ def get_words(difficulty):
     return word_dict_list
 
 
-@rooms.route('/selected_word/<word>')
-def selected_word(word):
-    return {"word": word}
+def selected_word(word, diff_level):
+    print(word, diff_level)
+    # store word and points value in db
 
-@rooms.route('/sent_sketch/', methods=['GET', 'POST'])
-def sent_sketch():
-    sketch_url = request.form.get('sketch_url')
-    return {"sketch_url": sketch_url}
-    # return {"message": "sketch sent successfully"}
+
+def sent_sketch(data):
+    data['created_at'] = datetime.now().strftime("%d %b, %H:%M")
+    save_sketch(data['room'], data['url'], data['user_id'], data['created_at'])

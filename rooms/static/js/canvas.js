@@ -131,16 +131,8 @@ const onSendSketch = async (url) => {
     clearComponent();
     heading.innerText = 'The Waiting Place'
     setLoader();
-
-    var data = new FormData();
-    data.append("sketch_url", url);
-
-    await fetch(`/rooms/sent_sketch/`, { method: "POST", body: data }
-    ).then(response => {
-        response.json().then(data => {
-            emitSketch(url)
-        });
-    });
+    
+    emitSketch(url)
 };
 
 

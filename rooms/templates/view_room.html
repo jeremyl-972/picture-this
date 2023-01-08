@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'index.html' %}
 {% block link %}
     <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
@@ -16,7 +16,7 @@
 
 {% block main %}
 
-    <div id="announcements">announcements</div>
+    <h5 id="announcements" class="center-up-flex-column mt-2 mb-3"></h5>
 
     <!-- {% if message %}
         {{ wait_for_player() }}
@@ -30,14 +30,14 @@
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         </button>    
-    </form>
+    </form> -->
 
     <h4>Connected Members:</h4>
     <ul>
         {% for member in connected_members %}
             <li>{{ member }}</li>
         {% endfor %}
-    </ul> -->
+    </ul>
     <div class="center-up-flex-column">
         <h4 id="heading" class="m-2"></h4>
     </div>
@@ -51,12 +51,12 @@
         const username = '{{current_user.username}}';
         const user_id = '{{current_user.id}}';
         const room_name = '{{room_name}}';
-        const connected_members = '{{connected_members}}';
+        const connected_members = JSON.parse('{{ connected_members | tojson }}');
     </script>
-    <script src="{{url_for('rooms.static', filename='js/rooms.js')}}"></script>
+    <script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/words.js')}}"></script>
+    <script src="{{url_for('rooms.static', filename='js/index.js')}}"></script>
 
 {% endblock %}
 

@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block main %}
+    <div class="center-up-flex-column">
+        <h1 class="center-up-flex-row intro">{% block title %}Fast Sketching, Fun Guessing!{% endblock %}</h1>
+        <h1 class="center-up-flex-row brand mb-4">
+            {{ brand() }} <!-- defined in layout.html  -->
+        </h1>
+
+        <div class="index-content">
+            <img src="../static/family.png" alt="Family Sketching" class="responsive-img frame mb-5">
+
+            <a class="startBtn" href="{{ url_for('rooms.choose_room') }}">
+                <button id="startBtn" onclick="toggle('startBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Start</button>
+                <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </a>
+            
+        </div>
+        
+    </div>
+    
+{% endblock %}
