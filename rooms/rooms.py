@@ -4,7 +4,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import save_sketch, get_user_id, get_username_by_id, connect_to_room, disconnect_from_room, get_all_rooms, get_connected_members, save_room, add_room_member, add_room_members, get_room, is_room_member, is_room_admin, get_room_members, get_sketches, update_room, remove_room_members, get_word_rows
+from mysql.db import save_sketch, get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_sketches, get_word_rows, update_score
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -31,7 +31,6 @@ def create_room():
             # take admin out of list if they added themselves
             if user in usernames:
                 usernames.remove(user)
-            add_room_members(room_name, usernames, id)
             connected_members = get_connected_members(room_name)
             return redirect(url_for('rooms.view_room', room_name=room_name, connected_members=connected_members))
         else:
@@ -54,11 +53,6 @@ def choose_room():
         return render_template("join_room.html", username=username, rooms=rooms)
 
     room_name = request.form.get('roomSelect')
-    id = current_user.id
-    if not is_room_member(room_name, id):
-        # room_member connected will be True on add_room_member
-        add_room_member(room_name, id, id, False)
-    connect_to_room(room_name, id)    
     return redirect(url_for('rooms.view_room', room_name=room_name))
 
 
@@ -67,41 +61,7 @@ def choose_room():
 def view_room(room_name):
     room = get_room(room_name)
     if room:
-        connected_members = get_connected_members(room_name)
-        print(connected_members)
-        return render_template('view_room.html', current_user=current_user, room_name=room_name, connected_members=connected_members)
-    else:
-        return "Room not found", 404
-
-
-@rooms.route('/<room_id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_room(room_id):
-    room = get_room(room_id)
-    if room and is_room_admin(room_id, current_user.id):
-        existing_room_members = []
-        for member in get_room_members(room_id):
-            user_id = member['user_id']
-            username = get_username_by_id(user_id)
-            existing_room_members.append(username)
-        room_members_str = ", ".join(existing_room_members)
-        
-        message = ''
-        if request.method == 'POST':
-            room_name = request.form.get('room_name')
-            room['name'] = room_name
-            update_room(room_id, room_name)
-
-            new_members = [username.strip() for username in request.form.get('members').split(',')]
-            members_to_add = list(set(new_members) - set(existing_room_members))
-            members_to_remove = list(set(existing_room_members) - set(new_members))
-            if len(members_to_add):
-                add_room_members(room_id, members_to_add, current_user.id)
-            if len(members_to_remove):
-                remove_room_members(room_id, members_to_remove)
-            message = 'Room edited successfully'
-            room_members_str = ",".join(new_members)
-        return render_template('edit_room.html', room=room, room_members_str=room_members_str, message=message)
+        return render_template('view_room.html', current_user=current_user, room_name=room_name)
     else:
         return "Room not found", 404
 
@@ -110,17 +70,20 @@ def edit_room(room_id):
 @login_required
 def get_older_sketches(room_id):
     room = get_room(room_id)
-    if room and is_room_member(room_id, current_user.id):
+    if room:
         page = int(request.args.get('page', 0))
         sketches = get_sketches(room_id, page)
         return sketches
     else:
         return "Room not found", 404
 
-@rooms.route('/<room_name>/<user_id>/disconnect/')
-def disconnect(room_name, user_id):
-    disconnect_from_room(room_name, user_id)
-    return "room_member disconnected", 200
+
+@rooms.route('/connected_members/<room_name>')
+def connected_members(room_name):
+    members = get_connected_members(room_name)
+    count = len(members)
+    return {"count": count}
+
 
 @rooms.route('/get_words/<difficulty>')
 def get_words(difficulty):
@@ -143,12 +106,10 @@ def get_words(difficulty):
     word_dict_list = get_word_rows(random_ids)
     return word_dict_list
 
-
-def selected_word(word, diff_level):
-    print(word, diff_level)
-    # store word and points value in db
-
-
-def sent_sketch(data):
+def user_sent_sketch(data):
     data['created_at'] = datetime.now().strftime("%d %b, %H:%M")
     save_sketch(data['room'], data['url'], data['user_id'], data['created_at'])
+
+def add_points(sid, points):
+    score = update_score(sid, points)
+    return score

@@ -5,29 +5,25 @@ CREATE TABLE users (
     hash VARCHAR(100) NOT NULL
 );
 CREATE TABLE rooms (
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(50) PRIMARY KEY,
     created_at VARCHAR(50) NOT NULL,
     created_by INT NOT NULL,
     FOREIGN KEY (created_by) REFERENCES users (id)
-);
-CREATE TABLE room_members (
-    user_id INT NOT NULL,
-    room_id INT NOT NULL,
-    is_room_admin BOOLEAN, 
-    added_at VARCHAR(50) NOT NULL,
-    added_by INT NOT NULL,
-    connnected BOOLEAN DEFAULT False,
-    FOREIGN KEY (room_id) REFERENCES rooms (id)
-    FOREIGN KEY (user_id) REFERENCES users (id)
-    FOREIGN KEY (added_by) REFERENCES users (id)
 );
 CREATE TABLE sketches (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     created_at VARCHAR(50) NOT NULL,
     created_by INT NOT NULL,
-    room_id VARCHAR(50) NOT NULL,
+    room_name VARCHAR(50) NOT NULL,
     dataUrl VARCHAR(2083) NOT NULL,
     FOREIGN KEY (created_by) REFERENCES users (id),
-    FOREIGN KEY (room_id) REFERENCES rooms (id)
+    FOREIGN KEY (room_name) REFERENCES rooms (name)
+);
+CREATE TABLE sio_connected_clients (
+    user_id INT NOT NULL,
+    room_name VARCHAR(50) NOT NULL,
+	sid VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+	FOREIGN KEY (room_name) REFERENCES rooms (name),
+    PRIMARY KEY (user_id, room_name)
 );

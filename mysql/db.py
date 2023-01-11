@@ -77,7 +77,6 @@ def save_user(username, password):
 
 def save_room(room_name, created_by):
     db["cur"].execute("INSERT INTO rooms (name, created_by, created_at) VALUES(%s, %s, %s)", (room_name, created_by, datetime.now()))
-    add_room_member(room_name, created_by, created_by, True)
     db["conn"].commit()
     close_db()
 
@@ -100,70 +99,28 @@ def get_room(name):
     close_db()
     return room
 
-def add_room_member(room_name, user_id, added_by, is_room_admin):
-    db["cur"].execute("INSERT INTO room_members (room_name, user_id, added_at, added_by, is_room_admin, connected) VALUES(%s, %s, %s, %s, %s, %s)", (room_name, user_id, datetime.now(), added_by, is_room_admin, True))
+def connect_to_room(sid, room_name, user_id):
+    db["cur"].execute("INSERT INTO sio_connected_clients (room_name, user_id, sid) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE sid=VALUES(sid)" , (room_name, user_id, sid))
+    db["conn"].commit()
+    db["cur"].execute("SELECT COUNT(*) as count FROM sio_connected_clients WHERE room_name = %s", room_name)
+    count = db["cur"].fetchone()
+    close_db()
+    return count['count']
+
+def disconnect_from_room(sid):
+    db["cur"].execute("SELECT username, room_name FROM users JOIN sio_connected_clients ON users.id = sio_connected_clients.user_id WHERE sid = %s", sid)
+    userDict = db["cur"].fetchone()
+    db["cur"].execute("DELETE FROM sio_connected_clients WHERE sid = %s", (sid))
     db["conn"].commit()
     close_db()
-
-def connect_to_room(room_name, user_id):
-    db["cur"].execute("UPDATE room_members SET connected = %s WHERE room_name = %s AND user_id = %s", (True, room_name, user_id))
-    db["conn"].commit()
-    close_db()
-
-def disconnect_from_room(room_name, user_id):
-    db["cur"].execute("UPDATE room_members SET connected = %s WHERE room_name = %s AND user_id = %s", (False, room_name, user_id))
-    db["conn"].commit()
-    close_db()
-
-
-def add_room_members(room_name, usernames, added_by):
-    for username in usernames:
-        user_id = get_user_id(username)
-        db["cur"].execute("INSERT INTO room_members (room_name, added_by, added_at, is_room_admin, user_id) VALUES(%s, %s, %s, %s, %s)", (room_name, added_by, datetime.now(), False, user_id))
-    db["conn"].commit()
-    close_db()
-
-
-def remove_room_members(room_id, usernames):
-    for username in usernames:
-        user_id = get_user_id(username)
-        db["cur"].execute("DELETE FROM room_members JOIN rooms ON room_members.room_id = rooms.id WHERE room_id = %s AND user_id = %s", (room_id, user_id))
-    db["conn"].commit()
-    close_db()
-
-
-def get_room_members(room_id):
-    db["cur"].execute("SELECT * FROM room_members WHERE room_id = %s", room_id)
-    membersList = list(db["cur"].fetchall())
-    close_db()
-    return membersList
+    return userDict
 
 def get_connected_members(room_name):
-    db["cur"].execute("SELECT username FROM room_members JOIN users ON room_members.user_id = users.id WHERE room_name = %s AND connected = %s", (room_name, True))
+    db["cur"].execute("SELECT username FROM users JOIN sio_connected_clients ON users.id = sio_connected_clients.user_id WHERE room_name = %s", (room_name))
     membersList = db["cur"].fetchall()
     connected_members = [member['username'] for member in membersList]
     close_db()
     return connected_members
-
-def get_rooms_for_user(user_id):
-    db["cur"].execute("SELECT name FROM rooms JOIN room_members ON rooms.id = room_members.room_id WHERE user_id = %s", user_id)
-    membersList = list(db["cur"].fetchall())
-    close_db()
-    return membersList
-
-
-def is_room_member(room_name, user_id):
-    db["cur"].execute("SELECT user_id FROM room_members WHERE room_name = %s AND user_id = %s ", (room_name, user_id))
-    memberId = db["cur"].fetchone()
-    close_db()
-    return memberId
-
-
-def is_room_admin(room_id, user_id):
-    db["cur"].execute("SELECT * FROM room_members JOIN rooms ON room_members.room_id = rooms.id WHERE room_id = %s AND user_id = %s AND is_room_admin = %s", (room_id, user_id, True))
-    admin_id = db["cur"].fetchone()
-    close_db()
-    return admin_id
 
 
 def save_sketch(room_name, dataUrl, artist_id, created_at):
@@ -185,5 +142,12 @@ def get_word_rows(int_list):
     word_dict_list = list(db["cur"].fetchall())        
     close_db()
     word_list = [dict['word'] for dict in word_dict_list]
-
     return word_list
+
+def update_score(sid, points):
+    db["cur"].execute("UPDATE sio_connected_clients SET score = (score + %s) WHERE sid = %s" , (points, sid))
+    db["conn"].commit()
+    db["cur"].execute("SELECT score FROM sio_connected_clients WHERE sid = %s", sid)
+    row = db["cur"].fetchone()
+    close_db()
+    return row['score']

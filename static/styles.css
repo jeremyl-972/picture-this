@@ -38,6 +38,10 @@ footer > a {
     color: #038ccb;
 }
 
+.nav-link {
+    padding: 0 .5rem;
+}
+
 /* Style for brand */
 .brand
 {
@@ -173,4 +177,29 @@ footer {
         justify-content: center;
         align-items: center;
     }
- }
+}
+  
+  .dot-carousel {
+      position: relative;
+      top: 6px;
+      left: -10000px;
+      width: 5px;
+      height: 5px;
+      border-radius: 5px;
+      background-color: #DC7D19;
+      color: #DC7D19;
+      box-shadow: 9990px 0 0 0 #DC7D19, 9999px 0 0 0 #DC7D19, 10008px 0 0 0 #DC7D19;
+      animation: dot-carousel 1.5s infinite linear;
+    }
+    
+    @keyframes dot-carousel {
+      0% {
+        box-shadow: 9990px 0 0 -1px #DC7D19, 9999px 0 0 1px #DC7D19, 10008px 0 0 -1px #DC7D19;
+      }
+      50% {
+        box-shadow: 10008px 0 0 -1px #DC7D19, 9990px 0 0 -1px #DC7D19, 9999px 0 0 1px #DC7D19;
+      }
+      100% {
+        box-shadow: 9999px 0 0 1px #DC7D19, 10008px 0 0 -1px #DC7D19, 9990px 0 0 -1px #DC7D19;
+      }
+    }

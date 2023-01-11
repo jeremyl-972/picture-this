@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, session, url_for
-from flask_socketio import SocketIO, send, join_room, leave_room
-from flask_login import LoginManager, login_required, current_user
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO, join_room
+from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
 
 from auth.auth import auth
-from rooms.rooms import rooms, sent_sketch, selected_word
-from mysql.db import get_user, connect_to_room, disconnect_from_room
+from rooms.rooms import rooms, user_sent_sketch, add_points
+from mysql.db import get_user, connect_to_room, disconnect_from_room, get_connected_members
 
 
 # Configure application
@@ -22,12 +22,12 @@ login_manager.init_app(application)
 login_manager.login_message = "User needs to be logged in"
 
 # Ensure responses aren't cached
-@application.after_request
-def after_request(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+# @application.after_request
+# def after_request(response):
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Expires"] = 0
+#     response.headers["Pragma"] = "no-cache"
+#     return response
 
 @application.route("/")
 @login_required
@@ -43,26 +43,44 @@ def index():
 @socketio.on('join_room')
 def handle_join_room_event(data):
     join_room(data['room'])
-    connect_to_room(data['room'], data['user_id'])
-    socketio.emit('join_room_announcement', data, include_self=False)
+    count = connect_to_room(request.sid, data['room'], data['user_id'])
+    data['count'] = count
+    socketio.emit('join_room_announcement', data)
 
-@socketio.on('leave_room')
-def handle_leave_room_event(data):
-    application.logger.info("{} has left the room {}".format(data['username'], data['room']))
-    leave_room(data['room'])
-    disconnect_from_room(data['room'], data['user_id'])
-    socketio.emit('leave_room_announcement', data, room=data['room'])
+@socketio.on('disconnect')
+def disconnect():
+    data = disconnect_from_room(request.sid)
+    socketio.emit('leave_room_announcement', {'username': data['username'], 'room_name': data['room_name']}, room=data['room_name'])
+    print("DISCONNECTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
-@socketio.on('emit_word')
-def emit_word(data):
-    selected_word(data['word'], data['diff_level'])
-    socketio.emit('prompt', {'message': f"{data['username']} is drawing"}, room=data['room'], include_self=False)
+word = {}
+@socketio.on('chose_word')
+def chose_word(data):
+    members = get_connected_members(data['room'])
+    data['count'] = len(members)
+    word['word'] = data['word']
+    word['points'] = data['points']
+    socketio.emit('is_drawing_prompt', {'word': word, 'count': data['count'], 'username': data['username'], 'message': f"{data['username']} is drawing"}, room=data['room'])
 
-@socketio.on('emit_sketch')
-def handle_emit_sketch_event(data):
+@socketio.on('sent_sketch')
+def sent_sketch(data):
     application.logger.info("{} has sent a sketch to room {}".format(data['username'], data['room']))
-    socketio.emit('receive_sketch', data, room=data['room'])
-    sent_sketch(data)
+    socketio.emit('receive_sketch', data, room=data['room'], include_self=False)
+    user_sent_sketch(data)
+
+@socketio.on('sent_guess')
+def sent_guess(data):
+    responseData = {}
+    responseData['username'] = data['username']
+    responseData['username'] = data['username']
+    responseData['poinst'] = word['points']
+
+    if data['guess'] == word['word']:
+        responseData['score'] = add_points(request.sid, word['points'])
+        responseData['message'] = 'Correct!'
+        socketio.emit('switch_turns', responseData, room=data['room'], include_self=False)
+    socketio.emit('guess_response', responseData, room=data['room'])
+
 
 @login_manager.user_loader
 def load_user(username):

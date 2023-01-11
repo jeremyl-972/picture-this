@@ -21,7 +21,7 @@
                 </select>
             </div>
 
-            <button id="joinRoomBtn" onclick="toggle('joinRoomBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Go To Room</button>
+            <button disabled id="joinRoomBtn" onclick="toggle('joinRoomBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Go To Room</button>
             <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Loading...
@@ -29,4 +29,12 @@
         </form>
     </div>
 
+    <script>
+        document.getElementById('roomSelect').addEventListener('change', () =>{
+        const select = document.getElementById('roomSelect');
+        if (select.value != 'none') {
+                document.getElementById('joinRoomBtn').removeAttribute('disabled');
+            };
+        }); 
+    </script>
 {% endblock %}

@@ -39,12 +39,12 @@ class DrawableCanvasElement {
         }, false);        
     }
 
-    clearCanvas(whenPress) {
+    clearCanvas() {
         const square = document.getElementById(this.canvasElementId);
         this.paintContext.clearRect(0, 0, square.width, square.height);
     }
 
-    insertUrlValue(whenSend) {
+    insertUrlValue() {
         this.onSendSketch(this.toString());
     }
 
@@ -67,7 +67,7 @@ class DrawableCanvasElement {
         this.cursorPoint.y = location.y;
     }
 
-    onMouseUpHandler(e) {
+    onMouseUpHandler() {
         this.dragging = false;
         document.getElementById(this.canvasElementId).style.cursor = "default";
     }
@@ -128,11 +128,7 @@ const make_canvas = () => {
 };
 
 const onSendSketch = async (url) => {
-    clearComponent();
-    heading.innerText = 'The Waiting Place'
-    setLoader();
-    
-    emitSketch(url)
+    clearAll();
+    announceWithLoader("Your opponent is guessing");
+    sentSketch(url);
 };
-
-

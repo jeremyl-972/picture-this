@@ -2,11 +2,6 @@
 {% block link %}
     <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
-<!-- {% macro wait_for_player() -%}
-    <div class="center-up-flex-column mt-2 mb-3">
-        <h3>{{message}}</h3>
-    </div>
-{%- endmacro %} -->
 
 {% block header %}
 <div class="center-up-flex-column  mt-2 mb-3">
@@ -15,48 +10,26 @@
 {% endblock %}
 
 {% block main %}
+    <h5 id="announcements" class="center-up-flex-column px-3 mt-2 mb-3"></h5>
 
-    <h5 id="announcements" class="center-up-flex-column mt-2 mb-3"></h5>
-
-    <!-- {% if message %}
-        {{ wait_for_player() }}
-    {% endif %} -->
-    <!-- WORDS SELECTION HERE -->
-
-    <!-- <form id="sketch_input_form" class="d-none center-up-flex-column" autocomplete="off">
-        <input type="text" id="sketch_input" placeholder="Enter your sketch here">
-        <button id="sendBtn" onclick="toggle('sendBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Send</button>
-        <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-        </button>    
-    </form> -->
-
-    <h4>Connected Members:</h4>
-    <ul>
-        {% for member in connected_members %}
-            <li>{{ member }}</li>
-        {% endfor %}
-    </ul>
-    <div class="center-up-flex-column">
-        <h4 id="heading" class="m-2"></h4>
-    </div>
-    <div id="component">
-        
+    <div class="center-up-flex-row">
+        <h4 id="heading"></h4>
     </div>
     
-    <button value="easy" id="test" class="btn btn-primary" style="width:60px" type="submit">test</button>
-
+    <div class="center-up-flex-column">
+        <div id="component"></div>
+    </div>
+    
     <script>
         const username = '{{current_user.username}}';
         const user_id = '{{current_user.id}}';
         const room_name = '{{room_name}}';
-        const connected_members = JSON.parse('{{ connected_members | tojson }}');
     </script>
-    <script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
+    <script src="{{url_for('static', filename='index.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/index.js')}}"></script>
+    <script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
+    <!-- <script src="{{url_for('rooms.static', filename='js/index.js')}}"></script> -->
 
 {% endblock %}
 

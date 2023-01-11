@@ -18,5 +18,3 @@ Easy word - 1 point, Medium word - 3 points, Hard word - 5 points
 
 General Requirements: 
 Use any language/framework you’d want. The communication doesn’t have to be in real-time (streaming), simple server with “healthCheck” route can be enough. Choose any way you want to pass/save the drawing to the other player. (probably canvas) The game needs to be adjusted only for mobile devices. 
-
-Bonus: Use DB for saving the sessions and show the best session score in welcome screen. (The best session score is the highest score for minimum time played) Extra Bonus: Show to the guessing player a ‘video’ of the incoming drawing - for example, save the timeframes for each drawn pixel to restore the exact movements after.

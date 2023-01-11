@@ -40,17 +40,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 {% if current_user %}
-                <ul class="navbar-nav me-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                <ul class="navbar-nav me-auto center-up-flex-row">
+                    <li class="nav-item mt-1"><a class="nav-link" href="/history">History</a></li>
+                    <li class="nav-item mt-1"><a class="nav-link" href="">Rooms</a></li>
                 </ul>
-                <ul class="navbar-nav ms-auto mt-2 center-up-flex-row" style="gap: 15px">
-                    <li class="nav-item">User: {{current_user.username}}</li> 
-                    <li class="nav-item"><a class="nav-link" href="/auth/logout">Log Out</a></li>
+                <ul class="navbar-nav ms-auto center-up-flex-row">
+                    <li class="nav-item mt-1"><a class="nav-link" href="/auth/logout">Log Out</a></li>
+                    <li class="nav-item mt-1"><strong>{{current_user.username}}</strong></li> 
                 </ul>
                 {% else %}
-                <ul class="navbar-nav ms-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mt-1"><a class="nav-link" href="/auth/register">Register</a></li>
+                    <li class="nav-item mt-1"><a class="nav-link" href="/auth/login">Login</a></li>
                 </ul>
                 {% endif %}
             </div>

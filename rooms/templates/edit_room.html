@@ -14,10 +14,7 @@
             <input autocomplete="off" class="form-control mx-auto w-auto" type="text" name="room_name" value="{{ room.name }}"
                 placeholder="Roomname">
         </div>
-        <div class="mb-3">
-            <label for="members" class="form-label">Members:</label>
-            <input autocomplete="off" class="form-control mx-auto w-auto" placeholder="Password" name="members" value="{{ room_members_str }}">
-        </div>
+
         <button id="updateBtn" onclick="toggle('updateBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Update</button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -25,12 +22,6 @@
         </button>
     </form>
 
-    <h3>Members</h3>
-    <ul>
-        {% for member in room_members %}
-            <li>{{ member }}</li>
-        {% endfor %}
-    </ul>
     <script>
         const username = '{{username}}';
         const room = '{{room}}';
