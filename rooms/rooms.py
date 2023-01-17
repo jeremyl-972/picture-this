@@ -1,10 +1,9 @@
 import random
-from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import save_sketch, get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_sketches, get_word_rows, update_score
+from mysql.db import get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_sketches, get_word_rows, update_score
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -106,9 +105,6 @@ def get_words(difficulty):
     word_dict_list = get_word_rows(random_ids)
     return word_dict_list
 
-def user_sent_sketch(data):
-    data['created_at'] = datetime.now().strftime("%d %b, %H:%M")
-    save_sketch(data['room'], data['url'], data['user_id'], data['created_at'])
 
 def add_points(sid, points):
     score = update_score(sid, points)

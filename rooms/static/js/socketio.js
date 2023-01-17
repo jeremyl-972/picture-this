@@ -1,8 +1,9 @@
-// MAIN LOGIC WITH NON RE-USABLE COMPONENTS
+// MAIN LOGIC FOR VIEW-ROOM
 announceWithLoader('Connecting to room');
 
 const socket = io("http://localhost:5000");
-    // user joining socketio room from rooms.html or create_room.html
+
+// user joining socketio room from rooms.html or create_room.html
 socket.on('connect', () => {
     socket.emit('join_room', {
         username: username,
@@ -10,26 +11,37 @@ socket.on('connect', () => {
         user_id: user_id
     });
 });
+
+
 // component initialized after join_room announcment
 socket.on('join_room_announcement', (data) => {
+    let joinee_is_self = username === data.username ? true : false;
+
     clearElement('announcements');
     const newNode = make__div();
-    newNode.innerHTML = username === data.username ? 'You have joined the room' : `<b>${data.username}</b> has joined the room`;
+    newNode.innerHTML = joinee_is_self ? 'You have joined the room' : `<b>${data.username}</b> has joined the room`;
     announcementElement.appendChild(newNode);
+    
+    // if player count is 1, initialize difficulty buttons
     if (data.count === 1){
         component.append(difficulty_buttons());
     }
     else {
-        if (username === data.username) {
+        // player2 waits for player 1 to draw sketch
+        if (joinee_is_self) {
             clearAll();
-            announceWithLoader('Waiting your opponent to chose a word and draw')
+            announceWithLoader('Waiting for your opponent to draw')
         }
         else {
+            console.log('removing hidden attribute');
+            // player1 sees initialized canvas
             heading.removeAttribute('hidden');
             component.removeAttribute('hidden');
         }
     };
 });
+
+
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
     clearAll();
@@ -37,6 +49,8 @@ socket.on('leave_room_announcement', (data) => {
     window.location.href = `http://127.0.0.1:5000/rooms/view-room/${data.room_name}/`;
 });
 
+
+// word and level gets stored on server
 const choseWord = async (word, diff_level) => {
     const levels = [{level: 'Easy', points: 1}, {level: 'Med', points: 3}, {level: 'Hard', points: 5}]
     let points = 0;
@@ -67,6 +81,7 @@ const choseWord = async (word, diff_level) => {
     };
 };
 
+
 socket.on('is_drawing_prompt', (data) => {
     if (username != data.username) {
         clearElement('announcements');
@@ -78,8 +93,8 @@ socket.on('is_drawing_prompt', (data) => {
     };
 });
 
-const sentSketch = (sketch_url) => {
-    socket.emit('sent_sketch', {
+const emittingSketch = (sketch_url) => {
+    socket.emit('emit_sketch', {
         username: username,
         user_id: user_id,
         room: room_name,
@@ -88,10 +103,23 @@ const sentSketch = (sketch_url) => {
 };
 
 
-socket.on('receive_sketch', (data) => {
-    receive_sketch(data);
+socket.on('getting_sketch', (data) => {
+    getting_sketch(data);
     const guessForm = make_guess_form();
     component.appendChild(guessForm);
+});
+
+const clearingSketch = () => {
+    socket.emit('clear_sketch', {
+        username: username,
+        user_id: user_id,
+        room: room_name,
+        url: sketch_url
+    });
+};
+
+socket.on('clearing_sketch', (data) => {
+    clearAll();
 });
 
 const onGuess = (guess) => {
@@ -109,8 +137,16 @@ const onGuess = (guess) => {
 
 socket.on('guess_response', (data) => {
     if (username === data.username) {
-        clearElement('announcements');
-        announcementElement.append(data.message)
+        if (data.message === 'No!') {
+            const loadBtn = document.getElementById('loadBtn');
+            const newNode = document.createTextNode(data.message);
+            loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
+        };
+
+        setTimeout(() => {
+            toggle('guessBtn', 'loadBtn');
+        }, 1500);
+
         if (data.message === 'Correct!') {
             clearAll();
             announceWithLoader(data.message);
@@ -120,6 +156,7 @@ socket.on('guess_response', (data) => {
         };
     };
 });
+
 
 socket.on('switch_turns', (data) => {
     announceWithLoader(`${data.username} scored ${data.points} points`);

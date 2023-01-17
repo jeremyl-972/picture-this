@@ -45,10 +45,11 @@ const make_button = (value, style, added_class, text, onClick, id) => {
 const loadingBtn = (text) => {
     const btnInner = document.createElement('span');
     btnInner.className = "spinner-border spinner-border-sm me-1";
+    btnInner.setAttribute('id', 'spinner');
     btnInner.setAttribute('role', 'status');
     btnInner.setAttribute('aria-hidden', 'true');
 
-    const btnOuter = make_button('', 'margin-right: 0 !important; width: 120px', '', '', null, 'loadBtn');
+    const btnOuter = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', '', null, 'loadBtn');
     btnOuter.setAttribute('hidden', 'hidden');
     btnOuter.append(btnInner);
     btnInner.after(text);
@@ -90,7 +91,7 @@ const difficulty_buttons = () => {
     return btnContainer;
 };
 
-// create word_buttons and on click, display canvas 
+// create word_buttons and on click, initialize and display canvas 
 const word_buttons = (list, diff_level) => {
     const onClick = async (e) => {
         clearElement('heading');
@@ -104,7 +105,7 @@ const word_buttons = (list, diff_level) => {
         clearElement('component');
         setHeading('Start Drawing!');
         component.append(wordDiv, canvasContainer);
-        new DrawableCanvasElement("canvas", "clearBtn", "sendBtn", onSendSketch);
+        new DrawableCanvasElement("canvas", "clearBtn", onEmitSketch, onClearSketch);
         heading.setAttribute('hidden', 'hidden')
         component.setAttribute('hidden', 'hidden')
         choseWord(word, diff_level);
@@ -134,27 +135,57 @@ const receive_sketch = (data) => {
 
     clearElement('component');
     component.appendChild(imgContainer);
+
+    setTimeout(() => {
+        clearElement('announcements');
+    }, 1500);
+};
+
+const getting_sketch = (data) => {
+    const img = new Image;
+    img.src = data.url;
+    img.setAttribute('width', '300px');
+    img.setAttribute('height', '350px');
+    img.style.backgroundColor = "aliceblue";
+
+    const imgContainer = make__div("center-up-flex-column");
+    imgContainer.appendChild(img);
+
+    clearElement('component');
+    component.appendChild(imgContainer);
 };
 
 const make_guess_form = () => {
     const onClick = () => {
+        const loadBtn = document.getElementById('loadBtn');
+        const newNode = document.createTextNode('Guess');
+        loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
+
         const guessInput = document.getElementById('guessInput');
         const guess = guessInput.value;
         onGuess(guess);
         toggle('guessBtn', 'loadBtn');
     };
-    const guessInput = document.createElement('input');
-    guessInput.setAttribute('id', 'guessInput');
-    guessInput.className = 'form-control';
-    guessInput.setAttribute('autocomplete', 'off');
-    guessInput.setAttribute('autofocus', 'autofocus');
-    const guessBtn = make_button('', 'margin-right: 0 !important; width: 120px', '', "Guess", onClick, 'guessBtn');
+    const guessBtn = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', "Guess", onClick, 'guessBtn');
+    guessBtn.setAttribute('disabled', 'disabled');
     const loadBtn = loadingBtn('Guess');
 
-    const guessContainer = make__div("center-up-flex-row");
-    guessContainer.style.maxWidth = '300px';
-    guessContainer.append(guessInput, guessBtn, loadBtn);
-    return guessContainer;
+    const guessInput = document.createElement('input');
+    guessInput.className = 'form-control';
+    guessInput.setAttribute('id', 'guessInput');
+    guessInput.setAttribute('autocomplete', 'off');
+    guessInput.setAttribute('autofocus', 'autofocus');
+    guessInput.addEventListener('input', (e) => {
+        if (e.currentTarget.value != '') {
+            document.getElementById('guessBtn').removeAttribute('disabled');
+        };
+    });
+
+    const guessForm = make__div("center-up-flex-row");
+    guessForm.style.maxWidth = '300px';
+    guessForm.append(guessInput, guessBtn, loadBtn);
+
+    return guessForm;
 };
 
 const setWaitingScreen = () => {

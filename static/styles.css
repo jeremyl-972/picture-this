@@ -42,6 +42,22 @@ footer > a {
     padding: 0 .5rem;
 }
 
+#li1 {
+    position: relative;
+    top: -40px;
+}
+#li2 {
+    position: relative;
+    top: -30px;
+}
+#li3 {
+    position: relative;
+    top: -20px;
+}
+#li4 {
+    position: relative;
+    top: -10px;
+}
 /* Style for brand */
 .brand
 {

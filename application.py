@@ -1,12 +1,17 @@
+from threading import Lock
+
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room
 from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
 
 from auth.auth import auth
-from rooms.rooms import rooms, user_sent_sketch, add_points
+from rooms.rooms import rooms, add_points
 from mysql.db import get_user, connect_to_room, disconnect_from_room, get_connected_members
 
+
+thread = None
+thread_lock = Lock()
 
 # Configure application
 load_dotenv()
@@ -29,12 +34,16 @@ login_manager.login_message = "User needs to be logged in"
 #     response.headers["Pragma"] = "no-cache"
 #     return response
 
+# def receive_canvas_url(data):
+#     print("Sending canvas url")
+#     while True:
+#         socketio.emit('receive_sketch', data)
+#         socketio.sleep(.1)
+
 @application.route("/")
 @login_required
 def index():
     """Show intro view"""
-    # define user
-    # set expected data structure
     data = []
     return render_template("intro.html", data=data)
 
@@ -62,22 +71,24 @@ def chose_word(data):
     word['points'] = data['points']
     socketio.emit('is_drawing_prompt', {'word': word, 'count': data['count'], 'username': data['username'], 'message': f"{data['username']} is drawing"}, room=data['room'])
 
-@socketio.on('sent_sketch')
-def sent_sketch(data):
-    application.logger.info("{} has sent a sketch to room {}".format(data['username'], data['room']))
-    socketio.emit('receive_sketch', data, room=data['room'], include_self=False)
-    user_sent_sketch(data)
+@socketio.on('emit_sketch')
+def emit_sketch(data):
+    socketio.emit('getting_sketch', data, room=data['room'], include_self=False)
+
+@socketio.on('clear_sketch')
+def clear_sketch(data):
+    socketio.emit('clearing_sketch', data, room=data['room'], include_self=False)
 
 @socketio.on('sent_guess')
 def sent_guess(data):
     responseData = {}
     responseData['username'] = data['username']
-    responseData['username'] = data['username']
-    responseData['poinst'] = word['points']
+    responseData['message'] = "No!"
+    responseData['points'] = word['points']
 
     if data['guess'] == word['word']:
         responseData['score'] = add_points(request.sid, word['points'])
-        responseData['message'] = 'Correct!'
+        responseData['message'] = "Correct! It's your turn to draw"
         socketio.emit('switch_turns', responseData, room=data['room'], include_self=False)
     socketio.emit('guess_response', responseData, room=data['room'])
 

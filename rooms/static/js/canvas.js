@@ -1,9 +1,9 @@
 class DrawableCanvasElement {
-    constructor(canvasElementId, clearBtnId, sendBtnId, onSendSketch) {
+    constructor(canvasElementId, clearBtnId, onEmitSketch, onClearSketch) {
         this.canvasElementId = canvasElementId;
         this.clearBtn = document.getElementById(clearBtnId);
-        this.sendBtn = document.getElementById(sendBtnId);
-        this.onSendSketch = onSendSketch;
+        this.onEmitSketch = onEmitSketch;
+        this.onClearSketch = onClearSketch;
         this.paintCanvas = document.getElementById(canvasElementId);
         this.paintContext = this.paintCanvas.getContext("2d");
 
@@ -16,7 +16,6 @@ class DrawableCanvasElement {
         this.paintCanvas.onmouseout = (e) => { this.onMouseUpHandler(e); };
         this.paintCanvas.onmousemove = (e) => { this.onMouseMoveHandler(e); };
         this.clearBtn.onclick = (e) => { this.clearCanvas(e); };
-        this.sendBtn.onclick = (e) => { this.insertUrlValue(e); };
                          
         const canvas = this.paintCanvas;
 
@@ -42,10 +41,8 @@ class DrawableCanvasElement {
     clearCanvas() {
         const square = document.getElementById(this.canvasElementId);
         this.paintContext.clearRect(0, 0, square.width, square.height);
-    }
-
-    insertUrlValue() {
-        this.onSendSketch(this.toString());
+        //  clear opponent's canvas
+        onClearSketch();
     }
 
     onMouseDownHandler(e) {
@@ -65,6 +62,9 @@ class DrawableCanvasElement {
         this.drawing_line(this.activeColor, this.cursorPoint.x, this.cursorPoint.y, location.x, location.y, this.paintContext)
         this.cursorPoint.x = location.x;
         this.cursorPoint.y = location.y;
+        //  SENDING DRAWING ON MOUSE MOVE
+        console.log("reached move mouse");
+        this.onEmitSketch(this.toString());
     }
 
     onMouseUpHandler() {
@@ -117,18 +117,20 @@ const make_canvas = () => {
     canvas.setAttribute('height', '350px');
     canvas.style.backgroundColor = "aliceblue";
 
-    const btnContainer = make__div("flex-row-between")
-    const sendBtn = make_button('', '', '', "Send", null, 'sendBtn');
-    const clearBtn = make_button('', '', '', "Clear", null, "clearBtn");
-    btnContainer.append(clearBtn, sendBtn) 
+    const btnContainer = make__div("flex-row-between");
+    const clearBtn = make_button('', 'margin-left: 0 !important', '', "Clear", null, "clearBtn");
+    btnContainer.appendChild(clearBtn); 
 
-    canvasContent.append(canvas, btnContainer)
+    canvasContent.append(canvas, btnContainer);
     canvasContainer.appendChild(canvasContent);
     return canvasContainer;
 };
 
-const onSendSketch = async (url) => {
-    clearAll();
-    announceWithLoader("Your opponent is guessing");
-    sentSketch(url);
+
+const onEmitSketch = (url) => {
+    emittingSketch(url);
+};
+
+const onClearSketch = (url) => {
+    clearingSketch(url);
 };

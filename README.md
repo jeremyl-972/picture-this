@@ -11,7 +11,7 @@ Guessing view (reuse of drawing view with an input for entering the word)
 Waiting view 
 
 The first player starts the game by choosing between 3 given words, words vocabulary is provided below (easy, medium, hard), then he will try to draw the word’s meaning. 
-When clicking send, the second player will see the drawing and will try to guess the word. Once succeeded, he will get to pick a new word, draw it, and so on. 
+While cdrawing, the second player will see the drawing and will try to guess the word. Once succeeded, he will get to pick a new word, draw it, and so on. 
 Rules: The first player who starts the game will have to wait for the second player to join (refresh at both tabs for starting a new game). Players can guess as many times they want. 
 When guessing right, the game session will earn points: 
 Easy word - 1 point, Medium word - 3 points, Hard word - 5 points 
