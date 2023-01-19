@@ -46,8 +46,9 @@ def get_user(username):
 def get_user_id(username):
     db["cur"].execute("SELECT id FROM users WHERE username = %s", username)
     row = db["cur"].fetchone()
-    user_id = row['id']
-    return user_id
+    if row:
+        user_id = row['id']
+        return user_id
 
 def get_username_by_id(id):
     db["cur"].execute("SELECT username FROM users WHERE id = %s", id)

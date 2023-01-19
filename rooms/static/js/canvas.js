@@ -1,9 +1,8 @@
 class DrawableCanvasElement {
-    constructor(canvasElementId, clearBtnId, onEmitSketch, onClearSketch) {
+    constructor(canvasElementId, clearBtnId, onEmitSketch) {
         this.canvasElementId = canvasElementId;
         this.clearBtn = document.getElementById(clearBtnId);
         this.onEmitSketch = onEmitSketch;
-        this.onClearSketch = onClearSketch;
         this.paintCanvas = document.getElementById(canvasElementId);
         this.paintContext = this.paintCanvas.getContext("2d");
 
@@ -41,8 +40,6 @@ class DrawableCanvasElement {
     clearCanvas() {
         const square = document.getElementById(this.canvasElementId);
         this.paintContext.clearRect(0, 0, square.width, square.height);
-        //  clear opponent's canvas
-        onClearSketch();
     }
 
     onMouseDownHandler(e) {
@@ -129,8 +126,4 @@ const make_canvas = () => {
 
 const onEmitSketch = (url) => {
     emittingSketch(url);
-};
-
-const onClearSketch = (url) => {
-    clearingSketch(url);
 };

@@ -68,7 +68,7 @@ def register():
             error = 'Password confirmation does not match.'
         else:
             # save user to db
-            status = save_user()
+            status = save_user(username, password)
             # username already registered
             if status["error"] == True:
                 error = status["error"]

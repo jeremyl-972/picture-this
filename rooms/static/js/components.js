@@ -105,7 +105,7 @@ const word_buttons = (list, diff_level) => {
         clearElement('component');
         setHeading('Start Drawing!');
         component.append(wordDiv, canvasContainer);
-        new DrawableCanvasElement("canvas", "clearBtn", onEmitSketch, onClearSketch);
+        new DrawableCanvasElement("canvas", "clearBtn", onEmitSketch);
         heading.setAttribute('hidden', 'hidden')
         component.setAttribute('hidden', 'hidden')
         choseWord(word, diff_level);
@@ -188,7 +188,7 @@ const make_guess_form = () => {
     return guessForm;
 };
 
-const setWaitingScreen = () => {
+const setWaitingScreen = (name) => {
     clearAll();
-    announceWithLoader('Waiting for your opponent to chose a word and draw');
+    announceWithLoader(`Waiting for ${name} to chose a word and draw`);
 };

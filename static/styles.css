@@ -42,22 +42,6 @@ footer > a {
     padding: 0 .5rem;
 }
 
-#li1 {
-    position: relative;
-    top: -40px;
-}
-#li2 {
-    position: relative;
-    top: -30px;
-}
-#li3 {
-    position: relative;
-    top: -20px;
-}
-#li4 {
-    position: relative;
-    top: -10px;
-}
 /* Style for brand */
 .brand
 {
@@ -78,6 +62,13 @@ nav a.frame {
     font-size: 25px;
     border: 1.5px solid #DC7D19;
     border-radius: 4px;
+}
+
+nav a.frame:hover {
+    border: 1.5px solid #038ccb !important;
+}
+nav a.frame:hover > .brand {
+    color: #DC7D19 !important;
 }
 
 .intro {
@@ -171,7 +162,7 @@ footer {
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
 
     h1 .brand {
         font-size: 60px;
@@ -192,6 +183,22 @@ footer {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    #li1 {
+        position: relative;
+        top: -40px;
+    }
+    #li2 {
+        position: relative;
+        top: -30px;
+    }
+    #li3 {
+        position: relative;
+        top: -20px;
+    }
+    #li4 {
+        position: relative;
+        top: -10px;
     }
 }
   

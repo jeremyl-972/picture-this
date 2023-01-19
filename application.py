@@ -26,19 +26,6 @@ login_manager.login_view = 'auth.login'
 login_manager.init_app(application)
 login_manager.login_message = "User needs to be logged in"
 
-# Ensure responses aren't cached
-# @application.after_request
-# def after_request(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
-
-# def receive_canvas_url(data):
-#     print("Sending canvas url")
-#     while True:
-#         socketio.emit('receive_sketch', data)
-#         socketio.sleep(.1)
 
 @application.route("/")
 @login_required
@@ -75,21 +62,19 @@ def chose_word(data):
 def emit_sketch(data):
     socketio.emit('getting_sketch', data, room=data['room'], include_self=False)
 
-@socketio.on('clear_sketch')
-def clear_sketch(data):
-    socketio.emit('clearing_sketch', data, room=data['room'], include_self=False)
 
 @socketio.on('sent_guess')
 def sent_guess(data):
     responseData = {}
     responseData['username'] = data['username']
     responseData['message'] = "No!"
-    responseData['points'] = word['points']
 
     if data['guess'] == word['word']:
         responseData['score'] = add_points(request.sid, word['points'])
-        responseData['message'] = "Correct! It's your turn to draw"
+        responseData['points'] = word['points']
+        responseData['message'] = "Yes!"
         socketio.emit('switch_turns', responseData, room=data['room'], include_self=False)
+
     socketio.emit('guess_response', responseData, room=data['room'])
 
 

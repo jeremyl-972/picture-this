@@ -30,7 +30,7 @@ socket.on('join_room_announcement', (data) => {
         // player2 waits for player 1 to draw sketch
         if (joinee_is_self) {
             clearAll();
-            announceWithLoader('Waiting for your opponent to draw')
+            announceWithLoader(`Waiting for your opponent to draw`)
         }
         else {
             console.log('removing hidden attribute');
@@ -109,18 +109,6 @@ socket.on('getting_sketch', (data) => {
     component.appendChild(guessForm);
 });
 
-const clearingSketch = () => {
-    socket.emit('clear_sketch', {
-        username: username,
-        user_id: user_id,
-        room: room_name,
-        url: sketch_url
-    });
-};
-
-socket.on('clearing_sketch', (data) => {
-    clearAll();
-});
 
 const onGuess = (guess) => {
     const guessInput = document.getElementById('guessInput');
@@ -147,9 +135,9 @@ socket.on('guess_response', (data) => {
             toggle('guessBtn', 'loadBtn');
         }, 1500);
 
-        if (data.message === 'Correct!') {
+        if (data.message === 'Yes!') {
             clearAll();
-            announceWithLoader(data.message);
+            announceWithLoader('You got it! Switching turns');
             setTimeout(() => {
                 component.append(difficulty_buttons());
             }, 3000);
@@ -159,8 +147,9 @@ socket.on('guess_response', (data) => {
 
 
 socket.on('switch_turns', (data) => {
-    announceWithLoader(`${data.username} scored ${data.points} points`);
+    clearAll();
+    announceWithLoader(`${data.username} guessed it and scored ${data.points} points`);
     setTimeout(() => {
-        setWaitingScreen();
+        setWaitingScreen(data.username);
     }, 3000);
 });
