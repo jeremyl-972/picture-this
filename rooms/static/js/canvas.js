@@ -60,7 +60,6 @@ class DrawableCanvasElement {
         this.cursorPoint.x = location.x;
         this.cursorPoint.y = location.y;
         //  SENDING DRAWING ON MOUSE MOVE
-        console.log("reached move mouse");
         this.onEmitSketch(this.toString());
     }
 

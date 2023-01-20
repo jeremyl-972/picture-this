@@ -33,7 +33,10 @@ socket.on('join_room_announcement', (data) => {
             announceWithLoader(`Waiting for your opponent to draw`)
         }
         else {
-            console.log('removing hidden attribute');
+            if (document.getElementById('canvas')) {
+                startTimer();
+                socket.emit('timer_activated');
+            };
             // player1 sees initialized canvas
             heading.removeAttribute('hidden');
             component.removeAttribute('hidden');
@@ -76,6 +79,8 @@ const choseWord = async (word, diff_level) => {
     }
     else {
         clearElement('announcements');
+        startTimer();
+        socket.emit('timer_activated');
         heading.removeAttribute('hidden');
         component.removeAttribute('hidden');
     };
@@ -90,13 +95,14 @@ socket.on('is_drawing_prompt', (data) => {
     else if (data.count > 1) {
         heading.removeAttribute('hidden');
         component.removeAttribute('hidden');
+        startTimer();
+        socket.emit('timer_activated');
     };
 });
 
+
 const emittingSketch = (sketch_url) => {
     socket.emit('emit_sketch', {
-        username: username,
-        user_id: user_id,
         room: room_name,
         url: sketch_url
     });

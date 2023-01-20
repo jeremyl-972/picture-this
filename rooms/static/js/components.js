@@ -192,3 +192,27 @@ const setWaitingScreen = (name) => {
     clearAll();
     announceWithLoader(`Waiting for ${name} to chose a word and draw`);
 };
+
+const startTimer = () => {
+    const countdownElement = make__div('');
+    countdownElement.setAttribute('id', 'countdownElement');
+    countdownElement.innerText = ":15";
+    clearElement('announcements');
+    announcementElement.append(countdownElement);
+    
+    const myInterval = setInterval(() => {
+        let text = '';
+        const slicedString = countdownElement.innerText.slice(1);
+        const number = parseInt(slicedString) - 1;
+        if (number < 0) {
+            stopTimer(myInterval);
+            announceWithLoader('Times up. Switching turns')
+        } else if (number < 10) {
+            text = String(number).padStart(2, '0');
+        } else {
+            text = number.toString();
+        };
+        countdownElement.innerText = `:${text}`;
+    }, 1000);
+};
+const stopTimer = (interval) => {clearInterval(interval)};
