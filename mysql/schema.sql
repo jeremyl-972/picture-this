@@ -23,7 +23,6 @@ CREATE TABLE sio_connected_clients (
     user_id INT NOT NULL,
     room_name VARCHAR(50) NOT NULL,
 	sid VARCHAR(50),
-    score INT,
     FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (room_name) REFERENCES rooms (name),
     PRIMARY KEY (user_id, room_name)

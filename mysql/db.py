@@ -25,6 +25,7 @@ def close_db():
     
 db = LocalProxy(get_db)
 
+
 def get_user(username):
     error = None
     user = None
@@ -43,6 +44,7 @@ def get_user(username):
         user = User(user_data['username'], user_data['hash'], user_data['id'])
         return user
 
+
 def get_user_id(username):
     db["cur"].execute("SELECT id FROM users WHERE username = %s", username)
     row = db["cur"].fetchone()
@@ -50,12 +52,6 @@ def get_user_id(username):
         user_id = row['id']
         return user_id
 
-def get_username_by_id(id):
-    db["cur"].execute("SELECT username FROM users WHERE id = %s", id)
-    row = db["cur"].fetchone()
-    user_id = row['username']
-    return user_id
-    
 
 def save_user(username, password):
     user = None
@@ -75,6 +71,7 @@ def save_user(username, password):
         db["conn"].commit()
         close_db()
         return {"error": False, "message": "Successfully registered!"}
+
 
 def save_room(room_name, created_by):
     db["cur"].execute("INSERT INTO rooms (name, created_by, created_at) VALUES(%s, %s, %s)", (room_name, created_by, datetime.now()))
@@ -128,15 +125,7 @@ def save_sketch(room_name, dataUrl, artist_id, created_at):
     db['cur'].execute("INSERT INTO sketches (room_name, dataUrl, created_by, created_at) VALUES(%s, %s, %s, %s)", (room_name, dataUrl, artist_id, created_at))
     db['conn'].commit()
     close_db()
-
-MESSAGE_FETCH_LIMIT = 3
-
-def get_sketches(room_id, page=0):
-    offset = page * MESSAGE_FETCH_LIMIT
-    db["cur"].execute("SELECT sketch, created_at FROM sketches WHERE room_id = %s LIMIT %s OFFSET %s", (room_id, MESSAGE_FETCH_LIMIT, offset))
-    sketches = list(db["cur"].fetchall())
-    close_db()
-    return sketches
+    
 
 def get_word_rows(int_list):
     db["cur"].execute("SELECT word FROM words WHERE id IN%(int_list)s", {'int_list': tuple(int_list)})
@@ -144,11 +133,3 @@ def get_word_rows(int_list):
     close_db()
     word_list = [dict['word'] for dict in word_dict_list]
     return word_list
-
-def update_score(sid, points):
-    db["cur"].execute("UPDATE sio_connected_clients SET score = (score + %s) WHERE sid = %s" , (points, sid))
-    db["conn"].commit()
-    db["cur"].execute("SELECT score FROM sio_connected_clients WHERE sid = %s", sid)
-    row = db["cur"].fetchone()
-    close_db()
-    return row['score']

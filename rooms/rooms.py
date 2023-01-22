@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_sketches, get_word_rows, update_score
+from mysql.db import get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_word_rows
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -65,25 +65,6 @@ def view_room(room_name):
         return "Room not found", 404
 
 
-@rooms.route('/<room_id>/sketches/')
-@login_required
-def get_older_sketches(room_id):
-    room = get_room(room_id)
-    if room:
-        page = int(request.args.get('page', 0))
-        sketches = get_sketches(room_id, page)
-        return sketches
-    else:
-        return "Room not found", 404
-
-
-@rooms.route('/connected_members/<room_name>')
-def connected_members(room_name):
-    members = get_connected_members(room_name)
-    count = len(members)
-    return {"count": count}
-
-
 @rooms.route('/get_words/<difficulty>')
 def get_words(difficulty):
 
@@ -104,8 +85,3 @@ def get_words(difficulty):
 
     word_dict_list = get_word_rows(random_ids)
     return word_dict_list
-
-
-def add_points(sid, points):
-    score = update_score(sid, points)
-    return score

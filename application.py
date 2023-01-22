@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_required
 from dotenv import load_dotenv
 
 from auth.auth import auth
-from rooms.rooms import rooms, add_points
+from rooms.rooms import rooms
 from mysql.db import get_user, connect_to_room, disconnect_from_room, get_connected_members
 
 
