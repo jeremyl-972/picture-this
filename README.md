@@ -10,11 +10,9 @@ Drawing view
 Guessing view (reuse of drawing view with an input for entering the word) 
 Waiting view 
 
-The first player starts the game by choosing between 3 given words, words vocabulary is provided below (easy, medium, hard), then he will try to draw the word’s meaning. 
-While cdrawing, the second player will see the drawing and will try to guess the word. Once succeeded, he will get to pick a new word, draw it, and so on. 
+The first player starts the game by choosing between 10 given words (easy, medium, hard), then they will try to draw the word’s meaning. 
+While drawing, the second player will see the drawing and will try to guess the word. Once succeeded, they will get to pick a new word, draw it, and so on. 
 Rules: The first player who starts the game will have to wait for the second player to join (refresh at both tabs for starting a new game). Players can guess as many times they want. 
 When guessing right, the game session will earn points: 
 Easy word - 1 point, Medium word - 3 points, Hard word - 5 points 
 
-General Requirements: 
-Use any language/framework you’d want. The communication doesn’t have to be in real-time (streaming), simple server with “healthCheck” route can be enough. Choose any way you want to pass/save the drawing to the other player. (probably canvas) The game needs to be adjusted only for mobile devices. 

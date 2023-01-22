@@ -4,8 +4,9 @@
 {% endblock %}
 
 {% block header %}
-<div class="center-up-flex-column  mt-2">
-    <h2 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: {{ room_name }}</h2> 
+<div class="flex-row-between  m-2" style="width:auto">
+    <h6 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: {{ room_name }}</h6>
+    <h6 id="scoreboard">Score: 0</h6> 
 </div>
 {% endblock %}
 

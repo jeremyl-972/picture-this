@@ -35,6 +35,11 @@ def index():
     return render_template("intro.html", data=data)
 
 # WEB SOCKET ACTIVITY STARTS HERE
+@socketio.on('disconnect')
+def disconnect():
+    data = disconnect_from_room(request.sid)
+    socketio.emit('leave_room_announcement', {'username': data['username'], 'room_name': data['room_name']}, room=data['room_name'])
+
 
 @socketio.on('join_room')
 def handle_join_room_event(data):
@@ -43,11 +48,11 @@ def handle_join_room_event(data):
     data['count'] = count
     socketio.emit('join_room_announcement', data)
 
-@socketio.on('disconnect')
-def disconnect():
-    data = disconnect_from_room(request.sid)
-    socketio.emit('leave_room_announcement', {'username': data['username'], 'room_name': data['room_name']}, room=data['room_name'])
-    print("DISCONNECTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+@socketio.on('introduce_drawing_player')
+def introduce_drawing_player(data):
+    socketio.emit('hello_from_player1', data, include_self=False)
+
 
 word = {}
 @socketio.on('chose_word')
@@ -56,13 +61,13 @@ def chose_word(data):
     data['count'] = len(members)
     word['word'] = data['word']
     word['points'] = data['points']
-    socketio.emit('is_drawing_prompt', {'word': word, 'count': data['count'], 'username': data['username'], 'message': f"{data['username']} is drawing"}, room=data['room'])
+
 
 @socketio.on('emit_sketch')
 def emit_sketch(data):
     socketio.emit('getting_sketch', data, room=data['room'], include_self=False)
 
-
+score = {'total': 0}
 @socketio.on('sent_guess')
 def sent_guess(data):
     responseData = {}
@@ -70,12 +75,17 @@ def sent_guess(data):
     responseData['message'] = "No!"
 
     if data['guess'] == word['word']:
-        responseData['score'] = add_points(request.sid, word['points'])
+        score['total'] += word['points']
+        responseData['score'] = score['total']
         responseData['points'] = word['points']
         responseData['message'] = "Yes!"
-        socketio.emit('switch_turns', responseData, room=data['room'], include_self=False)
 
     socketio.emit('guess_response', responseData, room=data['room'])
+
+
+@socketio.on('activate_timer')
+def activate_timer(data):
+    socketio.emit('start_timer', room=data['room'])
 
 
 @login_manager.user_loader

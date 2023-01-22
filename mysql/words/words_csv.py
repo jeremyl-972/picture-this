@@ -4,7 +4,7 @@ def main():
     fieldnames = ['word', 'points']
     word_rows = []
 
-    csv_path = 'log.csv'
+    csv_path = 'words.csv'
     paths = [
         {'path': 'C:/Users/Pro/Documents/easy.txt', 'points': 1}, 
         {'path': 'C:/Users/Pro/Documents/med.txt', 'points': 3},

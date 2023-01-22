@@ -18,8 +18,8 @@ const setHeading = (text) => {
     heading.innerHTML = text;
 };
 
-const announceWithLoader = (message) => {
-    clearElement('announcements');
+const announceWithLoader = (message, clear) => {
+    if (clear) clearElement('announcements');
     announcementElement.append(loader_component(message));
 };
 
@@ -72,7 +72,7 @@ const difficulty_buttons = () => {
     clearAll();
     const onClick = async (e) => {
         clearAll();
-        announceWithLoader("Loading");
+        announceWithLoader("Loading", clear=true);
         const diff_level = e.currentTarget.value;
         await fetch(`/rooms/get_words/${diff_level}`).then(response => {
             response.json().then(list => {
@@ -96,7 +96,7 @@ const word_buttons = (list, diff_level) => {
     const onClick = async (e) => {
         clearElement('heading');
         clearElement('component');
-        announceWithLoader("Loading")
+        announceWithLoader("Loading", clear=true)
         const word = e.currentTarget.value;
         const wordDiv = make__div("center-up-flex-column");
         wordDiv.innerText = word;
@@ -117,40 +117,22 @@ const word_buttons = (list, diff_level) => {
     return btnContainer;
 }
 
-const receive_sketch = (data) => {
-    clearElement('announcements');
-    const newNode = make__div();
-    newNode.innerHTML = `Received sketch from <b>${data.username}</b>`;
-    announcementElement.appendChild(newNode);
-    heading.innerText = "Start guessing!"
-
+const make_blank_canvas = (url) => {
     const img = new Image;
-    img.src = data.url;
     img.setAttribute('width', '300px');
     img.setAttribute('height', '350px');
     img.style.backgroundColor = "aliceblue";
 
     const imgContainer = make__div("center-up-flex-column");
     imgContainer.appendChild(img);
-
-    clearElement('component');
-    component.appendChild(imgContainer);
-
-    setTimeout(() => {
-        clearElement('announcements');
-    }, 1500);
+    if (url) {
+        img.src = url;
+    }
+    return imgContainer;
 };
 
 const getting_sketch = (data) => {
-    const img = new Image;
-    img.src = data.url;
-    img.setAttribute('width', '300px');
-    img.setAttribute('height', '350px');
-    img.style.backgroundColor = "aliceblue";
-
-    const imgContainer = make__div("center-up-flex-column");
-    imgContainer.appendChild(img);
-
+    const imgContainer = make_blank_canvas(data.url);
     clearElement('component');
     component.appendChild(imgContainer);
 };
@@ -190,9 +172,12 @@ const make_guess_form = () => {
 
 const setWaitingScreen = (name) => {
     clearAll();
-    announceWithLoader(`Waiting for ${name} to chose a word and draw`);
+    announceWithLoader(`Waiting for ${name} to draw`);
+    const imgContainer = make_blank_canvas('');
+    component.append(imgContainer);
 };
 
+let myInterval;
 const startTimer = () => {
     const countdownElement = make__div('');
     countdownElement.setAttribute('id', 'countdownElement');
@@ -200,13 +185,13 @@ const startTimer = () => {
     clearElement('announcements');
     announcementElement.append(countdownElement);
     
-    const myInterval = setInterval(() => {
+    myInterval = setInterval(() => {
         let text = '';
         const slicedString = countdownElement.innerText.slice(1);
         const number = parseInt(slicedString) - 1;
         if (number < 0) {
+            announceWithLoader('Times up', clear=true)
             stopTimer(myInterval);
-            announceWithLoader('Times up. Switching turns')
         } else if (number < 10) {
             text = String(number).padStart(2, '0');
         } else {
@@ -215,4 +200,7 @@ const startTimer = () => {
         countdownElement.innerText = `:${text}`;
     }, 1000);
 };
-const stopTimer = (interval) => {clearInterval(interval)};
+const stopTimer = (interval) => {
+    clearInterval(interval);
+    timed_out();
+};
