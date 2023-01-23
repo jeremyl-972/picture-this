@@ -39,17 +39,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
-                {% if current_user %}
-                <ul class="navbar-nav me-auto center-up-flex-row">
-                    <li id="li1" class="nav-item"><a class="nav-link" href="/history">History</a></li>
-                    <li id="li2" class="nav-item"><a class="nav-link" href="">Rooms</a></li>
-                </ul>
+                {% if current_user.username %}
                 <ul class="navbar-nav ms-auto center-up-flex-row">
-                    <li id="li3" class="nav-item"><a class="nav-link" href="/auth/logout">Log Out</a></li>
-                    <li id="li4" class="nav-item"><strong>{{current_user.username}}</strong></li> 
+                    <li id="li1" class="nav-item"><a class="nav-link" href="">Rooms</a></li>
+                    <li id="li2" class="nav-item"><a class="nav-link" href="/auth/logout">Log Out</a></li>
+                    <li id="li3" class="nav-item"><strong>{{current_user.username}}</strong></li> 
                 </ul>
                 {% else %}
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto center-up-flex-row">
                     <li id="li1" class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
                     <li id="li2" class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
                 </ul>

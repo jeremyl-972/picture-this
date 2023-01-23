@@ -186,19 +186,15 @@ footer {
     }
     #li1 {
         position: relative;
-        top: -40px;
+        top: -37.5px;
     }
     #li2 {
         position: relative;
-        top: -30px;
+        top: -25px;
     }
     #li3 {
         position: relative;
-        top: -20px;
-    }
-    #li4 {
-        position: relative;
-        top: -10px;
+        top: -12.5px;
     }
 }
   
