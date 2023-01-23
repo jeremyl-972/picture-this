@@ -105,9 +105,10 @@ const onGuess = (guess) => {
     const guessInput = document.getElementById('guessInput');
     guessInput.value = '';
     if (guess) {
+        const editedGuess = guess.toLowerCase().trim();
         setTimeout(() => {
             socket.emit('sent_guess', {
-                guess: guess,
+                guess: editedGuess,
                 room: room_name,
                 username: username
             });
