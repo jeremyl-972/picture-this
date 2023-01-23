@@ -160,6 +160,8 @@ const make_guess_form = () => {
     guessInput.addEventListener('input', (e) => {
         if (e.currentTarget.value != '') {
             document.getElementById('guessBtn').removeAttribute('disabled');
+        } else {
+            document.getElementById('guessBtn').setAttribute('disabled', 'disabled');
         };
     });
 
