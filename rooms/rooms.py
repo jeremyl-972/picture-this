@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_user_id, get_all_rooms, get_connected_members, save_room, get_room, get_word_rows
+from mysql.db import get_all_rooms, get_connected_members, save_room, get_room, get_word_rows
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -15,23 +15,10 @@ def create_room():
     message = ''
     if request.method == 'POST':
         room_name = request.form.get('room_name')
-        usernames = [username.strip() for username in request.form.get('members').split(',')]
-        # check that usernames are registered users
-        for username in usernames:
-            valid_user = get_user_id(username)
-            if not valid_user:
-                flash("Must only include valid registered users")
-                return redirect(url_for("rooms.create_room"))
-        
-        id = current_user.id
-        user = current_user.username
-        if len(room_name) and len(usernames):
-            save_room(room_name, id)
-            # take admin out of list if they added themselves
-            if user in usernames:
-                usernames.remove(user)
-            connected_members = get_connected_members(room_name)
-            return redirect(url_for('rooms.view_room', room_name=room_name, connected_members=connected_members))
+
+        if len(room_name):
+            save_room(room_name.strip(), current_user.id)
+            return redirect(url_for('rooms.view_room', room_name=room_name))
         else:
             message = "Failed to create room"
     return render_template('create_room.html', message=message)
@@ -43,13 +30,22 @@ def choose_room():
     """Show choose_room view"""
     username = current_user.username
     if request.method == 'GET':
-        # get all rooms
         rooms = get_all_rooms()
-        # if no rooms, redirect to create_room
         if not rooms:
+            flash('No rooms exist. Create the first room.')
             return redirect(url_for("rooms.create_room"))
-        # set expected data structure
-        return render_template("join_room.html", username=username, rooms=rooms)
+
+        available_rooms = []
+        for room in rooms:
+            members = get_connected_members(room['name'])
+            players = len(members)
+            if players < 2:
+                available_rooms.append(room['name'])
+
+        if available_rooms:
+            return render_template("join_room.html", username=username, rooms=available_rooms)
+        flash('No rooms are available. Create a room.')
+        return redirect(url_for("rooms.create_room"))
 
     room_name = request.form.get('roomSelect')
     return redirect(url_for('rooms.view_room', room_name=room_name))

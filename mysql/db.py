@@ -45,14 +45,6 @@ def get_user(username):
         return user
 
 
-def get_user_id(username):
-    db["cur"].execute("SELECT id FROM users WHERE username = %s", username)
-    row = db["cur"].fetchone()
-    if row:
-        user_id = row['id']
-        return user_id
-
-
 def save_user(username, password):
     user = None
     error = None

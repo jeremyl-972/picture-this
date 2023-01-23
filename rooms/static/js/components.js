@@ -58,7 +58,7 @@ const loadingBtn = (text) => {
 
 const create_buttons_array = (list, style, added_class, onClick) => {
     const btnContainer = document.createElement('div');
-    btnContainer.className = "image_container";
+    btnContainer.className = "array_container";
 
     for (let i=0; i < list.length; i++) {
         btn = make_button(list[i], style, added_class, list[i], onClick, '')

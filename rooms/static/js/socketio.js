@@ -41,7 +41,7 @@ socket.on('join_room_announcement', (data) => {
         GUESSING_PLAYER = data.username;
 
         if (!joinee_is_self) {
-            socket.emit('introduce_drawing_player', {username:username})
+            socket.emit('introduce_drawing_player', {username:username, room:room_name})
             setTimeout(() => {component.append(difficulty_buttons())}, 2000)
         };
     };

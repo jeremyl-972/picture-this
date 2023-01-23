@@ -46,12 +46,12 @@ def handle_join_room_event(data):
     join_room(data['room'])
     count = connect_to_room(request.sid, data['room'], data['user_id'])
     data['count'] = count
-    socketio.emit('join_room_announcement', data)
+    socketio.emit('join_room_announcement', data, room=data['room'])
 
 
 @socketio.on('introduce_drawing_player')
 def introduce_drawing_player(data):
-    socketio.emit('hello_from_player1', data, include_self=False)
+    socketio.emit('hello_from_player1', data, room=data['room'], include_self=False)
 
 
 word = {}

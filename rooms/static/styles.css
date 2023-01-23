@@ -1,4 +1,4 @@
-.image_container {
+.array_container {
     list-style: none;
     padding-top: 15px;
     padding-bottom: 32px;
@@ -8,4 +8,3 @@
     justify-content: center;
     gap: 16px;
 }
-

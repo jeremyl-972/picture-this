@@ -8,7 +8,7 @@
 
 {% block main %}
     <div class="center-up-flex-column">
-        <h3 class="mb-4">Welcome <strong>{{username}}</strong>. Select a room to begin</h3>
+        <h3 class="mb-4">Welcome <strong>{{username}}</strong>. Select a room or <a id="create-anchorTag" style="color:#038ccb;">create one</a></h3>
 
         <form method="post" id="joinRoomForm" class="center-up-flex-column w-100"> 
             <div class="form-group w-50">
@@ -16,7 +16,7 @@
                 <select id="roomSelect" name="roomSelect" class="form-select mb-2" type="select" aria-label="room select dropdown">
                     <option value="">--none--</option>
                     {% for room in rooms %}
-                    <option>{{room["name"]}}</option>
+                    <option>{{room}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -30,6 +30,16 @@
     </div>
     <script src="{{url_for('static', filename='index.js')}}"></script>
     <script>
+        const createTag = document.getElementById('create-anchorTag');
+        createTag.onmouseover = (e) => {
+            e.currentTarget.style.color ='#0a58ca';
+            e.currentTarget.style.cursor ='pointer';
+        };
+        createTag.onmouseout = (e) => {
+            e.currentTarget.style.color ='#038ccb';
+            e.currentTarget.style.cursor ='default';
+        };
+
         document.getElementById('roomSelect').addEventListener('change', () =>{
         const select = document.getElementById('roomSelect');
         if (select.value != 'none') {
