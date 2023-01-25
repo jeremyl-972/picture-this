@@ -1,3 +1,14 @@
+const navbarToggler = document.querySelector('.navbar-toggler');
+let fontSize = '25px';
+let mb = '0px';
+navbarToggler.addEventListener('click', () => {
+    fontSize = fontSize === '25px' ? 'larger' : '25px';
+    mb = fontSize === '25px' ? '0' : '10px';
+    const navbarBrand = document.querySelector('.navbar-brand');
+    navbarBrand.style.fontSize = fontSize;
+    navbarBrand.style.marginBottom = mb;
+});
+
 function toggle(btnId, loadBtnId) {
     let btn = document.getElementById(btnId);
     let loadingBtn = document.getElementById(loadBtnId);

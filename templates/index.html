@@ -42,14 +42,14 @@
             <div class="collapse navbar-collapse" id="navbar">
                 {% if current_user.username %}
                 <ul class="navbar-nav ms-auto center-up-flex-row">
-                    <li id="li1" class="nav-item"><a class="nav-link" href="/rooms/choose-room">Rooms</a></li>
-                    <li id="li2" class="nav-item"><a class="nav-link" href="/auth/logout">Log Out</a></li>
-                    <li id="li3" class="nav-item"><strong>{{current_user.username}}</strong></li> 
+                    <li class="nav-item"><a class="nav-link" href="/rooms/choose-room">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/logout">Log Out:</a></li>
+                    <li class="nav-item"><strong>{{current_user.username}}</strong></li> 
                 </ul>
                 {% else %}
-                <ul class="navbar-nav ms-auto center-up-flex-row">
-                    <li id="li1" class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
-                    <li id="li2" class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
                 </ul>
                 {% endif %}
             </div>
@@ -74,8 +74,12 @@
         </main>
     </div>
 
-    <footer class="small center-up-flex-row">
-        See the code &#160<a href="https://github.com/Jdubbs702/picture-this"><i class="bi bi-github fs-3"></i></a>
+    <footer>
+        <div class="flex-end prt-3">
+            <div class="github-container">
+                See the code &#160<a href="https://github.com/Jdubbs702/picture-this"><i class="bi bi-github fs-3"></i></a>
+            </div>
+        </div>
     </footer>
 
 </body>
