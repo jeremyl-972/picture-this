@@ -1,4 +1,7 @@
 {% extends "index.html" %}
+{% block link %}
+    <link rel="stylesheet" href="/rooms/static/styles.css">
+{% endblock %}
 
 {% block header %}
 <div class="center-up-flex-column mt-2 mb-3">
@@ -7,10 +10,10 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/auth/register" method="post" class="center-up-flex-column">
+    <form autocomplete="off" action="/auth/register" method="post" class="center-up-flex-column">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+            <input autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -21,8 +24,8 @@
             <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Re-enter Password" type="password">
         </div>
 
-        <button id="regBtn" onclick="toggle('regBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Register</button>
-        <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+        <button id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Register</button>
+        <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         </button>
