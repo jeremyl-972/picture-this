@@ -22,10 +22,6 @@ html, body {
     );
 }
 
-/* .content {
-    padding-bottom: 5rem;
-} */
-
 .navbar-light .navbar-nav .nav-link {
     color: #DC7D19;
 }
@@ -193,12 +189,6 @@ footer > a {
     }
 }
 
-@media screen and (min-height: 768px) {
-    .content {
-        margin-top: 60px;
-    }
-}
-
 @media screen and (max-width: 300px) {
     .content {
         margin-top: 20px;
@@ -240,12 +230,15 @@ footer > a {
         justify-content: center;
         align-items: center;
     }
-    main {
-        margin-top: 40px;
-    }
 }
     
 @media screen and (min-width: 750px) and (max-width: 899px) and (min-height: 900px) {
+    .navbar-brand .brand {
+        font-size: 32px !important;
+    }
+    .navbar-nav {
+        font-size: 20px;
+    }
     .content {
         margin-top: 45px;
     }
@@ -262,9 +255,20 @@ footer > a {
     .responsive-img {
         max-width: 425px;
     }
-    #startBtn, #startLoadBtn {
-        width: 160px !important;
+    #Btn, #LoadBtn {
+        width: 185px !important;
         font-size: 30px;
+    }
+    #Btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    #LoadBtn > span {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        border-width: 0.15em !important;
     }
     .github-container{
         font-size: 20px;
@@ -275,8 +279,14 @@ footer > a {
 }
 
 @media screen and (min-width: 900px) and (min-height: 900px) {
+    .navbar-brand .brand {
+        font-size: 34px !important;
+    }
+    .navbar-nav {
+        font-size: 21px;
+    }
     .content {
-        margin-top: 100px;
+        margin-top: 60px;
     }
     .intro {
         font-size: 50px;
@@ -291,14 +301,31 @@ footer > a {
     .responsive-img {
         max-width: 525px;
     }
-    #startBtn, #startLoadBtn {
+    #Btn, #LoadBtn {
         width: 200px !important;
-        font-size: 40px;
+        font-size: 30px;
+    }
+    #LoadBtn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+    #LoadBtn > span {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        border-width: 0.15em !important;
     }
     .github-container{
         font-size: 25px;
     }
     .github-container > a > i {
         font-size: 40px !important;
+    }
+}
+
+@media screen and (min-height: 1100px) {
+    .content {
+        margin-top: 100px;
     }
 }

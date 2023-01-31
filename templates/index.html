@@ -24,7 +24,7 @@
 
 <body class="stripe-1">
 
-    <nav class="stripe-1 border navbar navbar-expand-md navbar-light">
+    <nav id="mainNavbar" class="stripe-1 border navbar navbar-expand-md navbar-light">
         <div class="container-fluid wrapper">
             <a class="navbar-brand frame" href="/">
                 {% macro brand() -%}
@@ -47,7 +47,7 @@
                     <li class="nav-item"><strong>{{current_user.username}}</strong></li> 
                 </ul>
                 {% else %}
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto center-up-flex-row">
                     <li class="nav-item"><a class="nav-link" href="/auth/register">Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
                 </ul>
@@ -64,7 +64,7 @@
     </header>
     {% endif %}
 
-    <header class="container-fluid pt-2 wrapper">
+    <header id="header" class="container-fluid pt-2 wrapper">
         {% block header %}{% endblock %}
     </header>
 
@@ -74,7 +74,7 @@
         </main>
     </div>
 
-    <footer>
+    <footer id="footer">
         <div class="flex-end prt-3">
             <div class="github-container">
                 See the code &#160<a href="https://github.com/Jdubbs702/picture-this"><i class="bi bi-github fs-3"></i></a>

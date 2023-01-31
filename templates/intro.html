@@ -10,9 +10,9 @@
         <div class="index-content">
             <img src="../static/family.png" alt="Family Sketching" class="responsive-img frame mb-1">
 
-            <form class="startBtn" action="{{ url_for('rooms.choose_room') }}">
-                <button id="startBtn" onclick="toggle('startBtn', 'startLoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Start</button>
-                <button hidden id="startLoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+            <form class="Btn" action="{{ url_for('rooms.choose_room') }}">
+                <button id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Start</button>
+                <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>
