@@ -74,7 +74,7 @@ def sent_guess(data):
     responseData['username'] = data['username']
     responseData['message'] = "No!"
 
-    if data['guess'] == word['word']:
+    if data['guess'].replace(' ','').lower() == word['word']:
         score['total'] += word['points']
         responseData['score'] = score['total']
         responseData['points'] = word['points']
