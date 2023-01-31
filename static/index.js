@@ -51,3 +51,12 @@ for (let i = 0; i < aNodes.length; i++) {
         mainNodes[0].appendChild(loader_component('large'));
     }); 
 };
+
+function onClickEnter(input, button) {
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          button.click();
+        }
+    });
+};
