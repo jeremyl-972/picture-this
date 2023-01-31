@@ -5,6 +5,10 @@ html, body {
     font-family: 'EB Garamond', serif;
 }
 
+button {
+    margin-left: 0 !important;
+}
+
 .btn-primary {
     background-color: #038ccb;
 }

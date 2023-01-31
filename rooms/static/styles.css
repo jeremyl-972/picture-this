@@ -9,6 +9,10 @@
     gap: 16px;
 }
 
+#guessBtn, #loadBtn {
+    margin-left: 0 !important;
+}
+
 @media screen and (max-width: 300px) {
     #joinRmWelcome {
         font-size: 13px;
@@ -61,6 +65,12 @@
     #announcements {
         font-size: 35px;
     }
+    .dot-carousel {
+        top: 11px;
+        width: 6px;
+        height: 6px;
+        border-radius: 6px;
+    }
     main div h3 {
         font-size: 33px;
     }
@@ -79,6 +89,11 @@
     }
     #guessBtn, #loadBtn {
         font-size: 25px !important;
+    }
+    #loadBtn > span {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        border-width: 0.15em !important;
     }
     #wordDiv {
         font-size: 30px;

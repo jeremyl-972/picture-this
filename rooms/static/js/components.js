@@ -137,17 +137,18 @@ const setImgSize = (image) => {
     const headerStyle = header.currentStyle || getComputedStyle(header);
     const headerHeight = header.clientHeight + parseInt(headerStyle.marginTop, 10) + parseInt(headerStyle.marginBottom, 10);
 
-    let anncmntHeight = 24;
+    let anncmntHeight = 44;
     let wordDivHeight = 24;
     let formHeight = 38;
 
+    if (screen.width >= 750) formHeight = 46;
+
     if (screen.width >= 750 && screen.width < 900) {
-        anncmntHeight = 36;
+        anncmntHeight = 56;
         wordDivHeight = 36;
-        formHeight = 46;
     };
-    if (screen.width >= 900) {
-        anncmntHeight = 42;
+    if (screen.width >= 900 && windowHeight >= 900) {
+        anncmntHeight = 62;
         wordDivHeight = 45;
         formHeight = 60;
     };
@@ -157,19 +158,14 @@ const setImgSize = (image) => {
     let imageHeight =
         windowHeight - navHeight - headerHeight - anncmntHeight - wordDivHeight -
         formHeight - footerHeight;
+    console.log(headerHeight, anncmntHeight, wordDivHeight, formHeight, footerHeight, imageHeight);
     setHeight(`${imageHeight}px`);
         
     if (windowWidth > windowHeight) {
         positionElement('announcements', `${headerHeight - 8}px`);
         positionElement('component', `${headerHeight - 8}px`);
-        // const clock = document.getElementById('announcements');
-        // clock.style.position = 'relative';
-        // clock.style.bottom = `${headerHeight - 8}px`
-        // const component = document.getElementById('component');
-        // component.style.position = 'relative';
-        // component.style.bottom = `${headerHeight - 8}px`;
 
-        imageHeight = imageHeight + (headerHeight - 8) + anncmntHeight + wordDivHeight;  
+        imageHeight = imageHeight + (headerHeight - 8) + anncmntHeight - 10;  
         setHeight(`${imageHeight}px`);
         setWidth(`${imageHeight}px`);
     } else {

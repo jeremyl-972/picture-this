@@ -130,7 +130,9 @@ socket.on('guess_response', (data) => {
 
         clearAll();
         announcementElement.style.marginTop = '45px';
-        announcementElement.append(username === data.username ? `You guessed it. ${data.points} points awarded!` : `${data.username} guessed it. ${data.points} points awarded!`);
+        announcementElement.append(username === data.username ?
+             `You guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!` 
+            : `${data.username} guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!`);
         announceWithLoader('Switching turns');
         setTimeout(() => {
             if (username === data.username) component.append(difficulty_buttons());
