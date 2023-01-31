@@ -1,5 +1,5 @@
 // MAIN LOGIC FOR VIEW-ROOM
-announceWithLoader('Connecting to room');
+announceWithLoader('Connecting to room', clear=false);
 
 const socket = io("http://localhost:5000");
 
@@ -19,6 +19,7 @@ let GUESSING_PLAYER = '';
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
     clearAll();
+    announcementElement.style.marginTop = '45px';
     announceWithLoader(`${data.username} has left the room`);
     window.location.href = `http://127.0.0.1:5000/rooms/view-room/${data.room_name}/`;
 });
@@ -27,12 +28,12 @@ socket.on('leave_room_announcement', (data) => {
 socket.on('join_room_announcement', (data) => {
     let joinee_is_self = username === data.username ? true : false;
 
-    clearElement('announcements');
+    announcementElement.innerHTML = '';
     const newNode = make__div();
     newNode.innerHTML = joinee_is_self ? 'You have joined the room' : `<b>${data.username}</b> has joined the room`;
     announcementElement.appendChild(newNode);
     
-    // if player count is 1, initialize difficulty buttons
+    // if player count is 1, initialize wait for second player
     if (data.count === 1){
         DRAWING_PLAYER = username;
         announceWithLoader("Waiting for your opponent to join");
@@ -79,7 +80,6 @@ const choseWord = async (word, diff_level) => {
 };
 
 socket.on('start_timer', () => {
-    heading.removeAttribute('hidden');
     component.removeAttribute('hidden');
     startTimer();
 });
@@ -128,7 +128,8 @@ socket.on('guess_response', (data) => {
         GUESSING_PLAYER = TEMP;
         CLIENT_GUESSING = !CLIENT_GUESSING;
 
-        clearElement('announcements');
+        clearAll();
+        announcementElement.style.marginTop = '45px';
         announcementElement.append(username === data.username ? `You guessed it. ${data.points} points awarded!` : `${data.username} guessed it. ${data.points} points awarded!`);
         announceWithLoader('Switching turns');
         setTimeout(() => {
@@ -156,7 +157,8 @@ const timed_out = () => {
     let TEMP = DRAWING_PLAYER;
     DRAWING_PLAYER = GUESSING_PLAYER;
     GUESSING_PLAYER = TEMP;
-    clearAll();
+    announcementElement.innerHTML = '';
+    clearComponent();
     announceWithLoader("Time's up! Switching turns");
     if (CLIENT_GUESSING) {
         CLIENT_GUESSING = !CLIENT_GUESSING;

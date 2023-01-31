@@ -1,14 +1,17 @@
 {% extends 'index.html' %}
+{% block link %}
+    <link rel="stylesheet" href="/rooms/static/styles.css">
+{% endblock %}
 
 {% block header %}
-<div class="center-up-flex-column mt-2 mb-3">
+<div class="center-up-flex-column mt-4 mb-3">
     <h1 class="center-up-flex-row">{% block title %}Join Room{% endblock %}</h1> 
 </div>
 {% endblock %}
 
 {% block main %}
     <div class="center-up-flex-column">
-        <h3 class="mb-4">Welcome <strong>{{username}}</strong>. Select a room or <a id="create-anchorTag" style="color:#038ccb;">create one</a></h3>
+        <h3 id="joinRmWelcome" class="mb-4">Welcome <strong>{{username}}</strong>. Select a room or <a id="create-anchorTag" style="color:#038ccb;">create one</a></h3>
 
         <form method="post" id="joinRoomForm" class="center-up-flex-column w-100"> 
             <div class="form-group w-50">
@@ -21,8 +24,8 @@
                 </select>
             </div>
 
-            <button disabled id="joinRoomBtn" onclick="toggle('joinRoomBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Go To Room</button>
-            <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
+            <button disabled id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Go To Room</button>
+            <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Loading...
             </button>
@@ -43,7 +46,7 @@
         document.getElementById('roomSelect').addEventListener('change', () =>{
         const select = document.getElementById('roomSelect');
         if (select.value != 'none') {
-                document.getElementById('joinRoomBtn').removeAttribute('disabled');
+                document.getElementById('Btn').removeAttribute('disabled');
             };
         }); 
     </script>

@@ -4,20 +4,16 @@
 {% endblock %}
 
 {% block header %}
-<div class="flex-row-between  m-2" style="width:auto">
-    <h6 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: {{ room_name }}</h6>
+<div class="flex-row-between" style="width:auto">
+    <h6 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: <br>{{ room_name }}</h6>
     <h6 id="scoreboard">Score: 0</h6> 
 </div>
 {% endblock %}
 
 {% block main %}
-    <h5 id="announcements" class="center-up-flex-column px-3 mt-2 mb-3"></h5>
-
-    <div class="center-up-flex-row">
-        <h4 id="heading"></h4>
-    </div>
+    <h5 id="announcements" class="center-up-flex-column"></h5>
     
-    <div class="center-up-flex-column">
+    <div id="componentContainer" class="center-up-flex-column">
         <div id="component"></div>
     </div>
     
@@ -30,7 +26,10 @@
     <script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
     <script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
-    <!-- <script src="{{url_for('rooms.static', filename='js/index.js')}}"></script> -->
+    <script>
+        const content = document.querySelector('.content');
+        content.classList.remove('content');
+    </script>
 
 {% endblock %}
 

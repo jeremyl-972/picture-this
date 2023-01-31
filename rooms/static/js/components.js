@@ -1,25 +1,34 @@
 const announcementElement = document.getElementById('announcements');
-const heading = document.getElementById("heading");
+announcementElement.style.marginTop = '45px';
 const component = document.getElementById("component");
 
-const clearElement = (id) => {
-    const element = document.getElementById(id);
-    element.innerHTML = '';
+const clearAnnouncements = () => {
+    announcementElement.innerHTML = '';
+    announcementElement.style.marginTop = 0;
+    announcementElement.style.marginBottom = 0;
 };
 
-const clearAll = () => {
-    announcementElement.innerHTML = '';
-    heading.innerHTML = '';
+const clearComponent = () => {
     component.innerHTML = '';
 };
 
-const setHeading = (text) => {
-    clearElement('heading');
-    heading.innerHTML = text;
+const clearAll = () => {
+    clearAnnouncements();
+    clearComponent();
 };
 
+const announce = (message, clear) => {
+    if (clear) {
+        clearAnnouncements();
+        announcementElement.style.marginTop = 0;
+    } 
+    const node = document.createTextNode(message);
+    announcementElement.appendChild(node);
+};
+
+
 const announceWithLoader = (message, clear) => {
-    if (clear) clearElement('announcements');
+    if (clear) clearAnnouncements();;
     announcementElement.append(loader_component(message));
 };
 
@@ -69,16 +78,18 @@ const create_buttons_array = (list, style, added_class, onClick) => {
 
 // create difficulty_buttons
 const difficulty_buttons = () => {
-    clearAll();
+    announcementElement.style.marginTop = '45px';
+    announcementElement.innerHTML = '';
+    clearComponent();
     const onClick = async (e) => {
-        clearAll();
-        announceWithLoader("Loading", clear=true);
+        announcementElement.innerHTML = '';
+        announceWithLoader("Loading", clear=false);
+        clearComponent();
         const diff_level = e.currentTarget.value;
         await fetch(`/rooms/get_words/${diff_level}`).then(response => {
             response.json().then(list => {
                 //  on click, create and display word_buttons
                 wordsContainer = word_buttons(list, diff_level);
-                clearElement('announcements');
                 component.appendChild(wordsContainer);
             });
         });
@@ -87,43 +98,105 @@ const difficulty_buttons = () => {
     const btnContainer = create_buttons_array(
         diff_ranges, "width:100px", 'difficultyBtn', onClick
     );
-    setHeading('Select Difficulty');
+    announce('Select Difficulty', clear=false);
     return btnContainer;
 };
 
 // create word_buttons and on click, initialize and display canvas 
 const word_buttons = (list, diff_level) => {
     const onClick = async (e) => {
-        clearElement('heading');
-        clearElement('component');
-        announceWithLoader("Loading", clear=true)
+        clearComponent();
+        announcementElement.innerHTML = '';
+        announceWithLoader('Get ready to draw!', clear=false);
         const word = e.currentTarget.value;
         const wordDiv = make__div("center-up-flex-column");
+        wordDiv.setAttribute('id', 'wordDiv')
         wordDiv.innerText = word;
-        // on click, display canvas
+        // on click, create canvas but hide and display with time clock
         const canvasContainer = make_canvas();
-        clearElement('component');
-        setHeading('Start Drawing!');
         component.append(wordDiv, canvasContainer);
         new DrawableCanvasElement("canvas", "clearBtn", onEmitSketch);
-        heading.setAttribute('hidden', 'hidden')
         component.setAttribute('hidden', 'hidden')
         choseWord(word, diff_level);
     };
     const btnContainer = create_buttons_array(
         list, "width:100px", 'wordBtn', onClick
     );
-    setHeading('Choose A Word');
+    announcementElement.innerHTML = '';
+    announce('Choose A Word!', clear=false);
     return btnContainer;
 }
 
+const setImgSize = (image) => {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    const navHeight = document.getElementById('mainNavbar').clientHeight;
+
+    const header = document.getElementById('header');
+    const headerStyle = header.currentStyle || getComputedStyle(header);
+    const headerHeight = header.clientHeight + parseInt(headerStyle.marginTop, 10) + parseInt(headerStyle.marginBottom, 10);
+
+    let anncmntHeight = 24;
+    let wordDivHeight = 24;
+    let formHeight = 38;
+
+    if (screen.width >= 750 && screen.width < 900) {
+        anncmntHeight = 36;
+        wordDivHeight = 36;
+        formHeight = 46;
+    };
+    if (screen.width >= 900) {
+        anncmntHeight = 42;
+        wordDivHeight = 45;
+        formHeight = 60;
+    };
+
+    const footerHeight = document.getElementById('footer').clientHeight;
+
+    let imageHeight =
+        windowHeight - navHeight - headerHeight - anncmntHeight - wordDivHeight -
+        formHeight - footerHeight;
+    setHeight(`${imageHeight}px`);
+        
+    if (windowWidth > windowHeight) {
+        positionElement('announcements', `${headerHeight - 8}px`);
+        positionElement('component', `${headerHeight - 8}px`);
+        // const clock = document.getElementById('announcements');
+        // clock.style.position = 'relative';
+        // clock.style.bottom = `${headerHeight - 8}px`
+        // const component = document.getElementById('component');
+        // component.style.position = 'relative';
+        // component.style.bottom = `${headerHeight - 8}px`;
+
+        imageHeight = imageHeight + (headerHeight - 8) + anncmntHeight + wordDivHeight;  
+        setHeight(`${imageHeight}px`);
+        setWidth(`${imageHeight}px`);
+    } else {
+        if (windowWidth > 970) setWidth('970px');
+        else {setWidth(`${windowWidth - 20}px`)};
+    }
+    
+    function setHeight(value) {
+        image.setAttribute('height', value);
+    };
+    function setWidth(value) {
+        image.setAttribute('width', value);
+    };
+    function positionElement(id, bottom) {
+        const element = document.getElementById(id);
+        element.style.position = 'relative';
+        element.style.bottom = bottom;
+    }
+};
+
 const make_blank_canvas = (url) => {
     const img = new Image;
-    img.setAttribute('width', '300px');
-    img.setAttribute('height', '350px');
+    setImgSize(img);
     img.style.backgroundColor = "aliceblue";
 
     const imgContainer = make__div("center-up-flex-column");
+    imgContainer.setAttribute('id', 'image')
     imgContainer.appendChild(img);
     if (url) {
         img.src = url;
@@ -133,7 +206,7 @@ const make_blank_canvas = (url) => {
 
 const getting_sketch = (data) => {
     const imgContainer = make_blank_canvas(data.url);
-    clearElement('component');
+    clearComponent();
     component.appendChild(imgContainer);
 };
 
@@ -164,10 +237,15 @@ const make_guess_form = () => {
             document.getElementById('guessBtn').setAttribute('disabled', 'disabled');
         };
     });
+    guessInput.style.zIndex = '1';
+    onClickEnter(guessInput, guessBtn);
 
+    const canvasWidth = document.getElementById('image').clientWidth;
     const guessForm = make__div("center-up-flex-row");
-    guessForm.style.maxWidth = '300px';
-    guessForm.append(guessInput, guessBtn, loadBtn);
+    guessForm.setAttribute('id', 'guessForm');
+
+    guessForm.style.maxWidth = `${canvasWidth}px`;
+    guessForm.append(guessBtn, loadBtn, guessInput);
 
     return guessForm;
 };
@@ -175,6 +253,8 @@ const make_guess_form = () => {
 const setWaitingScreen = (name) => {
     clearAll();
     announceWithLoader(`Waiting for ${name} to draw`);
+    announcementElement.style.marginBottom = '10px';
+    announcementElement.style.marginTop = '10px';
     const imgContainer = make_blank_canvas('');
     component.append(imgContainer);
 };
@@ -183,8 +263,10 @@ let myInterval;
 const startTimer = () => {
     const countdownElement = make__div('');
     countdownElement.setAttribute('id', 'countdownElement');
-    countdownElement.innerText = ":15";
-    clearElement('announcements');
+    countdownElement.innerText = ":1000";
+    clearAnnouncements();
+    announcementElement.style.marginTop = '10px';
+    announcementElement.style.marginBottom = '10px';
     announcementElement.append(countdownElement);
     
     myInterval = setInterval(() => {
