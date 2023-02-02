@@ -104,4 +104,4 @@ def load_user(username):
     return get_user(username)
 
 if __name__ == "__main__":
-    socketio.run(application, debug=True)
+    socketio.run(application)
