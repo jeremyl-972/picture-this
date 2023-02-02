@@ -28,7 +28,7 @@ const announce = (message, clear) => {
 
 
 const announceWithLoader = (message, clear) => {
-    if (clear) clearAnnouncements();;
+    if (clear) clearAnnouncements();
     announcementElement.append(loader_component(message));
 };
 
@@ -158,7 +158,7 @@ const setImgSize = (image) => {
     let imageHeight =
         windowHeight - navHeight - headerHeight - anncmntHeight - wordDivHeight -
         formHeight - footerHeight;
-    console.log(headerHeight, anncmntHeight, wordDivHeight, formHeight, footerHeight, imageHeight);
+    // console.log(headerHeight, anncmntHeight, wordDivHeight, formHeight, footerHeight, imageHeight);
     setHeight(`${imageHeight}px`);
         
     if (windowWidth > windowHeight) {
@@ -259,7 +259,7 @@ let myInterval;
 const startTimer = () => {
     const countdownElement = make__div('');
     countdownElement.setAttribute('id', 'countdownElement');
-    countdownElement.innerText = ":1000";
+    countdownElement.innerText = ":90";
     clearAnnouncements();
     announcementElement.style.marginTop = '10px';
     announcementElement.style.marginBottom = '10px';

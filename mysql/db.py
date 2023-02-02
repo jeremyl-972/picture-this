@@ -112,16 +112,21 @@ def get_connected_members(room_name):
     close_db()
     return connected_members
 
-
-def save_sketch(room_name, dataUrl, artist_id, created_at):
-    db['cur'].execute("INSERT INTO sketches (room_name, dataUrl, created_by, created_at) VALUES(%s, %s, %s, %s)", (room_name, dataUrl, artist_id, created_at))
-    db['conn'].commit()
-    close_db()
-    
-
 def get_word_rows(int_list):
     db["cur"].execute("SELECT word FROM words WHERE id IN%(int_list)s", {'int_list': tuple(int_list)})
     word_dict_list = list(db["cur"].fetchall())        
     close_db()
     word_list = [dict['word'] for dict in word_dict_list]
     return word_list
+
+def get_top_score(room_name):
+    db["cur"].execute("SELECT high_score FROM rooms WHERE name = %s", (room_name))
+    scoreDict = db["cur"].fetchone()
+    close_db()
+    score = scoreDict['high_score']
+    return score
+
+def update_top_score(score, room_name):
+    db["cur"].execute("UPDATE rooms SET high_score = %s WHERE name = %s", (score, room_name))
+    db["conn"].commit()
+    close_db()

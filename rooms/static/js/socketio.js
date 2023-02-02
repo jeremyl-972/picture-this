@@ -18,6 +18,7 @@ let GUESSING_PLAYER = '';
 
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
+    document.getElementById('score').innerText = `Score: 0`
     clearAll();
     announcementElement.style.marginTop = '45px';
     announceWithLoader(`${data.username} has left the room`);
@@ -26,6 +27,7 @@ socket.on('leave_room_announcement', (data) => {
 
 // component initialized after join_room announcment
 socket.on('join_room_announcement', (data) => {
+    document.getElementById('topScore').innerText = `Top Score: ${data.topScore}`
     let joinee_is_self = username === data.username ? true : false;
 
     announcementElement.innerHTML = '';
@@ -118,26 +120,39 @@ const onGuess = (guess) => {
 
 
 socket.on('guess_response', (data) => {
-    console.log(data);
+    // on correct guess
     if (data.message === 'Yes!') {
-        clearInterval(myInterval);
-        document.getElementById('scoreboard').innerText = `Score: ${data.score}`
-        
+        // swap players
         let TEMP = DRAWING_PLAYER;
         DRAWING_PLAYER = GUESSING_PLAYER;
         GUESSING_PLAYER = TEMP;
         CLIENT_GUESSING = !CLIENT_GUESSING;
-
+        // clear timer
+        clearInterval(myInterval);
         clearAll();
+        // update scoreboard
+        if (data.keepUpdating) document.getElementById('topScore').innerText = `Top Score: ${data.score}`;
+        document.getElementById('score').innerText = `Score: ${data.score}`
+        // update announcements
         announcementElement.style.marginTop = '45px';
-        announcementElement.append(username === data.username ?
-             `You guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!` 
-            : `${data.username} guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!`);
-        announceWithLoader('Switching turns');
+        announcePointsScored();
+
+        console.log(data.toppedScore);
+
+        if (data.toppedScore) {
+            setTimeout(() => {
+                announcementElement.innerHTML = '';
+                announce('Top Score Achieved!');
+                announceWithLoader('Switching turns');
+            }, 2000);
+        } else {
+            announceWithLoader('Switching turns');
+        };
+
         setTimeout(() => {
             if (username === data.username) component.append(difficulty_buttons());
             else setWaitingScreen(data.username);
-        }, 3000);
+        }, 5000);
 
     } else {
         if (username === data.username) {
@@ -151,6 +166,11 @@ socket.on('guess_response', (data) => {
                 }, 1500);
             };
         };
+    };
+    function announcePointsScored() {
+        announce(username === data.username ?
+            `You guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!` 
+           : `${data.username} guessed it. ${data.points === 1 ? `${data.points} point` : `${data.points} points`} awarded!`);
     };
 });
 

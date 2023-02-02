@@ -143,6 +143,12 @@ footer > a {
     width: 100%;
 }
 
+.flex-column-end {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 .flex-end {
     display: flex;
     justify-content: flex-end;

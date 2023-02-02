@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from auth.auth import auth
 from rooms.rooms import rooms
-from mysql.db import get_user, connect_to_room, disconnect_from_room, get_connected_members
+from mysql.db import get_user, connect_to_room, disconnect_from_room, get_connected_members, get_top_score, update_top_score
 
 
 thread = None
@@ -35,17 +35,21 @@ def index():
     return render_template("intro.html", data=data)
 
 # WEB SOCKET ACTIVITY STARTS HERE
+score = {'total': 0, 'topScore': 0, 'topped': False}
 @socketio.on('disconnect')
 def disconnect():
+    score['total'] = 0
+    score['topped'] = False
     data = disconnect_from_room(request.sid)
     socketio.emit('leave_room_announcement', {'username': data['username'], 'room_name': data['room_name']}, room=data['room_name'])
-
 
 @socketio.on('join_room')
 def handle_join_room_event(data):
     join_room(data['room'])
     count = connect_to_room(request.sid, data['room'], data['user_id'])
     data['count'] = count
+    score['topScore'] = get_top_score(data['room'])
+    data['topScore'] = score['topScore']
     socketio.emit('join_room_announcement', data, room=data['room'])
 
 
@@ -67,16 +71,23 @@ def chose_word(data):
 def emit_sketch(data):
     socketio.emit('getting_sketch', data, room=data['room'], include_self=False)
 
-score = {'total': 0}
 @socketio.on('sent_guess')
 def sent_guess(data):
     responseData = {}
     responseData['username'] = data['username']
     responseData['message'] = "No!"
+    responseData['toppedScore'] = False
 
     if data['guess'].replace(' ','').lower() == word['word']:
         score['total'] += word['points']
         responseData['score'] = score['total']
+        if score['total'] > score['topScore']:
+            responseData['keepUpdating'] = True
+            if score['topped'] == False:
+                responseData['toppedScore'] = True
+            score['topped'] = True
+            update_top_score(score['total'], data['room'])
+
         responseData['points'] = word['points']
         responseData['message'] = "Yes!"
 

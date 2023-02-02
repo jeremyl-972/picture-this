@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_all_rooms, get_connected_members, save_room, get_room, get_word_rows
+from mysql.db import get_all_rooms, get_connected_members, save_room, get_room, get_word_rows, get_top_score, update_top_score
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
