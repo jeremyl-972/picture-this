@@ -1,7 +1,7 @@
 // MAIN LOGIC FOR VIEW-ROOM
 announceWithLoader('Connecting to room', clear=false);
 
-const socket = io("http://picturethis-env.eba-n9tymngi.ap-northeast-1.elasticbeanstalk.com/");
+const socket = io("http://localhost:5000");
 
 // user joining socketio room from rooms.html or create_room.html
 socket.on('connect', () => {

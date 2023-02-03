@@ -86,13 +86,10 @@ const difficulty_buttons = () => {
         announceWithLoader("Loading", clear=false);
         clearComponent();
         const diff_level = e.currentTarget.value;
-        await fetch(`/rooms/get_words/${diff_level}`).then(response => {
-            response.json().then(list => {
-                //  on click, create and display word_buttons
-                wordsContainer = word_buttons(list, diff_level);
-                component.appendChild(wordsContainer);
-            });
-        });
+        //  on click, create and display word_buttons
+        const wordsList = await get_words(diff_level);
+        wordsContainer = word_buttons(wordsList, diff_level);
+        component.appendChild(wordsContainer);
     };
     const diff_ranges = ['Easy', 'Med', 'Hard'];
     const btnContainer = create_buttons_array(
