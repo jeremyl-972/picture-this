@@ -3,37 +3,40 @@
     <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
 
-{% block header %}
-<div class="flex-row-between" style="width:auto">
-    <h6 class="center-up-flex-row">{% block title %}GameRoom{% endblock %}: <br>{{ room_name }}</h6>
-    <div class="flex-column-end" id="scoreboard">
-        <h6 id="topScore" style="margin-bottom: 0;"></h6>
-        <h6 class="float-right" id="score">Score: 0</h6> 
-    </div>
-</div>
-{% endblock %}
+{% block title %}GameRoom{% endblock %}
 
 {% block main %}
-    <h5 id="announcements" class="center-up-flex-column"></h5>
+    <header class="flex-between" style="width:auto">
+        <div class="column">
+            <h6 id="gameRmSpan" style="margin-bottom: 0;"></h6>
+            <h6 >{{ room_name }}</h6> 
+        </div>
+        <div class="flex-column-end" id="scoreboard">
+            <h6 id="topScore" style="margin-bottom: 0;"></h6>
+            <h6 class="float-right" id="score"><span id="intiScore"></span></h6> 
+        </div>
+    </header>
+
+    <h5 id="announcements" class="center-up-flex column"></h5>
     
-    <div id="componentContainer" class="center-up-flex-column">
+    <div id="componentContainer" class="center-up-flex column">
         <div id="component"></div>
     </div>
-    
-    <script>
-        const username = '{{current_user.username}}';
-        const user_id = '{{current_user.id}}';
-        const room_name = '{{room_name}}';
-    </script>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/httpClient.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
-    <script>
-        const content = document.querySelector('.content');
-        content.classList.remove('content');
-    </script>
-
+{% endblock %}
+{% block scripts %}
+<script>
+    const contentElement = document.querySelector('.content');
+    contentElement.classList.remove('content');
+    const user = '{{current_user.username}}';
+    const user_id = '{{current_user.id}}';
+    const room_name = '{{room_name}}';
+</script>
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
+<script src="{{url_for('rooms.static', filename='js/httpClient.js')}}"></script>
+<script src="{{url_for('rooms.static', filename='js/components.js')}}"></script>
+<script src="{{url_for('rooms.static', filename='js/canvas.js')}}"></script>
+<script src="{{url_for('rooms.static', filename='js/socketio.js')}}"></script>
 {% endblock %}
 

@@ -3,28 +3,35 @@
     <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
 
-{% block header %}
-<div class="center-up-flex-column mt-2 mb-3">
-    <h1 class="center-up-flex-row">{% block title %}Login{% endblock %}</h1> 
-</div>
-{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block main %}
-<form autocomplete="off" action="/auth/login" method="post" class="center-up-flex-column">
+<header class="center-up-flex column mt-2 mb-3">
+    <h1 id="loginHeader" class="center-up-flex"></h1> 
+</header>
+
+<form action="/auth/login" method="post" class="center-up-flex column">
     <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input autofocus class="form-control mx-auto w-auto" id="username" name="username"
+        <label id="usernameLabel" for="username" class="form-label"></label>
+        <input autocomplete autofocus class="form-control mx-auto w-auto" id="username" name="username"
             placeholder="Username" type="text">
     </div>
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        <label id="passwordLabel" for="password" class="form-label"></label>
+        <input autocomplete class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
     </div>
-    <button id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Login</button>
+    <button id="loginBtn" onclick="toggle('loginBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
     <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
+        <span id="loadingText"></span>
     </button>
 </form>
-<script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}
+{% block scripts %}
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script>
+    let user = null;
+</script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 {% endblock %}

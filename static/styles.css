@@ -107,6 +107,13 @@ h1 .brand {
     right: -2px;
 }
 
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 
 footer {
     position: absolute;
@@ -126,21 +133,29 @@ footer > a {
 .prt-3 {
     padding-right: 15px;
 }
+.plt-3 {
+    padding-left: 15px;
+}
 
-.center-up-flex-row, .center-up-flex-column {
+.center-up-flex {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.center-up-flex-column {
+.column {
+    display: flex;
     flex-direction: column;
 }
 
-.flex-row-between {
+.flex-between {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.align-center {
+    align-items: center;
 }
 
 .flex-column-end {
@@ -152,10 +167,6 @@ footer > a {
 .flex-end {
     display: flex;
     justify-content: flex-end;
-}
-
-.wrapper {
-    max-width: 970px;
 }
 
 .index-content {
@@ -186,6 +197,10 @@ footer > a {
     box-shadow: 9990px 0 0 0 #DC7D19, 9999px 0 0 0 #DC7D19, 10008px 0 0 0 #DC7D19;
     animation: dot-carousel 1.5s infinite linear;
 }
+
+.wrapper {
+    max-width: 1350px;
+}
     
 @keyframes dot-carousel {
     0% {
@@ -196,6 +211,12 @@ footer > a {
     }
     100% {
     box-shadow: 9999px 0 0 1px #DC7D19, 10008px 0 0 -1px #DC7D19, 9990px 0 0 -1px #DC7D19;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .wrapper {
+        max-width: 970px;
     }
 }
 
@@ -265,11 +286,11 @@ footer > a {
     .responsive-img {
         max-width: 425px;
     }
-    #Btn, #LoadBtn {
+    .Btn, #LoadBtn {
         width: 185px !important;
         font-size: 30px;
     }
-    #Btn {
+    .Btn {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -280,7 +301,7 @@ footer > a {
         height: 1.5rem !important;
         border-width: 0.15em !important;
     }
-    .github-container{
+    .github-container, .lang-btn {
         font-size: 20px;
     }
     .github-container > a > i {
@@ -311,7 +332,7 @@ footer > a {
     .responsive-img {
         max-width: 525px;
     }
-    #Btn, #LoadBtn {
+    .Btn, #LoadBtn {
         width: 200px !important;
         font-size: 30px;
     }
@@ -326,7 +347,7 @@ footer > a {
         height: 1.5rem !important;
         border-width: 0.15em !important;
     }
-    .github-container{
+    .github-container, .lang-btn {
         font-size: 25px;
     }
     .github-container > a > i {
@@ -338,4 +359,64 @@ footer > a {
     .content {
         margin-top: 100px;
     }
+}
+
+.langSelect {
+    width: 150px;
+    position: relative;
+}
+
+.lang-list {
+    width: inherit;
+}
+
+.translation {
+    border: 1px solid #0d6efd;
+    border-radius: 5px;
+}
+
+.translation.active {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.lang-btn {
+    width: inherit;
+    color: #DC7D19 !important;
+    background-color: #ffe100f0;
+    padding: 1px 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.lang-btn:hover {
+    color: #0d6efd !important;
+}
+
+.select-items {
+    border: none;
+    text-align: center;
+    border-left: 1px solid #0d6efd;
+    border-right: 1px solid #0d6efd;
+    position: absolute;
+    z-index: 99;
+    width: inherit;
+}
+
+.select-items.top {
+    border-top: 1px solid #0d6efd;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 452%;
+}
+.select-items.second {
+    bottom: 368%;
+}
+.select-items.third {
+    bottom: 289%;
+}
+.select-items.fourth {
+    bottom: 194%;
+}
+.select-items.bottom {
+    bottom: 100%;
 }

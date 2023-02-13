@@ -23,6 +23,14 @@
     align-items: center;
 }
 
+#createRoomATag {
+    text-decoration: none;
+}
+
+#createOneSpan {
+    color:#038ccb;
+}
+
 @media screen and (max-width: 300px) {
     #joinRmWelcome {
         font-size: 13px;
@@ -39,10 +47,10 @@
 }
 /* iPad */
 @media screen and (min-width: 750px) and (max-width: 899px) and (min-height: 900px) {
-    header > div > h1 {
+    header > h1 {
         font-size: 50px;
     }
-    header > div > h6, #scoreboard > h6 {
+    header > h6, #scoreboard > h6 {
         font-size: 19px;
     }
     main div h3 {
@@ -60,16 +68,16 @@
     select {
         font-size: 26px !important;
     }
-    #Btn, #LoadBtn {
+    .Btn, #LoadBtn {
         font-size: 25px;
     }
 }
 /* Surface Pro vertically */
 @media screen and (min-width: 900px) and (min-height: 900px) {
-    header > div > h1 {
+    header > h1 {
         font-size: 50px;
     }
-    header > div > h6, #scoreboard > h6 {
+    header > h6, #scoreboard > h6 {
         font-size: 25px;
     }
     #announcements {

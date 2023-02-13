@@ -3,51 +3,60 @@
     <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
 
-{% block header %}
-<div class="center-up-flex-column mt-4 mb-3">
-    <h1 class="center-up-flex-row">{% block title %}Join Room{% endblock %}</h1> 
-</div>
-{% endblock %}
+{% block title %}Join Room{% endblock %}
 
 {% block main %}
-    <div class="center-up-flex-column">
-        <h3 id="joinRmWelcome" class="mb-4">Welcome <strong>{{username}}</strong>. Select a room or <a id="create-anchorTag" style="color:#038ccb;">create one</a></h3>
-
-        <form method="post" id="joinRoomForm" class="center-up-flex-column w-100"> 
+    <header class="center-up-flex column mt-4 mb-3">
+        <h1 id="joinRoomHeader" class="center-up-flex"></h1> 
+    </header>
+    <div class="center-up-flex column">
+        {% if language == 'iw' %}
+        <h3 id="joinRmWelcome" class="mb-4"><span id="selectRoomSpan"></span><a href="{{url_for('rooms.create_room')}}" id="createRoomATag"><span id="createOneSpan"></span></a><span id="welcomeReceiver"><strong> {{username}}</strong></span><span id="welcomeSpan"></span></h3>
+        {% elif language == 'en-US' %}
+        <h3 id="joinRmWelcome" class="mb-4"><span id="welcomeSpan"></span><span id="welcomeReceiver"><strong> {{username}}</strong></span><span id="selectRoomSpan"></span><a href="{{url_for('rooms.create_room')}}" id="createRoomATag"><span id="createOneSpan"></span></a></h3>
+        {% endif %}
+        <form method="post" id="joinRoomForm" class="center-up-flex column w-100"> 
             <div class="form-group w-50">
-                <label class="mb-1" for="select">Select Room</label>
+                <label id="selectRoomLabel" class="mb-1" for="roomSelect"></label>
                 <select id="roomSelect" name="roomSelect" class="form-select mb-2" type="select" aria-label="room select dropdown">
-                    <option value="">--none--</option>
+                    <option id="selectInitVal" value="">--none--</option>
                     {% for room in rooms %}
                     <option>{{room}}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <button disabled id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Go To Room</button>
+            <button disabled id="goToRoomBtn" onclick="toggle('goToRoomBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
             <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
+                <span id="loadingText"></span>
             </button>
         </form>
     </div>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
-    <script>
-        const createTag = document.getElementById('create-anchorTag');
-        createTag.onmouseover = (e) => {
-            e.currentTarget.style.color ='#0a58ca';
-            e.currentTarget.style.cursor ='pointer';
-        };
-        createTag.onmouseout = (e) => {
-            e.currentTarget.style.color ='#038ccb';
-            e.currentTarget.style.cursor ='default';
-        };
+{% endblock %}
+{% block scripts %}
+<script>
+    const user = '{{username}}';
+</script>
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
+<script>
+    const createTag = document.getElementById('createRoomATag');
+    createTag.onmouseover = (e) => {
+        e.currentTarget.style.color ='#0a58ca';
+        e.currentTarget.style.cursor ='pointer';
+    };
+    createTag.onmouseout = (e) => {
+        e.currentTarget.style.color ='#038ccb';
+        e.currentTarget.style.cursor ='default';
+    };
 
-        document.getElementById('roomSelect').addEventListener('change', () =>{
-        const select = document.getElementById('roomSelect');
-        if (select.value != 'none') {
-                document.getElementById('Btn').removeAttribute('disabled');
-            };
-        }); 
-    </script>
+    const roomSelect = document.getElementById('roomSelect');
+    roomSelect.addEventListener('change', () => {
+        if (roomSelect.value != 'none') {
+            document.getElementById('goToRoomBtn').removeAttribute('disabled');
+        };
+    }); 
+</script>
 {% endblock %}

@@ -3,7 +3,7 @@ import random
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_required, current_user
 
-from mysql.db import get_all_rooms, get_connected_members, save_room, get_room, get_word_rows, get_top_score, update_top_score
+from mysql.db import get_all_rooms, get_connected_members, save_room, get_room, get_word_rows, update_user_language, get_user_language
 
 rooms = Blueprint("rooms", __name__, static_folder="static",
                   template_folder="templates")
@@ -21,7 +21,7 @@ def create_room():
             return redirect(url_for('rooms.view_room', room_name=room_name))
         else:
             message = "Failed to create room"
-    return render_template('create_room.html', message=message)
+    return render_template('create_room.html', message=message, username=current_user.username)
 
 
 @rooms.route("/choose-room", methods=['GET', 'POST'])
@@ -43,7 +43,7 @@ def choose_room():
                 available_rooms.append(room['name'])
 
         if available_rooms:
-            return render_template("join_room.html", username=username, rooms=available_rooms)
+            return render_template("join_room.html", username=username, rooms=available_rooms, language=get_user_language(username))
         flash('No rooms are available. Create a room.')
         return redirect(url_for("rooms.create_room"))
 

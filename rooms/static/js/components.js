@@ -91,11 +91,12 @@ const difficulty_buttons = () => {
         wordsContainer = word_buttons(wordsList, diff_level);
         component.appendChild(wordsContainer);
     };
-    const diff_ranges = ['Easy', 'Med', 'Hard'];
+    // const diff_ranges = ['Easy', 'Med', 'Hard'];
+    const diff_ranges = [t('viewRoom.easy'), t('viewRoom.med'), t('viewRoom.hard')];
     const btnContainer = create_buttons_array(
         diff_ranges, "width:100px", 'difficultyBtn', onClick
     );
-    announce('Select Difficulty', clear=false);
+    announce(t('viewRoom.selectDifficulty'), clear=false);
     return btnContainer;
 };
 
@@ -106,7 +107,7 @@ const word_buttons = (list, diff_level) => {
         announcementElement.innerHTML = '';
         announceWithLoader('Get ready to draw!', clear=false);
         const word = e.currentTarget.value;
-        const wordDiv = make__div("center-up-flex-column");
+        const wordDiv = make__div("center-up-flex column");
         wordDiv.setAttribute('id', 'wordDiv')
         wordDiv.innerText = word;
         // on click, create canvas but hide and display with time clock
@@ -188,7 +189,7 @@ const make_blank_canvas = (url) => {
     setImgSize(img);
     img.style.backgroundColor = "aliceblue";
 
-    const imgContainer = make__div("center-up-flex-column");
+    const imgContainer = make__div("center-up-flex column");
     imgContainer.setAttribute('id', 'image')
     imgContainer.appendChild(img);
     if (url) {
@@ -234,7 +235,7 @@ const make_guess_form = () => {
     onClickEnter(guessInput, guessBtn);
 
     const canvasWidth = document.getElementById('image').clientWidth;
-    const guessForm = make__div("center-up-flex-row");
+    const guessForm = make__div("center-up-flex");
     guessForm.setAttribute('id', 'guessForm');
 
     guessForm.style.maxWidth = `${canvasWidth}px`;

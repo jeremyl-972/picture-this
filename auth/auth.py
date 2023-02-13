@@ -33,6 +33,8 @@ def login():
                 return redirect(url_for("index"))    
 
         flash(error)
+        return redirect(url_for("auth.login"))    
+
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
@@ -56,6 +58,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         confirmation = request.form['confirmation']
+        language = request.form['language']
         error = None
 
         if not username:
@@ -68,7 +71,7 @@ def register():
             error = 'Password confirmation does not match.'
         else:
             # save user to db
-            status = save_user(username, password)
+            status = save_user(username, password, language)
             # username already registered
             if status["error"] == True:
                 error = status["error"]

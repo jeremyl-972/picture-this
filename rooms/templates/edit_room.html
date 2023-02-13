@@ -1,32 +1,35 @@
 {% extends 'index.html' %}
 
 {% block header %}
-<div class="center-up-flex-column">
-    <h1 class="center-up-flex-row">{% block title %}EditRoom{% endblock %}</h1> 
+<div class="center-up-flex column">
+    <h1 class="center-up-flex">{% block title %}EditRoom{% endblock %}</h1> 
 </div>
 {% endblock %}
 
 {% block main %}
-    <form method="post" class="center-up-flex-column">
+    <form method="post" class="center-up-flex column">
         <div class="mb-3">
             <label for="room_name" class="form-label">Room Name:</label>
             <input autocomplete="off" class="form-control mx-auto w-auto" type="text" name="room_name" value="{{ room.name }}"
                 placeholder="Roomname">
         </div>
 
-        <button id="updateBtn" onclick="toggle('updateBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Update</button>
+        <button id="updateBtn" onclick="toggle('updateBtn', 'loadingBtn');" class="btn btn-primary Btn" style="width:120px" type="submit">Update</button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Loading...
         </button>
     </form>
-
-    <script>
-        const username = '{{username}}';
-        const room = '{{room}}';
-        const user_id = '{{user_id}}';
-        const room_id = '{{room_id}}';
-    </script>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
-    <script src="{{url_for('rooms.static', filename='index.js')}}"></script>
+{% endblock %}
+{% block scripts %}
+<script>
+    const user = '{{username}}';
+    const room = '{{room}}';
+    const user_id = '{{user_id}}';
+    const room_id = '{{room_id}}';
+</script>
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
+<script src="{{url_for('rooms.static', filename='index.js')}}"></script>
 {% endblock %}

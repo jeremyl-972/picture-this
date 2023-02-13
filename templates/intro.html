@@ -1,8 +1,8 @@
 {% extends 'index.html' %}
-
+{% block title %}Intro{% endblock %}
 {% block main %}
-    <div class="center-up-flex-column">
-        <h1 class="center-up-flex-row intro">{% block title %}Fast Sketching, Fun Guessing!{% endblock %}</h1>
+    <div class="center-up-flex column">
+        <h1 id="intro" class="center-up-flex-row intro"></h1>
         <h1 class="center-up-flex-row brand mb-4">
             {{ brand() }} <!-- defined in index.html  -->
         </h1>
@@ -11,15 +11,20 @@
             <img src="../static/family.png" alt="Family Sketching" class="responsive-img frame mb-1">
 
             <form class="Btn" action="{{ url_for('rooms.choose_room') }}">
-                <button id="Btn" onclick="toggle('Btn', 'LoadBtn');" class="btn btn-primary" style="width:120px" type="submit">Start</button>
+                <button id="startBtn" onclick="toggle('startBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
                 <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Loading...
+                    <span id="loadingText"></span>
                 </button>
-            </form>
-            
+            </form>  
         </div>
-        
     </div>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}
+{% block scripts %}
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script>
+    const user = '{{username}}';
+</script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 {% endblock %}

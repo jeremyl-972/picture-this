@@ -1,24 +1,36 @@
 {% extends 'index.html' %}
 
-{% block header %}
-<div class="center-up-flex-column mt-4 mb-3">
-    <h1 class="center-up-flex-row">{% block title %}Create Room{% endblock %}</h1> 
-</div>
+{% block link %}
+    <link rel="stylesheet" href="/rooms/static/styles.css">
 {% endblock %}
 
+{% block title %}Create Room{% endblock %}
+
 {% block main %}
-    <form method="post" class="center-up-flex-column">
+    <div class="center-up-flex column mt-4 mb-3">
+        <h1 id="createRoomHeader" class="center-up-flex"></h1> 
+    </div>
+    <form method="post" class="center-up-flex column">
         <div class="mb-3">
-            <label class="form-label" for="room_name">Room Name:</label>
-            <input type="text" name="room_name" class="form-control mx-auto w-auto">
+            <label id="roomnameLabel" class="form-label" for="room_name"></label>
+            <input autocomplete type="text" name="room_name" class="form-control mx-auto w-auto">
         </div>
 
-        <button id="logBtn" onclick="toggle('logBtn', 'loadingBtn');" class="btn btn-primary" style="width:120px" type="submit">Submit</button>
+        <button id="createRoomBtn" onclick="toggle('createRoomBtn', 'loadingBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
+            <span id="loadingText"></span>
         </button>    
     </form>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const user = '{{username}}'; 
+</script>
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 {% endblock %}
 

@@ -30,13 +30,12 @@ def get_user(username):
     error = None
     user = None
 
-    try:
-         # Query database for username
-        db['cur'].execute("SELECT * FROM users WHERE username = %s", username)
-        rows = db['cur'].fetchall()
-        close_db() 
+    # Query database for username
+    db['cur'].execute("SELECT * FROM users WHERE username = %s", username)
+    rows = db['cur'].fetchall()
+    close_db()
     # Ensure username exists and password is correct    
-    except len(rows) != 1:
+    if len(rows) == 0:
         error = f"User {username} does not exist."
         return error
     else:
@@ -45,7 +44,7 @@ def get_user(username):
         return user
 
 
-def save_user(username, password):
+def save_user(username, password, language):
     user = None
     error = None
     
@@ -59,10 +58,21 @@ def save_user(username, password):
     else:
         hash = generate_password_hash(
         password, method='pbkdf2:sha256', salt_length=8)
-        db['cur'].execute("INSERT INTO users (username, hash) VALUES(%s, %s)", (username, hash))
+        db['cur'].execute("INSERT INTO users (username, hash, language) VALUES(%s, %s, %s)", (username, hash, language))
         db["conn"].commit()
         close_db()
         return {"error": False, "message": "Successfully registered!"}
+
+def get_user_language(username):
+    db["cur"].execute("SELECT language FROM users WHERE username = %s", (username))
+    language = db["cur"].fetchone()
+    close_db()
+    return language['language']
+
+def update_user_language(userLang, username):
+    db["cur"].execute("UPDATE users SET language = %s WHERE username = %s", (userLang, username))
+    db["conn"].commit()
+    close_db()
 
 
 def save_room(room_name, created_by):
@@ -112,8 +122,8 @@ def get_connected_members(room_name):
     close_db()
     return connected_members
 
-def get_word_rows(int_list):
-    db["cur"].execute("SELECT word FROM words WHERE id IN%(int_list)s", {'int_list': tuple(int_list)})
+def get_word_rows(integer_list):
+    db["cur"].execute("SELECT word FROM words WHERE id IN%(integer_list)s", {'integer_list': tuple(integer_list)})
     word_dict_list = list(db["cur"].fetchall())        
     close_db()
     word_list = [dict['word'] for dict in word_dict_list]

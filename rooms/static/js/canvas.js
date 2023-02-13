@@ -102,16 +102,20 @@ class DrawableCanvasElement {
 // /////////////////////////////////////////////////////////////////////////////////////
 
 const make_canvas = () => {
-    const canvasContainer = make__div("center-up-flex-column");
+    const canvasContainer = make__div("center-up-flex column");
     
     const canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'canvas');
     canvas.style.backgroundColor = "aliceblue";
 
-    const btnContainer = make__div("flex-row-between");
+    const btnContainer = make__div("flex-between");
     btnContainer.setAttribute('id', 'clearBtnContainer')
+
+    const guessBox = make__div('guessBox');
+    guessBox.setAttribute('id', 'guessBox');
+
     const clearBtn = make_button('', 'margin-left: 0 !important', '', "Clear", null, "clearBtn");
-    btnContainer.appendChild(clearBtn); 
+    btnContainer.append(clearBtn, guessBox); 
 
     setImgSize(canvas);
     canvasContainer.append(canvas, btnContainer);
