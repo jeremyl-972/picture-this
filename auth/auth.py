@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_user, login_required, logout_user, current_user
 
-from mysql.db import get_user, save_user
+from mysql.db import get_user, save_user, update_user_language
 
 auth = Blueprint("auth", __name__, static_folder="static",
                   template_folder="templates")
@@ -15,6 +15,8 @@ def login():
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
+        language = request.form['language']
+        print(language)
         user = None
         error = None
 
@@ -29,6 +31,7 @@ def login():
             elif not user.check_password(password):
                 error = "Password invalid."
             else:
+                update_user_language(language, username)
                 login_user(user)              
                 return redirect(url_for("index"))    
 

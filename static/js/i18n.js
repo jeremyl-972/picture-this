@@ -1,7 +1,6 @@
 const langBtn = document.getElementById('langBtn');
 const langList = document.getElementById('langList');
 const langSpan = document.getElementById('langSpan');
-
 langBtn.removeAttribute('hidden');
 let language;
 let clickedLangBtn = false;
@@ -36,13 +35,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateContent();
   });
 
-  // hid list when clicking outside langBtn
+  // hide list when clicking outside langBtn
   document.addEventListener('click', (e) => {
     if (!langBtn.contains(e.target)) {
       langList.setAttribute('hidden', 'hidden');
       langBtn.classList.remove('active')
     };
   });
+
 
   langBtn.addEventListener('click', () => {
     langBtn.classList.toggle('active');
@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       clickedLangBtn = true;
       if (document.getElementById('title').innerText == 'Picture This: Join Room') {
         joinRoomWelcome();
+      }
+      if (document.getElementById('title').innerText == 'Picture This: Login') {
+        registerPrompt();
       }
       changeLng(collection[i].getAttributeNode("value").nodeValue);
     });
@@ -75,29 +78,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function updateContent() {
     // send lang to backend only if logged in user clicked langBtn
-    let newClone;
     if (clickedLangBtn) {
       setMainForLoading();
       if (user) await setUserLanguage(i18next.language);
     };
-    
-    // fix the DOM
-    content.style.removeProperty('height');
-    content.removeChild(content.lastElementChild);
-    mainNode.removeAttribute('hidden');
-
+        
+    const titleElement = document.getElementById('title');
+    const title = titleElement.innerText;
+    const langInput = document.getElementById('langInput');
     // manipulate the DOM so form send will carry the language value
-    if (document.getElementById('title').innerText === 'Picture This: Register') {
-      const langInput = document.getElementById('langInput');
+    if (title === 'Picture This: Register' || title === 'Picture This: Login') {
       langInput.setAttribute('value', i18next.language);
-    }
+    };
+    // align registerPrompt elements
+    if (document.getElementById('title').innerText == 'Picture This: Login') {
+      registerPrompt();
+    };
+    // set announcements element to connecting
+    if (document.getElementById('title').innerText == 'Picture This: Gameroom') {
+      document.getElementById('announcements').innerText = t('socketio.connecting');
+    };
     
+    // Run through translations and update content
     const keyNames = Object.keys(pageArrays);
     const values = Object.values(pageArrays);
     for (let i = 0; i < keyNames.length; i++) {
       alterPage(keyNames[i], values[i]);
     };
     clickedLangBtn = false;
+    // fix the DOM
+    content.style.removeProperty('height');
+    content.removeChild(content.lastElementChild);
+    mainNode.removeAttribute('hidden');
   };
   
   
@@ -126,3 +138,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
   };
 });
+
+function registerPrompt() {
+  const signupPrompt = document.getElementById('signupPrompt');
+  const firstTimeSpan = document.getElementById('firstTime').cloneNode(true);
+  const signupAtag = document.getElementById('signupAtag').cloneNode(true);
+  signupPrompt.innerHTML = '';
+  if (i18next.language === 'iw') {
+      signupPrompt.append(signupAtag, firstTimeSpan);
+  } else {
+      signupPrompt.append(firstTimeSpan, signupAtag);
+  };
+};

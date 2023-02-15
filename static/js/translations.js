@@ -1,6 +1,6 @@
 const engTrans = {
     "loadingText": {
-        "loadingText": "Loading...",
+        "loadingText": "Loading",
         "switchSpan": "..."
     },
     "index": {
@@ -16,9 +16,11 @@ const engTrans = {
         "registerHeader": "Register", 
         "usernameLabel": "Username",
         "passwordLabel": "Password",
-        "confirmPswrdLabel": "", 
+        "confirmPswrdLabel": "Confirm Password", 
         "loginBtn": "Login",
-        "registerBtn": "Register" 
+        "registerBtn": "Register",
+        "firstTime": "First time?&#160",
+        "signupAtag": "Sign Up"
     },
     "intro": {
         "intro": "Fast Sketching, Fun Guessing!",
@@ -40,13 +42,7 @@ const engTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "GameRoom:",
-        "intiScore" : "Score: 0",
-        "selectDifficulty": "Select Difficulty",
-        "easy": "Easy",
-        "med": "Med",
-        "hard": "Hard",
-        "": "",
-        "": ""
+        "initScore" : "Score: 0"
     },
     "socketio": {
         "connecting": "Connecting to room",
@@ -59,18 +55,30 @@ const engTrans = {
         "score": "Score:",
         "topped": "Top Score Achieved!",
         "switching": "Switching turns",
-        "selfGuessed": "",
-        "selfGuessed": "",
-        "point": "point",
+        "guessBox": "&#160guessed:&#160",
+        "selfGuessed": "You guessed correct!",
+        "opponentGuessed": "guessed correct!",
+        "point": "1 point",
         "points": "points",
         "awarded": "awarded!",
         "timesUp": "Time's up! Switching turns"
+    },
+    "components": {
+        "waitFor": "Waiting for",
+        "toDraw": "to draw",
+        "selectDifficulty": "Select Difficulty",
+        "easy": "Easy",
+        "med": "Med",
+        "hard": "Hard",
+        "getReady": "Get ready to draw!",
+        "chooseWrd": "Choose A Word!",
+        "timedOut": "Time's up"
     }
 };
   
   const hebTrans = {
     "loadingText": {
-        "loadingText": "טוען...",
+        "loadingText": "טוען",
         "switchSpan": "..."
     },
     "index": {
@@ -86,9 +94,11 @@ const engTrans = {
         "registerHeader": "הירשם",
         "usernameLabel": "שם משתמש",
         "passwordLabel": "סיסמה",
-        "confirmPswrdLabel": "",
+        "confirmPswrdLabel": "אשר סיסמה",
         "loginBtn": "התחברות",
         "registerBtn": "הירשם",
+        "firstTime": "&#160?" + "פעם ראשונה",
+        "signupAtag": "הירשם"
     },
     "intro": {
         "intro": "!" + "משחק של שרטוט מהיר וניחוש מהנה",
@@ -110,12 +120,7 @@ const engTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "חדר משחקים:",
-        "intiScore": "ציון: 0",
-        "selectDifficulty": "בחר קושי",
-        "easy": "קל",
-        "med": "בינוני",
-        "hard": "קשה",
-        "": ""
+        "initScore": "ציון: 0"
     },
     "socketio": {
         "connecting": "מתחבר לחדר",
@@ -126,19 +131,32 @@ const engTrans = {
         "waiting": "מחכה ליריב שלך להצטרף",
         "intro": "להציג_שחקן_ציור",
         "score": "ציון:",
-        "topped": "הציון העליון הושג!",
+        "topped": "!" + "הציון העליון הושג",
         "switching": "החלפת פניות",
-        "selfGuessed": "",
+        "guessBox": "&#160:ניחש" + "&#160",
+        "selfGuessed": "ניחשת נכון",
+        "opponentGuessed": "ניחש נכון",
         "point": "נְקוּדָה",
         "points": "נקודות",
-        "awarded": "הוענק!",
-        "timesUp": "הזמן עבר! "
+        "awarded": "הוענק",
+        "timesUp": "!" + "הזמן עבר",
+    },
+    "components": {
+        "waitFor": "מחכה ל",
+        "toDraw": "לצייר",
+        "selectDifficulty": "בחר קושי",
+        "easy": "קל",
+        "med": "בינוני",
+        "hard": "קשה",
+        "getReady": "!" + "תתכוננו לצייר",
+        "chooseWrd": "!" + "בחר מילה",
+        "timedOut": "הזמן עבר"
     }
 };
 
 const spanTrans = {
     "loadingText": {
-        "loadingText": "Cargando...",
+        "loadingText": "Cargando",
         "switchSpan": "..."
     },
     "index": {
@@ -147,16 +165,18 @@ const spanTrans = {
         "logoutLink": "Cerrar sesión:",
         "registerLink": "Registro",
         "loginLink": "Acceso",
-        "seeCodeText": "ver el código"
+        "seeCodeText": "ver el código &#160"
     },
     "registerAndLogin": {
         "loginHeader": "Acceso",
         "registerHeader": "Registro",
         "usernameLabel": "Nombre de usuario",
         "passwordLabel": "Contraseña",
-        "confirmPswrdLabel": "",
+        "confirmPswrdLabel": "confirmar Contraseña",
         "loginBtn": "Acceso",
-        "registerBtn": "Registro"
+        "registerBtn": "Registro",
+        "firstTime": "¿Primera vez?&#160",
+        "signupAtag": "Inscribirse"
     },
     "intro": {
         "intro": "¡Dibujo rápido, adivinanzas divertidas!",
@@ -170,7 +190,7 @@ const spanTrans = {
     "joinRoom": {
         "joinRoomHeader": "Unirse a la habitación",
         "welcomeSpan": "Bienvenido",
-        "selectRoomSpan": ". ",
+        "selectRoomSpan": ". Seleccione una habitación o&#160",
         "createOneSpan": "crea uno",
         "selectRoomLabel": "Seleccionar habitación",
         "selectInitVal": "--ninguno--",
@@ -178,12 +198,7 @@ const spanTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Sala de juego:",
-        "intiScore": "Puntuación: 0",
-        "selectDifficulty": "Seleccione dificultad",
-        "easy": "Fácil",
-        "med": "Medicina",
-        "hard": "Duro",
-        "": ""
+        "initScore": "Puntuación: 0"
     },
     "socketio": {
         "connecting": "Conexión a la habitación",
@@ -196,17 +211,31 @@ const spanTrans = {
         "score": "Puntaje:",
         "topped": "¡Puntuación máxima alcanzada!",
         "switching": "Cambio de turnos",
-        "selfGuessed": "",
-        "point": "punto",
+        "guessBox": "adivinado:",
+        "selfGuessed": "¡Has acertado!",
+        "opponentGuessed": "adivinado correcto!",
+        "point": "punto 1",
         "points": "puntos",
         "awarded": "¡galardonado!",
-        "timesUp": "¡Se acabó el tiempo! "
+        "timesUp": "¡Se acabó el tiempo!",
+        "guessBox": "adivinado:"
+    },
+    "components": {
+        "waitFor": "Esperando",
+        "toDraw": "dibujar",
+        "selectDifficulty": "Seleccione dificultad",
+        "easy": "Fácil",
+        "med": "Medicina",
+        "hard": "Duro",
+        "getReady": "¡Prepárate para dibujar!",
+        "chooseWrd": "¡Elige una palabra!",
+        "timedOut": "Se acabó el tiempo"
     }
 };
 
 const portugseTrans = {
     "loadingText": {
-        "loadingText": "Carregando...",
+        "loadingText": "Carregando",
         "switchSpan": "..."
     },
     "index": {
@@ -215,16 +244,18 @@ const portugseTrans = {
         "logoutLink": "Sair:",
         "registerLink": "Registro",
         "loginLink": "Conecte-se",
-        "seeCodeText": "Veja o código"
+        "seeCodeText": "Veja o código &#160"
     },
     "registerAndLogin": {
         "loginHeader": "Conecte-se",
         "registerHeader": "Registro",
         "usernameLabel": "Nome de usuário",
         "passwordLabel": "Senha",
-        "confirmPswrdLabel": "",
+        "confirmPswrdLabel": "Confirme sua senha",
         "loginBtn": "Conecte-se",
-        "registerBtn": "Registro"
+        "registerBtn": "Registro",
+        "firstTime": "Primeira vez?&#160",
+        "signupAtag": "Inscrever-se"
     },
     "intro": {
         "intro": "Esboço rápido, adivinhação divertida!",
@@ -238,7 +269,7 @@ const portugseTrans = {
     "joinRoom": {
         "joinRoomHeader": "Juntar-se à sala",
         "welcomeSpan": "Bem-vindo",
-        "selectRoomSpan": ". ",
+        "selectRoomSpan": ". Selecione um quarto ou$#160",
         "createOneSpan": "crie um",
         "selectRoomLabel": "Selecione o quarto",
         "selectInitVal": "--nenhum--",
@@ -246,12 +277,7 @@ const portugseTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Sala de jogos:",
-        "intiScore": "Pontuação: 0",
-        "selectDifficulty": "Selecione a Dificuldade",
-        "easy": "Fácil",
-        "med": "Med",
-        "hard": "Duro",
-        "": ""
+        "initScore": "Pontuação: 0"
     },
     "socketio": {
         "connecting": "Conectando ao quarto",
@@ -260,21 +286,34 @@ const portugseTrans = {
         "selfJoined": "Você entrou na sala",
         "opponentJoined": "entrou na sala",
         "waiting": "Esperando seu oponente entrar",
-        "intro": "introduzir_desenho_jogador",
+        "intro": "introduzir desenho jogador",
         "score": "Pontuação:",
         "topped": "Pontuação máxima alcançada!",
         "switching": "Troca de voltas",
-        "selfGuessed": "",
-        "point": "apontar",
+        "guessBox": "adivinhou:",
+        "selfGuessed": "Você acertou!",
+        "opponentGuessed": "adivinhou correto!",      
+        "point": "apontar 1",
         "points": "pontos",
         "awarded": "premiado!",
-        "timesUp": "Acabou o tempo! "
+        "timesUp": "Acabou o tempo!"
+    },
+    "components": {
+        "waitFor": "Esperando por",
+        "toDraw": "desenhar",
+        "selectDifficulty": "Selecione a Dificuldade",
+        "easy": "Fácil",
+        "med": "Med",
+        "hard": "Duro",
+        "getReady": "Prepare-se para desenhar!",
+        "chooseWrd": "Escolha uma palavra!",
+        "timedOut": "Acabou o tempo"
     }
 };
 
 const frnchTrans = {
     "loadingText": {
-        "loadingText": "Chargement...",
+        "loadingText": "Chargement",
         "switchSpan": "..."
     },
     "index": {
@@ -283,19 +322,21 @@ const frnchTrans = {
         "logoutLink": "Se déconnecter:",
         "registerLink": "Enregistrer",
         "loginLink": "Connexion",
-        "seeCodeText": "Voir le code"
+        "seeCodeText": "Voir le code &#160"
     },
     "registerAndLogin": {
         "loginHeader": "Connexion",
         "registerHeader": "Enregistrer",
         "usernameLabel": "Nom d'utilisateur",
         "passwordLabel": "Mot de passe",
-        "confirmPswrdLabel": "",
+        "confirmPswrdLabel": "Confirmez le mot de passe",
         "loginBtn": "Connexion",
-        "registerBtn": "Enregistrer"
+        "registerBtn": "Enregistrer",
+        "firstTime": "Première fois?&#160",
+        "signupAtag": "S'inscrire"
     },
     "intro": {
-        "intro": "Esquisse rapide, devinettes amusantes !",
+        "intro": "Esquisse rapide, devinettes amusantes!",
         "startBtn": "Commencer"
     },
     "createRoom": {
@@ -306,7 +347,7 @@ const frnchTrans = {
     "joinRoom": {
         "joinRoomHeader": "Rejoindre la chambre",
         "welcomeSpan": "Accueillir",
-        "selectRoomSpan": ". ",
+        "selectRoomSpan": ". Sélectionnez une chambre ou&#160",
         "createOneSpan": "créer une",
         "selectRoomLabel": "Sélectionnez la chambre",
         "selectInitVal": "--aucun--",
@@ -314,12 +355,7 @@ const frnchTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Salle de jeux:",
-        "intiScore": "Note : 0",
-        "selectDifficulty": "Sélectionnez la difficulté",
-        "easy": "Facile",
-        "med": "Médium",
-        "hard": "Dur",
-        "": ""
+        "initScore": "Note : 0"
     },
     "socketio": {
         "connecting": "Connexion à la chambre",
@@ -330,13 +366,26 @@ const frnchTrans = {
         "waiting": "Attendre que votre adversaire rejoigne",
         "intro": "présenter_drawing_player",
         "score": "Score:",
-        "topped": "Meilleur score atteint !",
+        "topped": "Meilleur score atteint!",
         "switching": "Changer de virage",
-        "selfGuessed": "",
-        "point": "indiquer",
+        "guessBox": "deviné:",
+        "selfGuessed": "Vous avez deviné juste!",
+        "opponentGuessed": "deviné correct!",
+        "point": "indiquer 1",
         "points": "points",
-        "awarded": "récompensé !",
-        "timesUp": "Le temps est écoulé! "
+        "awarded": "récompensé!",
+        "timesUp": "Le temps est écoulé!"
+    },
+    "components": {
+        "waitFor": "Attendre",
+        "toDraw": "dessiner",
+        "selectDifficulty": "Sélectionnez la difficulté",
+        "easy": "Facile",
+        "med": "Médium",
+        "hard": "Dur",
+        "getReady": "Préparez-vous à dessiner!",
+        "chooseWrd": "Choisissez un mot!",
+        "timedOut": "Le temps est écoulé"
     }
 };
 
@@ -350,7 +399,7 @@ const loadingTextId = [
 ];
 
 const registerAndloginPageElementIds = [
-    'loginHeader', 'registerHeader', 'usernameLabel', 'passwordLabel', 'confirmPswrdLabel', 'loginBtn', 'registerBtn'
+    'loginHeader', 'registerHeader', 'usernameLabel', 'passwordLabel', 'confirmPswrdLabel', 'loginBtn', 'registerBtn', 'firstTime', 'signupAtag'
 ];
 
 const introPageElementIds = ['intro', 'startBtn']
@@ -361,9 +410,7 @@ const joinRoomPageElementIds = [
     'joinRoomHeader', 'welcomeSpan', 'selectRoomSpan', 'createOneSpan', 'selectRoomLabel', 'selectInitVal', 'goToRoomBtn'
 ];
 
-const viewRoomPageElementIds = [
-    'gameRmSpan', 'intiScore', 'selectDifficulty', 'easy', 'med', 'hard'
-];
+const viewRoomPageElementIds = ['gameRmSpan', 'initScore'];
 
 const pageArrays = {
     'index':indexPageElementIds, 

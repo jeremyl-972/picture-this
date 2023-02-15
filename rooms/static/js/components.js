@@ -28,6 +28,7 @@ const announce = (message, clear) => {
 
 
 const announceWithLoader = (message, clear) => {
+    console.log('message: ', message)
     if (clear) clearAnnouncements();
     announcementElement.append(loader_component(message));
 };
@@ -65,12 +66,16 @@ const loadingBtn = (text) => {
     return btnOuter;
 };
 
-const create_buttons_array = (list, style, added_class, onClick) => {
+const create_buttons_array = (valueList, textList, style, added_class, onClick) => {
     const btnContainer = document.createElement('div');
     btnContainer.className = "array_container";
 
-    for (let i=0; i < list.length; i++) {
-        btn = make_button(list[i], style, added_class, list[i], onClick, '')
+    for (let i=0; i < textList.length; i++) {
+        if (valueList) {
+            btn = make_button(valueList[i], style, added_class, textList[i], onClick, '');
+        } else {
+            btn = make_button(null, style, added_class, textList[i], onClick, '');
+        }
         btnContainer.appendChild(btn);
     }
     return btnContainer;
@@ -83,7 +88,7 @@ const difficulty_buttons = () => {
     clearComponent();
     const onClick = async (e) => {
         announcementElement.innerHTML = '';
-        announceWithLoader("Loading", clear=false);
+        announceWithLoader(t('loadingText.loadingText'), clear=false);
         clearComponent();
         const diff_level = e.currentTarget.value;
         //  on click, create and display word_buttons
@@ -91,12 +96,12 @@ const difficulty_buttons = () => {
         wordsContainer = word_buttons(wordsList, diff_level);
         component.appendChild(wordsContainer);
     };
-    // const diff_ranges = ['Easy', 'Med', 'Hard'];
-    const diff_ranges = [t('viewRoom.easy'), t('viewRoom.med'), t('viewRoom.hard')];
+    const diff_ranges_values = ['Easy', 'Med', 'Hard'];
+    const diff_range_texts = [t('components.easy'), t('components.med'), t('components.hard')];
     const btnContainer = create_buttons_array(
-        diff_ranges, "width:100px", 'difficultyBtn', onClick
+        diff_ranges_values, diff_range_texts, "width:100px", 'difficultyBtn', onClick
     );
-    announce(t('viewRoom.selectDifficulty'), clear=false);
+    announce(t('components.selectDifficulty'), clear=false);
     return btnContainer;
 };
 
@@ -105,8 +110,8 @@ const word_buttons = (list, diff_level) => {
     const onClick = async (e) => {
         clearComponent();
         announcementElement.innerHTML = '';
-        announceWithLoader('Get ready to draw!', clear=false);
-        const word = e.currentTarget.value;
+        announceWithLoader(t('components.getReady'), clear=false);
+        const word = e.currentTarget.innerText;
         const wordDiv = make__div("center-up-flex column");
         wordDiv.setAttribute('id', 'wordDiv')
         wordDiv.innerText = word;
@@ -118,10 +123,10 @@ const word_buttons = (list, diff_level) => {
         choseWord(word, diff_level);
     };
     const btnContainer = create_buttons_array(
-        list, "width:100px", 'wordBtn', onClick
+        null, list, "width:100px", 'wordBtn', onClick
     );
     announcementElement.innerHTML = '';
-    announce('Choose A Word!', clear=false);
+    announce(t('components.chooseWrd'), clear=false);
     return btnContainer;
 }
 
@@ -156,7 +161,6 @@ const setImgSize = (image) => {
     let imageHeight =
         windowHeight - navHeight - headerHeight - anncmntHeight - wordDivHeight -
         formHeight - footerHeight;
-    // console.log(headerHeight, anncmntHeight, wordDivHeight, formHeight, footerHeight, imageHeight);
     setHeight(`${imageHeight}px`);
         
     if (windowWidth > windowHeight) {
@@ -246,7 +250,11 @@ const make_guess_form = () => {
 
 const setWaitingScreen = (name) => {
     clearAll();
-    announceWithLoader(`Waiting for ${name} to draw`);
+    if (i18next.language === 'iw') {
+        announceWithLoader(`${t('components.toDraw')} ${name} ${t('components.waitFor')}`);
+    } else {
+        announceWithLoader(`${t('components.waitFor')} ${name} ${t('components.toDraw')}`);
+    }
     announcementElement.style.marginBottom = '10px';
     announcementElement.style.marginTop = '10px';
     const imgContainer = make_blank_canvas('');
@@ -268,7 +276,7 @@ const startTimer = () => {
         const slicedString = countdownElement.innerText.slice(1);
         const number = parseInt(slicedString) - 1;
         if (number < 0) {
-            announceWithLoader('Times up', clear=true)
+            announceWithLoader(t('components.timedOut'), clear=true)
             stopTimer(myInterval);
         } else if (number < 10) {
             text = String(number).padStart(2, '0');

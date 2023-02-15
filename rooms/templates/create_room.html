@@ -19,7 +19,7 @@
         <button id="createRoomBtn" onclick="toggle('createRoomBtn', 'loadingBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span id="loadingText"></span>
+            <p id="loadingText"></p>
         </button>    
     </form>
 
@@ -27,7 +27,7 @@
 
 {% block scripts %}
 <script>
-    const user = '{{username}}'; 
+    user = '{{username}}'; 
 </script>
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
 <script src="{{url_for('static', filename='js/translations.js')}}"></script>

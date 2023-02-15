@@ -1,3 +1,6 @@
+const t = i18next.t;
+let user = null;
+
 const navbarToggler = document.querySelector('.navbar-toggler');
 let fontSize = '25px';
 let mb = '0px';
@@ -76,8 +79,6 @@ function setMainForLoading() {
     content.style.height = '70vh';
     content.appendChild(loader_component('large'));
 };
-
-const t = i18next.t;
 
 async function storeLanguage(language) {
     try {

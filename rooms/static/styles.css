@@ -13,9 +13,6 @@
     float: right;
 }
 
-#guessBtn, #loadBtn {
-    margin-left: 0 !important;
-}
 #announcements {
     display: flex;
     flex-direction: column;
@@ -23,12 +20,23 @@
     align-items: center;
 }
 
-#createRoomATag {
+#createRoomATag, #signupAtag {
     text-decoration: none;
 }
 
 #createOneSpan {
     color:#038ccb;
+}
+
+#guessBtn, #loadBtn {
+    margin-left: 0 !important;
+}
+
+.guessBoxContainer {
+    width: inherit;
+    display: flex;
+    align-items: center;
+    row-gap: 30px;
 }
 
 @media screen and (max-width: 300px) {
@@ -62,7 +70,7 @@
     form {
         gap: 5px;
     }
-    label {
+    label, #signupPrompt {
         font-size: 29px;
     }
     select {
@@ -95,7 +103,7 @@
     form {
         gap: 5px;
     }
-    label {
+    label, #signupPrompt {
         font-size: 29px;
     }
     select, input {

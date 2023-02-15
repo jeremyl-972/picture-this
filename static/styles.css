@@ -5,6 +5,10 @@ html, body {
     font-family: 'EB Garamond', serif;
 }
 
+p {
+    margin: 0;
+}
+
 button {
     margin-left: 0 !important;
 }
@@ -201,6 +205,13 @@ footer > a {
 .wrapper {
     max-width: 1350px;
 }
+
+#LoadBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
     
 @keyframes dot-carousel {
     0% {
@@ -229,6 +240,7 @@ footer > a {
     }
     .intro {
         font-size: 19px;
+        margin-top: 20px;
         margin-bottom: 7px;
     }
     h1 .brand {
@@ -250,7 +262,8 @@ footer > a {
         letter-spacing: .5px;
     }
     .intro {
-        font-size: 25px;
+        margin-top: 20px;
+        font-size: 22px;
     }
     .responsive-img {
         max-width: 300px;
@@ -275,6 +288,7 @@ footer > a {
     }
     .intro {
         font-size: 45px;
+        margin-top: 20px;
     }
     h1 .brand {
         font-size: 115px !important;
@@ -336,12 +350,6 @@ footer > a {
         width: 200px !important;
         font-size: 30px;
     }
-    #LoadBtn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        justify-content: center;
-    }
     #LoadBtn > span {
         width: 1.5rem !important;
         height: 1.5rem !important;
@@ -353,6 +361,9 @@ footer > a {
     .github-container > a > i {
         font-size: 40px !important;
     }
+    .langSelect {
+        width: 172px !important;
+    }
 }
 
 @media screen and (min-height: 1100px) {
@@ -362,7 +373,7 @@ footer > a {
 }
 
 .langSelect {
-    width: 150px;
+    width: 125px;
     position: relative;
 }
 

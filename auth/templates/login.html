@@ -10,7 +10,7 @@
     <h1 id="loginHeader" class="center-up-flex"></h1> 
 </header>
 
-<form action="/auth/login" method="post" class="center-up-flex column">
+<form action="/auth/login" method="post" class="center-up-flex column mb-2">
     <div class="mb-3">
         <label id="usernameLabel" for="username" class="form-label"></label>
         <input autocomplete autofocus class="form-control mx-auto w-auto" id="username" name="username"
@@ -23,15 +23,15 @@
     <button id="loginBtn" onclick="toggle('loginBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
     <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        <span id="loadingText"></span>
+        <p id="loadingText"></p>
     </button>
+    <input hidden id="langInput" type="text" name="language">
 </form>
+<div id="signupPrompt" class="center-up-flex"><span id="firstTime"></span><a href="{{url_for('auth.register')}}" id="signupAtag"></a></div>
 {% endblock %}
+
 {% block scripts %}
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
-<script>
-    let user = null;
-</script>
 <script src="{{url_for('static', filename='js/translations.js')}}"></script>
 <script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 {% endblock %}

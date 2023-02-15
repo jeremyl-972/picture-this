@@ -23,7 +23,7 @@ let word_object = {'word': null, 'word_value': null};
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
     score_object.total = 0;
-    document.getElementById('score').innerText = `Score: ${score_object.total}`
+    document.getElementById('score').innerText = `${t('viewRoom.initScore')}`
     clearAll();
     announcementElement.style.marginTop = '45px';
     announceWithLoader(`${data.username} ${t('socketio.leftRm')}`);
@@ -48,9 +48,8 @@ socket.on('join_room_announcement', (data) => {
     }
     else {
         GUESSING_PLAYER = data.username;
-
         if (!joinee_is_self) {
-            socket.emit(t('intro'), {username:user, room:room_name})
+            socket.emit('introduce_drawing_player', {username:user, room:room_name})
             setTimeout(() => {component.append(difficulty_buttons())}, 2000)
         };
     };
@@ -150,7 +149,7 @@ socket.on('guess_response', (data) => {
         document.getElementById('score').innerText = `${t('socketio.score')} ${data.score}`
         // update announcements
         announcementElement.style.marginTop = '45px';
-        announcePointsScored();
+        announcePointsScored(data);
         
         if (data.toppedScore) {
             score_object.topped = true;
@@ -166,10 +165,9 @@ socket.on('guess_response', (data) => {
         setTimeout(() => {
             if (user === data.username) component.append(difficulty_buttons());
             else setWaitingScreen(data.username);
-        }, 5000);
+        }, 10000);
 
     } else {
-        // document.getElementById('guessBox').innerHTML = `Guess: ${data.guess}`;
         if (user === data.username) {
             if (data.message === 'No!') {
                 const loadBtn = document.getElementById('loadBtn');
@@ -180,14 +178,25 @@ socket.on('guess_response', (data) => {
                     toggle('guessBtn', 'loadBtn');
                 }, 1500);
             };
+        } else {
+            document.getElementById('guessBox').innerHTML =
+                i18next.language === 'iw' ? `${data.guess} ${t('socketio.guessBox')} ${data.username}` : `${data.username} ${t('socketio.guessBox')} ${data.guess}`;
         };
     };
     function announcePointsScored() {
-        if (i18next.language === 'iw') {
-            announce(`${t('socketio.awarded')} ${data.points === 1 ? `${t('socketio.point')} ${data.points}` : `${t('socketio.points')} ${data.points}`} ${t(user === data.username ? 'socketio.selfGuessed' : 'socketio.opponentGuessed')}`);
-        } else {
-            announce(`${t(user === data.username ? 'socketio.selfGuessed' : 'socketio.opponentGuessed')} ${data.points === 1 ? `${data.points} ${t('socketio.point')}` : `${data.points} ${t('socketio.points')}`} ${t('socketio.awarded')}`);
-        }
+        if (data.points === 1 && i18next.language === 'iw') {
+            user === data.username ? 
+                announce(`!${t('socketio.selfGuessed')}! ` + `${t('socketio.point')}` + ' 1 ' + `${t('socketio.awarded')}`) 
+                : announce(`!${t('socketio.opponentGuessed')}! ` +`${t('socketio.point')}` + ' 1 ' + `${t('socketio.awarded')}` + ` ${data.username}`);
+        } else if (i18next.language === 'iw') {
+            user === data.username ? 
+                announce(`!${t('socketio.selfGuessed')}! ` + ` ${data.points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}`) 
+                : announce(`!${t('socketio.opponentGuessed')}! ` + ` ${data.points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}` + ` ${data.username}`);
+        } else if (i18next.language != 'iw' && data.points === 1) {
+            announce(`${(user === data.username ? t('socketio.selfGuessed') : `${data.username} ${t('socketio.opponentGuessed')}`)} ${t('socketio.point')} ${t('socketio.awarded')}`);
+        } else if (i18next.language != 'iw') {
+            announce(`${(user === data.username ? t('socketio.selfGuessed') : `${data.username} ${t('socketio.opponentGuessed')}`)} ${data.points} ${t('socketio.points')} ${t('socketio.awarded')}`);
+        }     
     };
 });
 
@@ -198,7 +207,7 @@ const timed_out = () => {
     GUESSING_PLAYER = TEMP;
     announcementElement.innerHTML = '';
     clearComponent();
-    announceWithLoader(t('timesUp'));
+    announceWithLoader(t('socketio.timesUp'));
     if (CLIENT_GUESSING) {
         CLIENT_GUESSING = !CLIENT_GUESSING;
         setTimeout(() => {

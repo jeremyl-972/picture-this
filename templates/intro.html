@@ -14,7 +14,7 @@
                 <button id="startBtn" onclick="toggle('startBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
                 <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span id="loadingText"></span>
+                    <p id="loadingText"></p>
                 </button>
             </form>  
         </div>
@@ -23,7 +23,7 @@
 {% block scripts %}
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
 <script>
-    const user = '{{username}}';
+    user = '{{username}}';
 </script>
 <script src="{{url_for('static', filename='js/translations.js')}}"></script>
 <script src="{{url_for('static', filename='js/i18n.js')}}"></script>

@@ -109,13 +109,17 @@ const make_canvas = () => {
     canvas.style.backgroundColor = "aliceblue";
 
     const btnContainer = make__div("flex-between");
-    btnContainer.setAttribute('id', 'clearBtnContainer')
+    btnContainer.setAttribute('id', 'clearBtnContainer');
+    btnContainer.style.gap = '15px';
 
-    const guessBox = make__div('guessBox');
+    const guessBox = make__div('');
     guessBox.setAttribute('id', 'guessBox');
 
+    const guessBoxContainer = make__div('guessBoxContainer');
+    guessBoxContainer.appendChild(guessBox);
+
     const clearBtn = make_button('', 'margin-left: 0 !important', '', "Clear", null, "clearBtn");
-    btnContainer.append(clearBtn, guessBox); 
+    btnContainer.append(clearBtn, guessBoxContainer); 
 
     setImgSize(canvas);
     canvasContainer.append(canvas, btnContainer);

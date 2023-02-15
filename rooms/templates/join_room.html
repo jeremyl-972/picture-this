@@ -12,7 +12,7 @@
     <div class="center-up-flex column">
         {% if language == 'iw' %}
         <h3 id="joinRmWelcome" class="mb-4"><span id="selectRoomSpan"></span><a href="{{url_for('rooms.create_room')}}" id="createRoomATag"><span id="createOneSpan"></span></a><span id="welcomeReceiver"><strong> {{username}}</strong></span><span id="welcomeSpan"></span></h3>
-        {% elif language == 'en-US' %}
+        {% else %}
         <h3 id="joinRmWelcome" class="mb-4"><span id="welcomeSpan"></span><span id="welcomeReceiver"><strong> {{username}}</strong></span><span id="selectRoomSpan"></span><a href="{{url_for('rooms.create_room')}}" id="createRoomATag"><span id="createOneSpan"></span></a></h3>
         {% endif %}
         <form method="post" id="joinRoomForm" class="center-up-flex column w-100"> 
@@ -29,18 +29,16 @@
             <button disabled id="goToRoomBtn" onclick="toggle('goToRoomBtn', 'LoadBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
             <button hidden id="LoadBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span id="loadingText"></span>
+                <p id="loadingText"></p>
             </button>
         </form>
     </div>
 {% endblock %}
 {% block scripts %}
 <script>
-    const user = '{{username}}';
+    user = '{{username}}';
 </script>
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
-<script src="{{url_for('static', filename='js/translations.js')}}"></script>
-<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 <script>
     const createTag = document.getElementById('createRoomATag');
     createTag.onmouseover = (e) => {
@@ -59,4 +57,6 @@
         };
     }); 
 </script>
+<script src="{{url_for('static', filename='js/translations.js')}}"></script>
+<script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 {% endblock %}

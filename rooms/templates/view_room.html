@@ -6,14 +6,14 @@
 {% block title %}GameRoom{% endblock %}
 
 {% block main %}
-    <header class="flex-between" style="width:auto">
+    <header id="header" class="flex-between" style="width:auto">
         <div class="column">
             <h6 id="gameRmSpan" style="margin-bottom: 0;"></h6>
             <h6 >{{ room_name }}</h6> 
         </div>
         <div class="flex-column-end" id="scoreboard">
             <h6 id="topScore" style="margin-bottom: 0;"></h6>
-            <h6 class="float-right" id="score"><span id="intiScore"></span></h6> 
+            <h6 class="float-right" id="score"><span id="initScore"></span></h6> 
         </div>
     </header>
 
@@ -24,14 +24,14 @@
     </div>
 {% endblock %}
 {% block scripts %}
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
 <script>
     const contentElement = document.querySelector('.content');
     contentElement.classList.remove('content');
-    const user = '{{current_user.username}}';
+    user = '{{current_user.username}}';
     const user_id = '{{current_user.id}}';
     const room_name = '{{room_name}}';
 </script>
-<script src="{{url_for('static', filename='js/index.js')}}"></script>
 <script src="{{url_for('static', filename='js/translations.js')}}"></script>
 <script src="{{url_for('static', filename='js/i18n.js')}}"></script>
 <script src="{{url_for('rooms.static', filename='js/httpClient.js')}}"></script>
