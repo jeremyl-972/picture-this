@@ -7,6 +7,8 @@ from werkzeug.local import LocalProxy
 from mysql.user import User
 import pymysql
 
+from static.translations import t
+
 
 # Configure app to use pymysql
 def get_db():

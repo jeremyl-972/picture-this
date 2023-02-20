@@ -13,20 +13,27 @@
     <form method="post" class="center-up-flex column">
         <div class="mb-3">
             <label id="roomnameLabel" class="form-label" for="room_name"></label>
-            <input autocomplete type="text" name="room_name" class="form-control mx-auto w-auto">
+            <input id="roomName" autocomplete type="text" name="room_name" class="form-control mx-auto w-auto">
         </div>
 
-        <button id="createRoomBtn" onclick="toggle('createRoomBtn', 'loadingBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
+        <button disabled id="createRoomBtn" onclick="toggle('createRoomBtn', 'loadingBtn');" class="btn btn-primary Btn" style="width:120px" type="submit"></button>
         <button hidden id="loadingBtn" class="btn btn-primary" style="width:120px" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <p id="loadingText"></p>
-        </button>    
+        </button>
+        <input hidden id="langInput" name="language" type="text">    
     </form>
 
 {% endblock %}
 
 {% block scripts %}
 <script>
+    const roomName = document.getElementById('roomName');
+    roomName.addEventListener('change', () => {
+        if (roomName.value) {
+            document.getElementById('createRoomBtn').removeAttribute('disabled');
+        };
+    }); 
     user = '{{username}}'; 
 </script>
 <script src="{{url_for('static', filename='js/index.js')}}"></script>

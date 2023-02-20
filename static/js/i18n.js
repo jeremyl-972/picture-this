@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
 
   async function updateContent() {
+    storeLanguage(i18next.language)
     // send lang to backend only if logged in user clicked langBtn
     if (clickedLangBtn) {
       setMainForLoading();
@@ -86,17 +87,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const titleElement = document.getElementById('title');
     const title = titleElement.innerText;
     const langInput = document.getElementById('langInput');
-    // manipulate the DOM so form send will carry the language value
-    if (title === 'Picture This: Register' || title === 'Picture This: Login') {
+
+    // manipulate the DOM so a form send will carry the language value
+    if (
+        title === 'Picture This: Register' ||
+        title === 'Picture This: Login' ||
+        title === 'Picture This: Create Room'
+      ) {
       langInput.setAttribute('value', i18next.language);
     };
     // align registerPrompt elements
     if (document.getElementById('title').innerText == 'Picture This: Login') {
       registerPrompt();
-    };
-    // set announcements element to connecting
-    if (document.getElementById('title').innerText == 'Picture This: Gameroom') {
-      document.getElementById('announcements').innerText = t('socketio.connecting');
     };
     
     // Run through translations and update content

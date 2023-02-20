@@ -18,7 +18,7 @@
         <form method="post" id="joinRoomForm" class="center-up-flex column w-100"> 
             <div class="form-group w-50">
                 <label id="selectRoomLabel" class="mb-1" for="roomSelect"></label>
-                <select id="roomSelect" name="roomSelect" class="form-select mb-2" type="select" aria-label="room select dropdown">
+                <select id="roomSelect" name="roomSelect" class="form-select mb-2" type="select" aria-label="select dropdown">
                     <option id="selectInitVal" value="">--none--</option>
                     {% for room in rooms %}
                     <option>{{room}}</option>
@@ -31,6 +31,7 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <p id="loadingText"></p>
             </button>
+            <input hidden id="langInput" type="text" name="language">
         </form>
     </div>
 {% endblock %}

@@ -1,28 +1,30 @@
 // MAIN LOGIC FOR VIEW-ROOM
-document.getElementById('langBtn').setAttribute('hidden', 'hidden');
+const langSelect = document.querySelector('.lang-select');
+langSelect.style.display = 'none';
 
 const socket = io("http://localhost:5000");
 
 // user joining socketio room from rooms.html or create_room.html
-socket.on('connect', () => {
-    announceWithLoader(t('socketio.connecting'));
+socket.on('connect', async() => {
+    announceWithLoader('');
 
     socket.emit('join_room', {
         username: user,
         room: room_name,
-        user_id: user_id
+        user_id: user_id,
+        user_lang: i18next.language
     });
 });
 
 let CLIENT_GUESSING = false;
-let DRAWING_PLAYER = '';
-let GUESSING_PLAYER = '';
-let score_object = {'total': 0, 'topScore': 0, 'topped': false};
+let DRAWING_PLAYER = {'name': null, 'lang': null};
+let GUESSING_PLAYER = {'name': null, 'lang': null};
+let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
-    score_object.total = 0;
+    score_object.score = 0;
     document.getElementById('score').innerText = `${t('viewRoom.initScore')}`
     clearAll();
     announcementElement.style.marginTop = '45px';
@@ -41,13 +43,16 @@ socket.on('join_room_announcement', (data) => {
     newNode.innerHTML = joinee_is_self ? t('socketio.selfJoined') : `<b>${data.username}</b> ${t('socketio.opponentJoined')}`;
     announcementElement.appendChild(newNode);
     
-    // if player count is 1, initialize wait for second player
+    // if player count is 1, wait for second player
     if (data.count === 1){
-        DRAWING_PLAYER = user;
+        DRAWING_PLAYER.name = data.username;
+        DRAWING_PLAYER.lang = i18next.language;
         announceWithLoader(t('socketio.waiting'));
     }
     else {
-        GUESSING_PLAYER = data.username;
+        GUESSING_PLAYER.name = data.username;
+        GUESSING_PLAYER.lang = data.user_lang;
+        console.log();
         if (!joinee_is_self) {
             socket.emit('introduce_drawing_player', {username:user, room:room_name})
             setTimeout(() => {component.append(difficulty_buttons())}, 2000)
@@ -58,9 +63,9 @@ socket.on('join_room_announcement', (data) => {
 
 socket.on('hello_from_player1', (data) => {
     CLIENT_GUESSING = true;
-    DRAWING_PLAYER = data.username
+    DRAWING_PLAYER.name = data.username
     // player2 waits for player 1 to draw sketch
-    setWaitingScreen(DRAWING_PLAYER);
+    setWaitingScreen(DRAWING_PLAYER.name);
 });
 
 
@@ -74,11 +79,14 @@ const choseWord = async (word, diff_level) => {
     };
     word_object.word = word;
     word_object.word_value = points;
+    console.log('draw-er: ', DRAWING_PLAYER.lang, 'guess-er: ', GUESSING_PLAYER.lang);
     socket.emit('chose_word', {
         username: user,
         user_id: user_id,
         room: room_name,
         word_object: word_object,
+        artist_lang: DRAWING_PLAYER.lang,
+        guesser_lang: GUESSING_PLAYER.lang,
     });
 
     socket.emit('activate_timer', {
@@ -86,9 +94,10 @@ const choseWord = async (word, diff_level) => {
     });
 };
 
-socket.on('send_word', (word_data) => {
-    word_object.word = word_data.word;
-    word_object.word_value = word_data.word_value;
+socket.on('send_word', (word_dict) => {
+    console.log('received word_dict: ', word_dict);
+    word_object.word = word_dict.word;
+    word_object.word_value = word_dict.word_value;
 })
 
 socket.on('start_timer', () => {
@@ -114,7 +123,6 @@ socket.on('getting_sketch', (data) => {
 
 
 const onGuess = (guess) => {
-    console.log(score_object)
     const guessInput = document.getElementById('guessInput');
     guessInput.value = '';
     if (guess) {
@@ -126,6 +134,7 @@ const onGuess = (guess) => {
                 room: room_name,
                 username: user,
                 score_object: score_object,
+                lang: i18next.language
             });
         }, 1500);
     };
@@ -134,25 +143,25 @@ const onGuess = (guess) => {
 
 socket.on('guess_response', (data) => {
     // on correct guess
-    if (data.message === 'Yes!') {
+    if (data.correct === true) {
         // swap players
         let TEMP = DRAWING_PLAYER;
         DRAWING_PLAYER = GUESSING_PLAYER;
         GUESSING_PLAYER = TEMP;
         CLIENT_GUESSING = !CLIENT_GUESSING;
-        score_object.total += data.score;
+        // update score object
+        score_object = data.score_dict;
         // clear timer
         clearInterval(myInterval);
         clearAll();
         // update scoreboard
-        if (data.keepUpdating) document.getElementById('topScore').innerText = `${t('socketio.topScore')} ${data.score}`;
-        document.getElementById('score').innerText = `${t('socketio.score')} ${data.score}`
+        document.getElementById('topScore').innerText = `${t('socketio.topScore')} ${score_object.topScore}`;
+        document.getElementById('score').innerText = `${t('socketio.score')} ${score_object.score}`
         // update announcements
         announcementElement.style.marginTop = '45px';
-        announcePointsScored(data);
+        announcePointsScored();
         
-        if (data.toppedScore) {
-            score_object.topped = true;
+        if (score_object.topped) {
             setTimeout(() => {
                 announcementElement.innerHTML = '';
                 announce(t('socketio.topped'));
@@ -169,33 +178,32 @@ socket.on('guess_response', (data) => {
 
     } else {
         if (user === data.username) {
-            if (data.message === 'No!') {
-                const loadBtn = document.getElementById('loadBtn');
-                const newNode = document.createTextNode(data.message);
-                loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
+            const loadBtn = document.getElementById('loadBtn');
+            const newNode = document.createTextNode(data.message);
+            loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
     
-                setTimeout(() => {
-                    toggle('guessBtn', 'loadBtn');
-                }, 1500);
-            };
+            setTimeout(() => {
+                toggle('guessBtn', 'loadBtn');
+            }, 1500);
         } else {
             document.getElementById('guessBox').innerHTML =
                 i18next.language === 'iw' ? `${data.guess} ${t('socketio.guessBox')} ${data.username}` : `${data.username} ${t('socketio.guessBox')} ${data.guess}`;
         };
     };
     function announcePointsScored() {
-        if (data.points === 1 && i18next.language === 'iw') {
+        const points = word_object.word_value
+        if (word_object.word_value === 1 && i18next.language === 'iw') {
             user === data.username ? 
                 announce(`!${t('socketio.selfGuessed')}! ` + `${t('socketio.point')}` + ' 1 ' + `${t('socketio.awarded')}`) 
                 : announce(`!${t('socketio.opponentGuessed')}! ` +`${t('socketio.point')}` + ' 1 ' + `${t('socketio.awarded')}` + ` ${data.username}`);
         } else if (i18next.language === 'iw') {
             user === data.username ? 
-                announce(`!${t('socketio.selfGuessed')}! ` + ` ${data.points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}`) 
-                : announce(`!${t('socketio.opponentGuessed')}! ` + ` ${data.points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}` + ` ${data.username}`);
-        } else if (i18next.language != 'iw' && data.points === 1) {
+                announce(`!${t('socketio.selfGuessed')}! ` + ` ${points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}`) 
+                : announce(`!${t('socketio.opponentGuessed')}! ` + ` ${points} ` + `${t('socketio.points')} ` + `${t('socketio.awarded')}` + ` ${data.username}`);
+        } else if (i18next.language != 'iw' && points === 1) {
             announce(`${(user === data.username ? t('socketio.selfGuessed') : `${data.username} ${t('socketio.opponentGuessed')}`)} ${t('socketio.point')} ${t('socketio.awarded')}`);
         } else if (i18next.language != 'iw') {
-            announce(`${(user === data.username ? t('socketio.selfGuessed') : `${data.username} ${t('socketio.opponentGuessed')}`)} ${data.points} ${t('socketio.points')} ${t('socketio.awarded')}`);
+            announce(`${(user === data.username ? t('socketio.selfGuessed') : `${data.username} ${t('socketio.opponentGuessed')}`)} ${points} ${t('socketio.points')} ${t('socketio.awarded')}`);
         }     
     };
 });
@@ -217,7 +225,7 @@ const timed_out = () => {
     else {
         CLIENT_GUESSING = !CLIENT_GUESSING;
         setTimeout(() => {
-            setWaitingScreen(DRAWING_PLAYER);
+            setWaitingScreen(DRAWING_PLAYER.name);
         }, 3000);
     };
 };

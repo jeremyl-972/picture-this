@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash
 
-
+# Flask-Login requires this user class object
 class User:
 
     def __init__(self, username, password, id):

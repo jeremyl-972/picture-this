@@ -47,8 +47,8 @@ button {
 {
     color: #038ccb !important;
     font-family: 'EB Garamond', serif;
-            -webkit-text-stroke-width: .5px;
-            -webkit-text-stroke-color: black;
+        -webkit-text-stroke-width: .5px;
+        -webkit-text-stroke-color: black;
     position: relative;
     padding: 0 10px 0 10px;
     transform: rotate(-1deg);
@@ -118,6 +118,9 @@ h1 .brand {
     justify-content: center;
 }
 
+option {
+    max-height: fit-content;
+}
 
 footer {
     position: absolute;
@@ -213,6 +216,62 @@ footer > a {
     justify-content: center;
 }
     
+#recordBtn {
+    font-style: normal;
+    position: relative;
+    display: none;
+}
+  
+#recordBtn #tooltip, #recordBtn #recording {
+    display: none;
+    align-items: center;
+    letter-spacing: .25px;
+    font-family: inherit;
+    font-size: 12px;
+    background-color: #0381bb;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+}
+
+#recordBtn #tooltip {
+    justify-content: center;
+    width: 196px;
+    margin-left: -180.5px;
+}
+
+#recordBtn #recording {
+    justify-content: space-evenly;
+    width: 110px;
+    margin-left: -99px;
+}
+  
+#recordBtn #tooltip::after, #recordBtn #recording::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 5.5%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #038ccb transparent transparent transparent;
+}
+  
+#recordBtn #tooltip .bi, #recordBtn #recording .bi {
+    padding-left: 11px;
+}
+
+.spinner-grow {
+    margin-right: 10px;
+    width: 1rem;
+    height: 1rem;
+}
+
 @keyframes dot-carousel {
     0% {
     box-shadow: 9990px 0 0 -1px #DC7D19, 9999px 0 0 1px #DC7D19, 10008px 0 0 -1px #DC7D19;
@@ -361,7 +420,7 @@ footer > a {
     .github-container > a > i {
         font-size: 40px !important;
     }
-    .langSelect {
+    .lang-select {
         width: 172px !important;
     }
 }
@@ -372,7 +431,7 @@ footer > a {
     }
 }
 
-.langSelect {
+.lang-select {
     width: 125px;
     position: relative;
 }

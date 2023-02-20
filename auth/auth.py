@@ -16,7 +16,6 @@ def login():
         username = request.form['username']
         password = request.form['password']
         language = request.form['language']
-        print(language)
         user = None
         error = None
 
@@ -31,6 +30,7 @@ def login():
             elif not user.check_password(password):
                 error = "Password invalid."
             else:
+                print(language, username)
                 update_user_language(language, username)
                 login_user(user)              
                 return redirect(url_for("index"))    

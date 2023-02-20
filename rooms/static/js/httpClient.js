@@ -14,6 +14,6 @@ const send_request = async (url, postData) => {
     }
 };
 
-const get_words = async (diff_level) => {
-    return send_request(`/rooms/get_words/${diff_level}`);
+const get_words = async (diff_level, lang) => {
+    return send_request(`/rooms/get_words/${diff_level}/${lang}`);
 };

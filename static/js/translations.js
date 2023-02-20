@@ -42,7 +42,8 @@ const engTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "GameRoom:",
-        "initScore" : "Score: 0"
+        "initScore" : "Score: 0",
+        "tooltiptext": "Hold to record, release to send."
     },
     "socketio": {
         "connecting": "Connecting to room",
@@ -120,7 +121,8 @@ const engTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "חדר משחקים:",
-        "initScore": "ציון: 0"
+        "initScore": "ציון: 0",
+        "tooltiptext": ".החזק כדי להקליט, שחרר כדי לשלוח"
     },
     "socketio": {
         "connecting": "מתחבר לחדר",
@@ -198,7 +200,8 @@ const spanTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Sala de juego:",
-        "initScore": "Puntuación: 0"
+        "initScore": "Puntuación: 0",
+        "tooltiptext": "Sostenga para grabar, suelte para enviar."
     },
     "socketio": {
         "connecting": "Conexión a la habitación",
@@ -269,7 +272,7 @@ const portugseTrans = {
     "joinRoom": {
         "joinRoomHeader": "Juntar-se à sala",
         "welcomeSpan": "Bem-vindo",
-        "selectRoomSpan": ". Selecione um quarto ou$#160",
+        "selectRoomSpan": ". Selecione um quarto ou&#160",
         "createOneSpan": "crie um",
         "selectRoomLabel": "Selecione o quarto",
         "selectInitVal": "--nenhum--",
@@ -277,7 +280,8 @@ const portugseTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Sala de jogos:",
-        "initScore": "Pontuação: 0"
+        "initScore": "Pontuação: 0",
+        "tooltiptext": "Segure para gravar, solte para enviar."
     },
     "socketio": {
         "connecting": "Conectando ao quarto",
@@ -355,7 +359,8 @@ const frnchTrans = {
     },
     "viewRoom": {
         "gameRmSpan": "Salle de jeux:",
-        "initScore": "Note : 0"
+        "initScore": "Note : 0",
+        "tooltiptext": "Maintenez pour enregistrer, relâchez pour envoyer."
     },
     "socketio": {
         "connecting": "Connexion à la chambre",
@@ -410,7 +415,7 @@ const joinRoomPageElementIds = [
     'joinRoomHeader', 'welcomeSpan', 'selectRoomSpan', 'createOneSpan', 'selectRoomLabel', 'selectInitVal', 'goToRoomBtn'
 ];
 
-const viewRoomPageElementIds = ['gameRmSpan', 'initScore'];
+const viewRoomPageElementIds = ['gameRmSpan', 'initScore', 'tooltiptext'];
 
 const pageArrays = {
     'index':indexPageElementIds, 

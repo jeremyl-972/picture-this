@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from auth.auth import auth
 from rooms.rooms import rooms
 from mysql.db import get_user, connect_to_room, disconnect_from_room, get_user_language, update_user_language, get_top_score, update_top_score
-
+from static.translations import t, translate
 
 thread = None
 thread_lock = Lock()
@@ -63,6 +63,14 @@ def introduce_drawing_player(data):
 @socketio.on('chose_word')
 def chose_word(data):
     word_dict = data['word_object']
+    # if client languages differ, translate word to guesser's language
+    if not data['artist_lang'] == data['guesser_lang']:
+        word = data['word_object']['word']
+        print(f'word: {word}')
+        translation = translate(word, data['artist_lang'], data['guesser_lang'])
+        print(f'translation: {translation}')
+        word_dict['word'] = translation
+     
     socketio.emit('send_word', word_dict, room=data['room'], include_self=False)
 
 
@@ -70,30 +78,36 @@ def chose_word(data):
 def emit_sketch(data):
     socketio.emit('getting_sketch', data, room=data['room'], include_self=False)
 
-
+keepUpdating = {'update': False}
 @socketio.on('sent_guess')
 def sent_guess(data):
+    lang = data['lang']
     score_dict = data['score_object']
     word_dict = data['word_object']
     responseData = {}
     responseData['guess'] = data['guess']
     responseData['username'] = data['username']
-    responseData['message'] = "No!"
-    responseData['toppedScore'] = False
+    responseData['message'] = t[lang]['incorrect'] 
+    responseData['correct'] = False
+    score_dict['topped'] = False
 
-    if data['guess'].replace(' ','').lower() == word_dict['word']:
-        current_score = score_dict['total']
-        current_score += word_dict['word_value']
-        responseData['score'] = current_score
-        if current_score > score_dict['topScore']:
-            responseData['keepUpdating'] = True
-            if score_dict['topped'] == False:
-                responseData['toppedScore'] = True
-            update_top_score(current_score, data['room'])
+    if data['guess'].replace(' ','').lower() == word_dict['word'].replace(' ','').lower():
+        responseData['correct'] = True
+        # add word_value to score
+        score_dict['score'] += word_dict['word_value']
+        # if score beats topScore
+        if score_dict['score'] > score_dict['topScore']:
+            # if 1st cycle, mark topped as true
+            if keepUpdating['update'] == False:
+                score_dict['topped'] = True
+                keepUpdating['update'] = True
+            # update topScore
+            score_dict['topScore'] = score_dict['score']
+            # set high score in db
+            update_top_score(score_dict['score'], data['room'])
 
-        responseData['points'] = word_dict['word_value']
-        responseData['message'] = "Yes!"
-
+        # return updated score object
+        responseData['score_dict'] = score_dict
     socketio.emit('guess_response', responseData, room=data['room'])
 
 

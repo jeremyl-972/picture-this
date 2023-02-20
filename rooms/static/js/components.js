@@ -26,9 +26,7 @@ const announce = (message, clear) => {
     announcementElement.appendChild(node);
 };
 
-
 const announceWithLoader = (message, clear) => {
-    console.log('message: ', message)
     if (clear) clearAnnouncements();
     announcementElement.append(loader_component(message));
 };
@@ -92,7 +90,7 @@ const difficulty_buttons = () => {
         clearComponent();
         const diff_level = e.currentTarget.value;
         //  on click, create and display word_buttons
-        const wordsList = await get_words(diff_level);
+        const wordsList = await get_words(diff_level, i18next.language);
         wordsContainer = word_buttons(wordsList, diff_level);
         component.appendChild(wordsContainer);
     };

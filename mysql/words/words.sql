@@ -1,5 +1,5 @@
 -- AWS RDS does not support importing files so we need to execute this script 
--- for inserting the stock symbols
+-- for inserting the words
 
 CREATE TABLE words 
 (
