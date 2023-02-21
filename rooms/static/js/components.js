@@ -263,7 +263,7 @@ let myInterval;
 const startTimer = () => {
     const countdownElement = make__div('');
     countdownElement.setAttribute('id', 'countdownElement');
-    countdownElement.innerText = ":05";
+    countdownElement.innerText = ":90";
     clearAnnouncements();
     announcementElement.style.marginTop = '10px';
     announcementElement.style.marginBottom = '10px';
