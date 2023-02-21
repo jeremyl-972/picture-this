@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import login_user, login_required, logout_user, current_user
 
 from mysql.db import get_user, save_user, update_user_language
+from static.translations import t
 
 auth = Blueprint("auth", __name__, static_folder="static",
                   template_folder="templates")
@@ -15,23 +16,23 @@ def login():
     if request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-        language = request.form['language']
+        lang = request.form['language']
         user = None
         error = None
 
         if not username:
-            error = 'Username is required.'
+            error = t[lang]['nameReqErr']
         elif not password:
-            error = 'Password is required.'
+            error = t[lang]['pswrdReqErr']
         else:
-            user = get_user(username)
+            user = get_user(username, lang)
             if type(user) == str:
                 error = user
             elif not user.check_password(password):
-                error = "Password invalid."
+                error = t[lang]['pswrdInvldErr']
             else:
-                print(language, username)
-                update_user_language(language, username)
+                print(lang, username)
+                update_user_language(lang, username)
                 login_user(user)              
                 return redirect(url_for("index"))    
 
@@ -61,23 +62,23 @@ def register():
         username = request.form['username']
         password = request.form['password']
         confirmation = request.form['confirmation']
-        language = request.form['language']
+        lang = request.form['language']
         error = None
 
         if not username:
-            error = 'Username is required.'
+            error = t[lang]['nameReqErr']
         elif not password:
-            error = 'Password is required.'
+            error = t[lang]['pswrdReqErr']
         elif not confirmation:
-            error = 'Confirmation is required.'
+            error = t[lang]['pswrdCnfrmErr']
         elif not confirmation == password:
-            error = 'Password confirmation does not match.'
+            error = t[lang]['pswrdMisMatchErr']
         else:
             # save user to db
-            status = save_user(username, password, language)
+            status = save_user(username, password, lang)
             # username already registered
             if status["error"] == True:
-                error = status["error"]
+                error = status["message"]
             else:
                 flash(status["message"])
                 return redirect(url_for("auth.login"))

@@ -28,7 +28,7 @@ def close_db():
 db = LocalProxy(get_db)
 
 
-def get_user(username):
+def get_user(username, lang):
     error = None
     user = None
 
@@ -38,7 +38,8 @@ def get_user(username):
     close_db()
     # Ensure username exists and password is correct    
     if len(rows) == 0:
-        error = f"User {username} does not exist."
+        error = f"{username} {t[lang]['notExistErr']}"
+        print(error)
         return error
     else:
         user_data = rows[0]
@@ -50,12 +51,13 @@ def save_user(username, password, language):
     user = None
     error = None
     
-    try:
-        # check for existing username
-        user = db['cur'].execute("SELECT * FROM users WHERE username = %s", username)  
-    except user:
+    # check for existing username
+    db['cur'].execute("SELECT * FROM users WHERE username = %s", username)  
+    user = db['cur'].fetchone()
+    print(user)
+    if user:
         close_db()
-        error = f"User {username} is already registered."
+        error = f"{username} {t[language]['existsErr']}"
         return {"error": True, "message": error}
     else:
         hash = generate_password_hash(
@@ -63,7 +65,7 @@ def save_user(username, password, language):
         db['cur'].execute("INSERT INTO users (username, hash, language) VALUES(%s, %s, %s)", (username, hash, language))
         db["conn"].commit()
         close_db()
-        return {"error": False, "message": "Successfully registered!"}
+        return {"error": False, "message": {t[language]['registered']}}
 
 def get_user_language(username):
     db["cur"].execute("SELECT language FROM users WHERE username = %s", (username))

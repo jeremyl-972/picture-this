@@ -23,7 +23,6 @@ let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 socket.on('receive_audio', (data) => {
-    console.log(data);
     let audioChunks = [];
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks);
@@ -62,7 +61,6 @@ socket.on('join_room_announcement', (data) => {
     else {
         GUESSING_PLAYER.name = data.username;
         GUESSING_PLAYER.lang = data.user_lang;
-        console.log();
         if (!joinee_is_self) {
             socket.emit('introduce_drawing_player', {username:user, room:room_name})
             setTimeout(() => {component.append(difficulty_buttons())}, 2000)
@@ -105,7 +103,6 @@ const choseWord = async (word, diff_level) => {
 };
 
 socket.on('send_word', (word_dict) => {
-    console.log('received word_dict: ', word_dict);
     word_object.word = word_dict.word;
     word_object.word_value = word_dict.word_value;
 })

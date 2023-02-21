@@ -43,7 +43,8 @@ const engTrans = {
     "viewRoom": {
         "gameRmSpan": "GameRoom:",
         "initScore" : "Score: 0",
-        "tooltiptext": "Hold to record, release to send."
+        "tooltiptext": "Hold to record, release to send.",
+        "timeout": "15 seconds max!",
     },
     "socketio": {
         "connecting": "Connecting to room",
@@ -122,7 +123,8 @@ const engTrans = {
     "viewRoom": {
         "gameRmSpan": "חדר משחקים:",
         "initScore": "ציון: 0",
-        "tooltiptext": ".החזק כדי להקליט, שחרר כדי לשלוח"
+        "tooltiptext": ".החזק כדי להקליט, שחרר כדי לשלוח",
+        "timeout": "!15 שניות מקסימום"
     },
     "socketio": {
         "connecting": "מתחבר לחדר",
@@ -201,7 +203,8 @@ const spanTrans = {
     "viewRoom": {
         "gameRmSpan": "Sala de juego:",
         "initScore": "Puntuación: 0",
-        "tooltiptext": "Sostenga para grabar, suelte para enviar."
+        "tooltiptext": "Sostenga para grabar, suelte para enviar.",
+        "timeout": "15 segundos máximo!"
     },
     "socketio": {
         "connecting": "Conexión a la habitación",
@@ -281,7 +284,9 @@ const portugseTrans = {
     "viewRoom": {
         "gameRmSpan": "Sala de jogos:",
         "initScore": "Pontuação: 0",
-        "tooltiptext": "Segure para gravar, solte para enviar."
+        "tooltiptext": "Segure para gravar, solte para enviar.",
+        "timeout": "15 segundos no máximo!",
+
     },
     "socketio": {
         "connecting": "Conectando ao quarto",
@@ -360,7 +365,8 @@ const frnchTrans = {
     "viewRoom": {
         "gameRmSpan": "Salle de jeux:",
         "initScore": "Note : 0",
-        "tooltiptext": "Maintenez pour enregistrer, relâchez pour envoyer."
+        "tooltiptext": "Maintenez pour enregistrer, relâchez pour envoyer.",
+        "timeout": "15 secondes maximum !"
     },
     "socketio": {
         "connecting": "Connexion à la chambre",
@@ -415,7 +421,7 @@ const joinRoomPageElementIds = [
     'joinRoomHeader', 'welcomeSpan', 'selectRoomSpan', 'createOneSpan', 'selectRoomLabel', 'selectInitVal', 'goToRoomBtn'
 ];
 
-const viewRoomPageElementIds = ['gameRmSpan', 'initScore', 'tooltiptext'];
+const viewRoomPageElementIds = ['gameRmSpan', 'initScore', 'tooltiptext', 'timeout'];
 
 const pageArrays = {
     'index':indexPageElementIds, 

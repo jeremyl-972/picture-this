@@ -122,7 +122,7 @@ def activate_timer(data):
 
 @login_manager.user_loader
 def load_user(username):
-    return get_user(username)
+    return get_user(username, lang=None)
 
 if __name__ == "__main__":
     # additional socketio.run param: debug=True

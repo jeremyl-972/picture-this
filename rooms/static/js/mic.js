@@ -100,7 +100,6 @@ function timer() {
     timerID = requestAnimationFrame(timer);
     counter++;
   } else {
-    console.log("Press threshold reached!");
     mic.dispatchEvent(pressHoldEvent);
   }
 };
@@ -140,7 +139,6 @@ const startClock = () => {
     clockInterval = setInterval(() => {
         let text = '';
         const slicedString = clock.innerText.slice(2);
-        console.log(slicedString);
         const number = parseInt(slicedString) + 1;
         if (number > 15) {
             // hide and reset recording, show timeout
