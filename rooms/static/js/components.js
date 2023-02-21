@@ -217,7 +217,7 @@ const make_guess_form = () => {
         onGuess(guess);
         toggle('guessBtn', 'loadBtn');
     };
-    const guessBtn = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', "Guess", onClick, 'guessBtn');
+    const guessBtn = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', t('socketio.guessBtn'), onClick, 'guessBtn');
     guessBtn.setAttribute('disabled', 'disabled');
     const loadBtn = loadingBtn('Guess');
 
@@ -263,7 +263,7 @@ let myInterval;
 const startTimer = () => {
     const countdownElement = make__div('');
     countdownElement.setAttribute('id', 'countdownElement');
-    countdownElement.innerText = ":90";
+    countdownElement.innerText = ":05";
     clearAnnouncements();
     announcementElement.style.marginTop = '10px';
     announcementElement.style.marginBottom = '10px';

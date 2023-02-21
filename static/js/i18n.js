@@ -1,7 +1,6 @@
 const langBtn = document.getElementById('langBtn');
 const langList = document.getElementById('langList');
 const langSpan = document.getElementById('langSpan');
-langBtn.removeAttribute('hidden');
 let language;
 let clickedLangBtn = false;
 
@@ -112,6 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     content.style.removeProperty('height');
     content.removeChild(content.lastElementChild);
     mainNode.removeAttribute('hidden');
+    langBtn.removeAttribute('hidden');
   };
   
   

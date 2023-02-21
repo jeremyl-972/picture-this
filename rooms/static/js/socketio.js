@@ -221,7 +221,8 @@ const timed_out = () => {
     GUESSING_PLAYER = TEMP;
     announcementElement.innerHTML = '';
     clearComponent();
-    announceWithLoader(t('socketio.timesUp'));
+    announce(`${word_object.word} ${t('socketio.answer')}`);
+    announceWithLoader(t('socketio.timesUp'))
     if (CLIENT_GUESSING) {
         CLIENT_GUESSING = !CLIENT_GUESSING;
         setTimeout(() => {

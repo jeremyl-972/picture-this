@@ -118,7 +118,7 @@ const make_canvas = () => {
     const guessBoxContainer = make__div('guessBoxContainer');
     guessBoxContainer.appendChild(guessBox);
 
-    const clearBtn = make_button('', 'margin-left: 0 !important', '', "Clear", null, "clearBtn");
+    const clearBtn = make_button('', 'margin-left: 0 !important', '', t('socketio.clearBtn'), null, "clearBtn");
     btnContainer.append(clearBtn, guessBoxContainer); 
 
     setImgSize(canvas);

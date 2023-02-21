@@ -5,15 +5,10 @@ document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedi
 const mic = document.getElementById('recordBtn');
 mic.style.display = 'inline-block';
 const micToolTip = document.getElementById('tooltip');
-const tooltipX = document.getElementById('tooltipX');
 const recording = document.getElementById('recording');
 const clock = document.getElementById('clock');
 
 // FASTPRESS RECORD BTN - TOOLTIP OPENS
-tooltipX.addEventListener('click', (e) => {
-  micToolTip.style.display = 'none';
-});
-
 // hide tooltip when clicking outside mic
 document.addEventListener('click', (e) => {
     if (!mic.contains(e.target)) {
@@ -45,13 +40,13 @@ mic.addEventListener("touchend", notPressingDown, false);
 
 // THIS IS WHERE THE MAGIC HAPPENS ////////////////////////////////////////////////////
 mic.addEventListener("pressHold", async () => {
-    recorder = await recordAudio();
-    recorder.start();
-    // when recording: close tooltip, show recording element, start clock
-    micToolTip.style.display = 'none';
-    recording.style.display = 'flex';
-    startClock();
-    btnPressed = false;
+  // when recording: close tooltip, show recording element, start clock
+  micToolTip.style.display = 'none';
+  recording.style.display = 'flex';
+  recorder = await recordAudio();
+  recorder.start();
+  startClock();
+  btnPressed = false;
 }, false);
 //////////////////////////////////////////////////////////////////////////////////////
 
