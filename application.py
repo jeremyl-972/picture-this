@@ -41,6 +41,10 @@ def index():
 
 # WEB SOCKET ACTIVITY STARTS HERE
 
+@socketio.on('send_audio')
+def send_audio(data):
+    socketio.emit('receive_audio', data, room=data['room'], include_self=False)
+
 @socketio.on('disconnect')
 def disconnect():
     data = disconnect_from_room(request.sid)

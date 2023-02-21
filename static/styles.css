@@ -222,7 +222,7 @@ footer > a {
     display: none;
 }
   
-#recordBtn #tooltip, #recordBtn #recording {
+#tooltip, #recording, #timeout {
     display: none;
     align-items: center;
     letter-spacing: .25px;
@@ -239,19 +239,25 @@ footer > a {
     left: 50%;
 }
 
-#recordBtn #tooltip {
+#tooltip {
     justify-content: center;
     width: 196px;
     margin-left: -180.5px;
 }
 
-#recordBtn #recording {
+#recording {
     justify-content: space-evenly;
     width: 110px;
     margin-left: -99px;
 }
+
+#timeout {
+    justify-content: center;
+    width: 110px;
+    margin-left: -99px;
+}
   
-#recordBtn #tooltip::after, #recordBtn #recording::after {
+#tooltip::after, #recording::after, #timeout::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -262,7 +268,7 @@ footer > a {
     border-color: #038ccb transparent transparent transparent;
 }
   
-#recordBtn #tooltip .bi, #recordBtn #recording .bi {
+#tooltip .bi, #recording .bi {
     padding-left: 11px;
 }
 

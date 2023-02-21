@@ -69,16 +69,18 @@ function pressingDown(e) {
 };
 
 async function notPressingDown(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
     audio = await recorder.stop();
     recording.style.display = 'none';
     recorder = null;
-    // DELETE THIS LINE!
     if (audio) {
-        audio.play();
+        socket.emit('send_audio', {
+          room: room_name,
+          audio: audio.audioBlob
+        })
         audio = null;
     };
   };
@@ -141,7 +143,10 @@ const startClock = () => {
         console.log(slicedString);
         const number = parseInt(slicedString) + 1;
         if (number > 15) {
-            stopClock(clockInterval);
+            // hide and reset recording, show timeout
+            // stopClock(clockInterval);
+            notPressingDown();
+            showTimeout();
         } else if (number < 10) {
             text = String(number).padStart(2, '0');
         } else {
@@ -154,4 +159,12 @@ const stopClock = (interval) => {
     recording.style.display = 'none';
     clearInterval(interval);
     clock.innerText = '0:00';
+};
+const showTimeout = () => {
+  mic.setAttribute('disabled', 'disabled');
+  timeout.style.display = 'flex';
+  setTimeout(() => {
+    timeout.style.display = 'none';
+    mic.removeAttribute('disabled');
+  },2000);
 };

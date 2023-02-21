@@ -22,6 +22,16 @@ let GUESSING_PLAYER = {'name': null, 'lang': null};
 let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
+socket.on('receive_audio', (data) => {
+    console.log(data);
+    let audioChunks = [];
+    audioChunks.push(data.audio)
+    const audioBlob = new Blob(audioChunks);
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    audio.play();
+});
+
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
     score_object.score = 0;
