@@ -87,7 +87,6 @@ const choseWord = async (word, diff_level) => {
     };
     word_object.word = word;
     word_object.word_value = points;
-    console.log('draw-er: ', DRAWING_PLAYER.lang, 'guess-er: ', GUESSING_PLAYER.lang);
     socket.emit('chose_word', {
         username: user,
         user_id: user_id,
@@ -103,9 +102,9 @@ const choseWord = async (word, diff_level) => {
 };
 
 socket.on('send_word', (word_dict) => {
-    word_object.word = word_dict.word;
-    word_object.word_value = word_dict.word_value;
-})
+    console.log('received word_dict: ', word_dict);
+    word_object = word_dict;
+});
 
 socket.on('start_timer', () => {
     component.removeAttribute('hidden');

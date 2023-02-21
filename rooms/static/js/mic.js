@@ -12,14 +12,12 @@ const clock = document.getElementById('clock');
 // FASTPRESS RECORD BTN - TOOLTIP OPENS
 tooltipX.addEventListener('click', (e) => {
   micToolTip.style.display = 'none';
-  tooltipOpen = false;
 });
 
 // hide tooltip when clicking outside mic
 document.addEventListener('click', (e) => {
     if (!mic.contains(e.target)) {
       micToolTip.style.display = 'none';
-      tooltipOpen = false;
     };
 });
 
@@ -27,7 +25,6 @@ document.addEventListener('click', (e) => {
 // While the press is still active, you need to ensure you are holding the press
 // Once you've held the press long enough, you fire an event to signal that this gesture was successfully completed
 // When the press is released, you reset everything back to its original state
-let tooltipOpen = false;
 let btnPressed = false;
 let timerID;
 let counter = 0;
@@ -60,12 +57,10 @@ mic.addEventListener("pressHold", async () => {
 
 
 function pressingDown(e) {
-  if (!tooltipOpen) {
     btnPressed = true;
     // Start the timer
     requestAnimationFrame(timer);
     if (e.cancelable) e.preventDefault();
-  };
 };
 
 async function notPressingDown(e) {
@@ -86,7 +81,7 @@ async function notPressingDown(e) {
   };
   if (btnPressed) {
     micToolTip.style.display = 'flex'
-    tooltipOpen = true;
+    setTimeout(() => micToolTip.style.display = 'none', 2000);
   };
   if (clockOn) stopClock(clockInterval);
   btnPressed = false;
@@ -141,8 +136,6 @@ const startClock = () => {
         const slicedString = clock.innerText.slice(2);
         const number = parseInt(slicedString) + 1;
         if (number > 15) {
-            // hide and reset recording, show timeout
-            // stopClock(clockInterval);
             notPressingDown();
             showTimeout();
         } else if (number < 10) {
