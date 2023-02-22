@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from auth.auth import auth
 from rooms.rooms import rooms
 from mysql.db import get_user, connect_to_room, disconnect_from_room, update_user_language, get_top_score, update_top_score
-from static.translations import t, translate
+from static.translations import t, translate, getSysLang
 
 thread = None
 thread_lock = Lock()
@@ -25,7 +25,7 @@ socketio = SocketIO(application, cors_allowed_origins="*")
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(application)
-login_manager.login_message = "User needs to be logged in"
+login_manager.login_message = t[getSysLang()]["login"]
 
 
 @application.route("/set_language/<userLang>/")
@@ -124,4 +124,4 @@ def load_user(username):
 
 if __name__ == "__main__":
     # additional socketio.run param: debug=True
-    socketio.run(application, host='0.0.0.0')
+    socketio.run(application, host='0.0.0.0',  port=5001, debug=True)

@@ -1,9 +1,11 @@
 from unidecode import unidecode
 from easygoogletranslate import EasyGoogleTranslate
 import re
+import locale
 
 t = {
     "en-US": {
+        "login": "User needs to be logged in",
         "notExistErr": "does not exist.",
         "existsErr": "is already registered.",
         "registered": "Successfully registered!",
@@ -114,3 +116,19 @@ def translate(word, src_lang, trgt_lang):
 vowel_pattern = re.compile(r"[\u0591-\u05C7]")
 def remove_vowels(text):
     return re.sub(vowel_pattern, "", text)
+
+def getSysLang():
+    langTuple = locale.getdefaultlocale()
+    firstTwo = langTuple[0][0:2]
+
+    availableLanguages = ['es-es', 'pt', 'fr-FR', 'en-US']
+    for lang in availableLanguages:
+        if firstTwo == lang[0:2]:
+            return lang
+        elif langTuple[0] == 'he':
+            return 'iw'
+        else:
+            print('matched english')
+            return 'en-US'
+
+getSysLang()
