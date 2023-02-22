@@ -88,7 +88,5 @@ def get_words(difficulty, lang):
     if not lang == 'en-US':      
         # translate word list and remove accents with unidecode library
         tr_word_list = [translate(word, 'en', lang) for word in word_list]
-        print(lang, tr_word_list)
         return tr_word_list
-    print('lang is english')
     return word_list

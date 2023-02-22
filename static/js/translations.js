@@ -47,6 +47,7 @@ const engTrans = {
         "timeout": "15 seconds max!",
     },
     "socketio": {
+        "httpErr": "An error occured. Try to refresh the page",
         "connecting": "Connecting to room",
         "leftRm": "has left the room",
         "topScore": "Top Score:",
@@ -130,6 +131,7 @@ const engTrans = {
         "timeout": "!15 שניות מקסימום"
     },
     "socketio": {
+        "httpErr": ".חלה שגיאה. נסה לרענן את העמוד",
         "connecting": "מתחבר לחדר",
         "leftRm": "עזב את החדר",
         "topScore": "ציון עליון:",
@@ -213,6 +215,7 @@ const spanTrans = {
         "timeout": "15 segundos máximo!"
     },
     "socketio": {
+        "httpErr": "Ocurrió un error. Intente actualizar la página",
         "connecting": "Conexión a la habitación",
         "leftRm": "ha salido de la habitación",
         "topScore": "Puntuación máxima:",
@@ -298,6 +301,7 @@ const portugseTrans = {
 
     },
     "socketio": {
+        "httpErr": "Ocorreu um erro. Tente atualizar a página",
         "connecting": "Conectando ao quarto",
         "leftRm": "saiu da sala",
         "topScore": "Melhor pontuação:",
@@ -381,6 +385,7 @@ const frnchTrans = {
         "timeout": "15 secondes maximum !"
     },
     "socketio": {
+        "httpErr": "Une erreur s'est produite. Essayez de rafraichir la page",
         "connecting": "Connexion à la chambre",
         "leftRm": "a quitté la salle",
         "topScore": "Meilleur score:",

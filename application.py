@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from auth.auth import auth
 from rooms.rooms import rooms
-from mysql.db import get_user, connect_to_room, disconnect_from_room, get_user_language, update_user_language, get_top_score, update_top_score
+from mysql.db import get_user, connect_to_room, disconnect_from_room, update_user_language, get_top_score, update_top_score
 from static.translations import t, translate
 
 thread = None
@@ -70,9 +70,7 @@ def chose_word(data):
     # if client languages differ, translate word to guesser's language
     if not data['artist_lang'] == data['guesser_lang']:
         word = data['word_object']['word']
-        print(f'word: {word}')
         translation = translate(word, data['artist_lang'], data['guesser_lang'])
-        print(f'translation: {translation}')
         word_dict['word'] = translation
      
     socketio.emit('send_word', word_dict, room=data['room'], include_self=False)

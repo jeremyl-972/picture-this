@@ -9,7 +9,7 @@ const send_request = async (url, postData) => {
         console.error(error);
         const announcements = document.getElementById('announcements');
         announcements.innerHTML = '';
-        const node = document.createTextNode('An error occured. Try to refresh the page');
+        const node = document.createTextNode(t('socketio.httpErr'));
         announcements.appendChild(node);
     }
 };

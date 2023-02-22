@@ -39,7 +39,6 @@ def get_user(username, lang):
     # Ensure username exists and password is correct    
     if len(rows) == 0:
         error = f"{username} {t[lang]['notExistErr']}"
-        print(error)
         return error
     else:
         user_data = rows[0]
@@ -54,7 +53,6 @@ def save_user(username, password, language):
     # check for existing username
     db['cur'].execute("SELECT * FROM users WHERE username = %s", username)  
     user = db['cur'].fetchone()
-    print(user)
     if user:
         close_db()
         error = f"{username} {t[language]['existsErr']}"

@@ -31,7 +31,6 @@ def login():
             elif not user.check_password(password):
                 error = t[lang]['pswrdInvldErr']
             else:
-                print(lang, username)
                 update_user_language(lang, username)
                 login_user(user)              
                 return redirect(url_for("index"))    
