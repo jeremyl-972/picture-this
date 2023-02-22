@@ -141,6 +141,7 @@ const setImgSize = (image) => {
     let anncmntHeight = 44;
     let wordDivHeight = 24;
     let formHeight = 38;
+    const clearBtnMargin = 8;
 
     if (screen.width >= 750) formHeight = 46;
 
@@ -158,7 +159,7 @@ const setImgSize = (image) => {
 
     let imageHeight =
         windowHeight - navHeight - headerHeight - anncmntHeight - wordDivHeight -
-        formHeight - footerHeight;
+        formHeight - footerHeight - clearBtnMargin;
     setHeight(`${imageHeight}px`);
         
     if (windowWidth > windowHeight) {
@@ -207,6 +208,8 @@ const getting_sketch = (data) => {
 };
 
 const make_guess_form = () => {
+    announcementElement.style.marginTop = '10px';
+    announcementElement.style.marginBottom = '10px';
     const onClick = () => {
         const loadBtn = document.getElementById('loadBtn');
         const newNode = document.createTextNode('Guess');
@@ -265,8 +268,6 @@ const startTimer = () => {
     countdownElement.setAttribute('id', 'countdownElement');
     countdownElement.innerText = ":90";
     clearAnnouncements();
-    announcementElement.style.marginTop = '10px';
-    announcementElement.style.marginBottom = '10px';
     announcementElement.append(countdownElement);
     
     myInterval = setInterval(() => {

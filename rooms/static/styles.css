@@ -13,6 +13,10 @@
     float: right;
 }
 
+header > div > h6, #scoreboard > h6 {
+    margin: 0px;
+}
+
 #announcements {
     display: flex;
     flex-direction: column;
@@ -126,5 +130,8 @@
     }
     #wordDiv {
         font-size: 30px;
+    }
+    #guessBox {
+        font-size: 20px;
     }
 }
