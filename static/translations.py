@@ -128,7 +128,4 @@ def getSysLang():
         elif langTuple[0] == 'he':
             return 'iw'
         else:
-            print('matched english')
             return 'en-US'
-
-getSysLang()
