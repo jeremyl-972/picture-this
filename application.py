@@ -15,25 +15,25 @@ thread_lock = Lock()
 
 # Configure application
 load_dotenv()
-app = Flask(__name__)
-app.register_blueprint(auth, url_prefix="/auth")
-app.register_blueprint(rooms, url_prefix="/rooms")
+application = Flask(__name__)
+application.register_blueprint(auth, url_prefix="/auth")
+application.register_blueprint(rooms, url_prefix="/rooms")
 
-app.secret_key = "sfdjkafnk"
+application.secret_key = "sfdjkafnk"
 # additional SocketIO Params: logger=True, engineio_logger=True
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(application, cors_allowed_origins="*")
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
-login_manager.init_app(app)
+login_manager.init_app(application)
 login_manager.login_message = t[getSysLang()]["login"]
 
 
-@app.route("/set_language/<userLang>/")
+@application.route("/set_language/<userLang>/")
 def set_language(userLang):
     update_user_language(userLang, current_user.username)
     return "Language set to: " + userLang
 
-@app.route("/")
+@application.route("/")
 @login_required
 def index():
     """Show intro view"""
@@ -124,4 +124,4 @@ def load_user(username):
 
 if __name__ == "__main__":
     # additional socketio.run param: debug=True
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(application, host='0.0.0.0')
