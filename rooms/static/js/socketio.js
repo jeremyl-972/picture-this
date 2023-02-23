@@ -3,7 +3,7 @@ const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
 // const socket = io("http://localhost:5000");
-const socket = io("http://picturethis-env-1.eba-zpfpzxzv.ap-northeast-1.elasticbeanstalk.com")
+const socket = io("https://picturethis-env-1.eba-zpfpzxzv.ap-northeast-1.elasticbeanstalk.com")
 
 // user joining socketio room from rooms.html or create_room.html
 socket.on('connect', async() => {
@@ -40,7 +40,7 @@ socket.on('leave_room_announcement', (data) => {
     announcementElement.style.marginTop = '45px';
     announceWithLoader(`${data.username} ${t('socketio.leftRm')}`);
     // window.location.href = `http://127.0.0.1:5000/rooms/view-room/${data.room_name}/`;
-    window.location.href = `http://picturethis-env-1.eba-zpfpzxzv.ap-northeast-1.elasticbeanstalk.com/rooms/view-room/${data.room_name}/`;
+    window.location.href = `https://picturethis-env-1.eba-zpfpzxzv.ap-northeast-1.elasticbeanstalk.com/rooms/view-room/${data.room_name}/`;
 });
 
 // component initialized after join_room announcment
