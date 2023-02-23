@@ -1,4 +1,5 @@
 from threading import Lock
+import os
 
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room
@@ -19,7 +20,7 @@ application = Flask(__name__)
 application.register_blueprint(auth, url_prefix="/auth")
 application.register_blueprint(rooms, url_prefix="/rooms")
 
-application.secret_key = "sfdjkafnk"
+application.secret_key = os.getenv('SECRET_KEY')
 # additional SocketIO Params: logger=True, engineio_logger=True
 socketio = SocketIO(application, cors_allowed_origins="*")
 login_manager = LoginManager()
