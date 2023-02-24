@@ -27,6 +27,15 @@ let recorder;
 let audio;
 let clockOn;
 
+// override user engagement for audio on mobile
+let audioBlob = new Blob([]);
+let audioUrl = URL.createObjectURL(audioBlob);
+audio = new Audio(audioUrl);
+document.addEventListener('touchstart', () => {
+    audio.play();
+});
+console.log(audio);
+
 let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 15;
 

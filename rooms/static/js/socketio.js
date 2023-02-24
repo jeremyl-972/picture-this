@@ -23,14 +23,6 @@ let GUESSING_PLAYER = {'name': null, 'lang': null};
 let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
-// override user engagement for mobile
-let audioBlob = new Blob([]);
-let audioUrl = URL.createObjectURL(audioBlob);
-let audio = new Audio(audioUrl);
-document.addEventListener('touchstart', () => {
-    audio.play();
-});
-console.log(audio);
 socket.on('receive_audio', (data) => {
     let audioChunks = [];
     audioChunks.push(data.audio)
