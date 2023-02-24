@@ -28,7 +28,7 @@ let audio;
 let clockOn;
 
 // override user engagement for audio on mobile
-audio = new Audio('http://touchbasicapp.com/nothing.wav');
+audio = new Audio('http://curtastic.com/gold.wav');
 document.addEventListener('touchstart', () => {
     audio.play();
 });
