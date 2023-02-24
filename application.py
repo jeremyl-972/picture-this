@@ -125,4 +125,4 @@ def load_user(username):
 
 if __name__ == "__main__":
     # additional socketio.run param: debug=True
-    socketio.run(application, host='0.0.0.0', allow_unsafe_werkzeug=True)
+    socketio.run(application, host='0.0.0.0')
