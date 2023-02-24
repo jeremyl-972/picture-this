@@ -26,8 +26,8 @@ let word_object = {'word': null, 'word_value': null};
 socket.on('receive_audio', (data) => {
     let audioChunks = [];
     audioChunks.push(data.audio)
-    audioBlob = new Blob(audioChunks);
-    audioUrl = URL.createObjectURL(audioBlob);
+    const audioBlob = new Blob(audioChunks);
+    const audioUrl = URL.createObjectURL(audioBlob);
     audio = new Audio(audioUrl);
     audio.play();
 });

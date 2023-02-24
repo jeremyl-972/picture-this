@@ -28,9 +28,7 @@ let audio;
 let clockOn;
 
 // override user engagement for audio on mobile
-let audioBlob = new Blob([]);
-let audioUrl = URL.createObjectURL(audioBlob);
-audio = new Audio(audioUrl);
+audio = new Audio('../nothing.wav');
 document.addEventListener('touchstart', () => {
     audio.play();
 });
