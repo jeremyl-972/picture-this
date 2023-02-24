@@ -31,7 +31,8 @@ socket.on('receive_audio', (data) => {
     // const audio = new Audio(audioUrl);
     // audio.play();
     const sound = new Howl({
-        src: [audioUrl]
+        src: [audioUrl],
+        autoplay: true
       });
     console.log(sound);
     sound.play();
