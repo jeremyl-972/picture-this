@@ -27,13 +27,6 @@ let recorder;
 let audio;
 let clockOn;
 
-// override user engagement for audio on mobile
-audio = new Audio('http://curtastic.com/gold.wav');
-document.addEventListener('touchstart', () => {
-    audio.play();
-});
-console.log(audio);
-
 let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 15;
 

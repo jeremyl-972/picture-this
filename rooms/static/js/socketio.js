@@ -29,7 +29,14 @@ socket.on('receive_audio', (data) => {
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
     audio = new Audio(audioUrl);
-    audio.play();
+
+    // override user engagement for audio on mobile
+    const playBtn = document.getElementById('playBtn');
+    playBtn.addEventListener('click', () => {
+        audio.play();
+    });
+    playBtn.click();
+    console.log(audio);
 });
 
 // reroute to view_room when opponent leaves the room
