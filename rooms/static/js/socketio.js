@@ -32,7 +32,7 @@ socket.on('receive_audio', (data) => {
 
     // override user engagement for audio on mobile
     const playBtn = document.getElementById('playBtn');
-    playBtn.addEventListener('click', () => {
+    playBtn.addEventListener('touchstart', () => {
         audio.play();
     });
     playBtn.click();
