@@ -29,7 +29,11 @@ socket.on('receive_audio', (data) => {
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
     const audio = new Audio(audioUrl);
-    audio.play();
+    // audio.play();
+    const sound = new Howl({
+        src: [audio]
+      });
+    sound.play();
 });
 
 // reroute to view_room when opponent leaves the room
