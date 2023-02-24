@@ -28,11 +28,12 @@ socket.on('receive_audio', (data) => {
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
-    const audio = new Audio(audioUrl);
+    // const audio = new Audio(audioUrl);
     // audio.play();
     const sound = new Howl({
-        src: [audio]
+        src: [audioUrl]
       });
+    console.log(sound);
     sound.play();
 });
 
