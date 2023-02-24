@@ -39,7 +39,8 @@ mic.addEventListener("touchend", notPressingDown, false);
 
 
 // THIS IS WHERE THE MAGIC HAPPENS ////////////////////////////////////////////////////
-mic.addEventListener("pressHold", async () => {
+mic.addEventListener("pressHold", async (e) => {
+  e.preventDefault();
   // when recording: close tooltip, show recording element, start clock
   micToolTip.style.display = 'none';
   recording.style.display = 'flex';
