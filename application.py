@@ -34,6 +34,10 @@ def set_language(userLang):
     update_user_language(userLang, current_user.username)
     return "Language set to: " + userLang
 
+@application.route("/health_check")
+def health_check():
+    return "Healthcheck ok"
+
 @application.route("/")
 @login_required
 def index():
