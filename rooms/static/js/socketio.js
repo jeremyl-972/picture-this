@@ -39,15 +39,17 @@ socket.on('receive_audio', (data) => {
     const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
-    const startPlaying = ()=>{
-        audioTag.removeEventListener('playing', startPlaying);
-        audioTag.src = audioUrl;
-        audioTag.play();
-      }
-      audioTag.addEventListener('playing', startPlaying);
-      audioTag.addEventListener('error', ()=>{
-        console.log("error");
-      });
+    audioTag.src = audioUrl;
+    audioTag.play();
+    // const startPlaying = ()=> {
+    //     audioTag.removeEventListener('playing', startPlaying);
+    //     audioTag.src = audioUrl;
+    //     audioTag.play();
+    // }
+    // audioTag.addEventListener('playing', startPlaying);
+    // audioTag.addEventListener('error', ()=>{
+    //     console.log("error");
+    // });
 });
 
 // reroute to view_room when opponent leaves the room
