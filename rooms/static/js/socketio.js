@@ -40,7 +40,7 @@ socket.on('receive_audio', (data) => {
     const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
-    console.log('audioUrl:',audioUrl);
+    console.log('audioUrlType:',audioUrl.type);
     srcElement.src = audioUrl;
     srcElement.srcObject = audioUrl;
     console.log('srcElement.src:',srcElement.src);
