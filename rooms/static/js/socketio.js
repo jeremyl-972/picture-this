@@ -2,18 +2,11 @@
 const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
-// User Enable Audio
 const audioTag = document.getElementById("audioTag");
-let audioBtn = document.getElementById("audioBtn");
+let bt = document.getElementById("audioBtn");
 console.log(audioTag);
-// play blank audio on "accept"(btn click)
-audioBtn.addEventListener("click", ()=>{
-    audioBtn.classList.add("hide");
-    mic.style.display = 'inline-block';
-    audioTag.play();
-});
-audioTag.addEventListener('error', ()=>{
-  console.log("error");
+bt.addEventListener("click", ()=>{
+  audioTag.play();
 });
 
 // const socket = io("http://localhost:5000");
@@ -42,11 +35,18 @@ socket.on('receive_audio', (data) => {
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
-    src = audioUrl
     // audio = new Audio(audioUrl);
-    audioTag.src = src;
-    console.log(src);
-    audioTag.play();
+    // audioTag.play();
+    const startPlaying = ()=>{
+        audioTag.removeEventListener('playing', startPlaying);
+        bt.classList.add("hide");
+        audioTag.src = audioUrl;
+        audioTag.play();
+      }
+      audioTag.addEventListener('playing', startPlaying);
+      audioTag.addEventListener('error', ()=>{
+        console.log("error");
+      });
 });
 
 // reroute to view_room when opponent leaves the room
