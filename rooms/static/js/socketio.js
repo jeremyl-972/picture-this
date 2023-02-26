@@ -8,6 +8,7 @@ audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
     audioTag.play();
+    audioTag.removeAttribute('src');
 });
 
 // const socket = io("http://localhost:5000");
@@ -45,6 +46,7 @@ socket.on('receive_audio', (data) => {
     // srcElement.srcObject = audioUrl;
     console.log('srcElement.src:',srcElement.src);
     // console.log('srcElement.srcObject:',srcElement.srcObject);
+    console.log(audioTag);
     audioTag.load();
     audioTag.play();
 });
