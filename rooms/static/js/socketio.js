@@ -34,7 +34,7 @@ socket.on('receive_audio', (data) => {
     const audioTag = document.getElementById('audioTag');
     const srcTag = document.getElementById('srcTag');
     srcTag.setAttribute('src', audio);
-    audioTag.removeAttribute('muted');
+    audioTag.removeAttribute('hidden');
     audioTag.addEventListener('click', () => {
         audio.play();
         console.log(audio);
@@ -43,7 +43,6 @@ socket.on('receive_audio', (data) => {
         audio.play()
         console.log(audio);
     } );
-    audioTag.click();
 });
 
 // reroute to view_room when opponent leaves the room
