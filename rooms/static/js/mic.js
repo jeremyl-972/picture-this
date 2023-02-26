@@ -1,5 +1,22 @@
 // GET MICROPHONE PERMISSION
 document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}))    
+// User Enable Audio
+const audioTag = document.getElementById("audioTag");
+let audioBtn = document.getElementById("audioBtn");
+console.log(audio);
+audioBtn.addEventListener("click", ()=>{
+  audio.play();
+});
+const startPlaying = ()=>{
+  audio.removeEventListener('playing', startPlaying);
+  audioBtn.classList.add("hide");
+  audio.src = 'https://freesound.org/data/previews/475/475736_4397472-lq.mp3';
+  audio.play();
+}
+audio.addEventListener('playing', startPlaying);
+audio.addEventListener('error', ()=>{
+  console.log("error");
+});
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
