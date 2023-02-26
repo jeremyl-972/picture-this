@@ -39,13 +39,12 @@ let word_object = {'word': null, 'word_value': null};
 socket.on('receive_audio', (data) => {
     let audioChunks = [];
     audioChunks.push(data.audio)
-    const audioBlob = new Blob(audioChunks);
+    const audioBlob = new Blob(audioChunks, {type: 'audio/mpeg'});
     const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
     console.log('audioUrl:',audioUrl);
     audioTag.src = audioUrl;
-    audioTag.type = 'audio/mp3';
     console.log('audioTag.src:',audioTag.src);
 
     audioTag.load();
