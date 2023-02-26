@@ -41,7 +41,7 @@ socket.on('receive_audio', (data) => {
     // audioTag.play();
     const srcElement = document.createElement("source");
     srcElement.src = audioUrl;
-    srcElement.type = 'audio/mp3'
+    srcElement.type = 'audio/wav'
     audioTag.appendChild(srcElement);
     // srcElement.srcObject = audioUrl;
     console.log('srcElement.src:',srcElement.src);
