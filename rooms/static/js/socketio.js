@@ -3,10 +3,11 @@ const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
 const audioTag = document.getElementById("audioTag");
-let bt = document.getElementById("audioBtn");
+let audioBtn = document.getElementById("audioBtn");
 console.log(audioTag);
-bt.addEventListener("click", ()=>{
-  audioTag.play();
+audioBtn.addEventListener("click", ()=>{
+    audioBtn.classList.add("hide");
+    audioTag.play();
 });
 
 // const socket = io("http://localhost:5000");
@@ -39,7 +40,6 @@ socket.on('receive_audio', (data) => {
     // audioTag.play();
     const startPlaying = ()=>{
         audioTag.removeEventListener('playing', startPlaying);
-        bt.classList.add("hide");
         audioTag.src = audioUrl;
         audioTag.play();
       }
