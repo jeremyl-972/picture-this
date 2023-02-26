@@ -1,8 +1,4 @@
 // MAIN LOGIC FOR VIEW-ROOM
-window.addEventListener("unhandledrejection", (event) => {
-    console.log(event.reason);
-});
-
 const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
