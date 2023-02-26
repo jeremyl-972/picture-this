@@ -1,4 +1,8 @@
 // MAIN LOGIC FOR VIEW-ROOM
+window.addEventListener("unhandledrejection", (event) => {
+    console.log(event.reason);
+});
+
 const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
@@ -41,6 +45,7 @@ socket.on('receive_audio', (data) => {
     // audioTag.play();
     console.log('audioUrl:',audioUrl);
     audioTag.src = audioUrl;
+    audioTag.type = 'audio/mp3';
     console.log('audioTag.src:',audioTag.src);
 
     audioTag.load();
