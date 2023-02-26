@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedi
 // User Enable Audio
 const audioTag = document.getElementById("audioTag");
 let audioBtn = document.getElementById("audioBtn");
-console.log(audio);
+console.log(audioTag);
 audioBtn.addEventListener("click", ()=>{
   audio.play();
 });

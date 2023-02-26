@@ -29,20 +29,6 @@ socket.on('receive_audio', (data) => {
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
     audio = new Audio(audioUrl);
-
-    // override user engagement for audio on mobile
-    const audioTag = document.getElementById('audioTag');
-    const srcTag = document.getElementById('srcTag');
-    srcTag.setAttribute('src', audio);
-    audioTag.removeAttribute('hidden');
-    audioTag.addEventListener('click', () => {
-        audio.play();
-        console.log(audio);
-    });
-    audioTag.addEventListener('touchstart', () => {
-        audio.play()
-        console.log(audio);
-    } );
 });
 
 // reroute to view_room when opponent leaves the room
