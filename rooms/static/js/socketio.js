@@ -33,10 +33,10 @@ let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 socket.on('receive_audio', (data) => {
-    let audioChunks = [];
-    audioChunks.push(data.audio)
-    const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
-    const audioUrl = URL.createObjectURL(audioBlob);
+    // let audioChunks = [];
+    // audioChunks.push(data.audio)
+    // const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
+    const audioUrl = URL.createObjectURL(data);
     // audio = new Audio(audioUrl);
     // audioTag.play();
     const srcElement = document.createElement("source");
