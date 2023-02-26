@@ -40,7 +40,8 @@ socket.on('receive_audio', (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     const srcElement = document.createElement("source");
-    srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
+    // srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
+    srcElement.src = audioUrl;
     srcElement.type = 'audio/mp3'
     audioTag.appendChild(srcElement);
     // srcElement.srcObject = audioUrl;
