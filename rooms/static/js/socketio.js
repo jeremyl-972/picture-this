@@ -7,6 +7,7 @@ let audioBtn = document.getElementById("audioBtn");
 console.log(audioTag);
 audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
+    mic.style.display = 'inline-block';
     audioTag.play();
 });
 
