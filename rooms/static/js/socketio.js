@@ -31,11 +31,19 @@ socket.on('receive_audio', (data) => {
     audio = new Audio(audioUrl);
 
     // override user engagement for audio on mobile
-    const playBtn = document.getElementById('playBtn');
-    playBtn.addEventListener('click', () => audio.play() );
-    playBtn.addEventListener('touchstart', () => audio.play() );
-    playBtn.click();
-    console.log(audio);
+    const audioTag = document.getElementById('audioTag');
+    const srcTag = document.getElementById('srcTag');
+    srcTag.setAttribute('src', audio);
+    audioTag.removeAttribute('muted');
+    audioTag.addEventListener('click', () => {
+        audio.play();
+        console.log(audio);
+    });
+    audioTag.addEventListener('touchstart', () => {
+        audio.play()
+        console.log(audio);
+    } );
+    audioTag.click();
 });
 
 // reroute to view_room when opponent leaves the room
