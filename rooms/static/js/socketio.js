@@ -12,14 +12,6 @@ audioBtn.addEventListener("click", ()=>{
     mic.style.display = 'inline-block';
     audioTag.play();
 });
-// change source and play audio
-let src;
-const startPlaying = (src)=>{
-//   audioTag.removeEventListener('playing', startPlaying);
-  audioTag.src = src;
-  audioTag.play();
-};
-audioTag.addEventListener('playing', startPlaying);
 audioTag.addEventListener('error', ()=>{
   console.log("error");
 });
@@ -52,6 +44,7 @@ socket.on('receive_audio', (data) => {
     const audioUrl = URL.createObjectURL(audioBlob);
     src = audioUrl
     // audio = new Audio(audioUrl);
+    audioTag.src = src;
     console.log(src);
     audioTag.play();
 });
