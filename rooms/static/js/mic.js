@@ -5,16 +5,16 @@ const audioTag = document.getElementById("audioTag");
 let audioBtn = document.getElementById("audioBtn");
 console.log(audioTag);
 audioBtn.addEventListener("click", ()=>{
-  audio.play();
+  audioTag.play();
 });
 const startPlaying = ()=>{
-  audio.removeEventListener('playing', startPlaying);
+  audioTag.removeEventListener('playing', startPlaying);
   audioBtn.classList.add("hide");
-  audio.src = 'https://freesound.org/data/previews/475/475736_4397472-lq.mp3';
-  audio.play();
+  audioTag.src = 'https://freesound.org/data/previews/475/475736_4397472-lq.mp3';
+  audioTag.play();
 }
-audio.addEventListener('playing', startPlaying);
-audio.addEventListener('error', ()=>{
+audioTag.addEventListener('playing', startPlaying);
+audioTag.addEventListener('error', ()=>{
   console.log("error");
 });
 

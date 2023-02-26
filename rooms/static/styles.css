@@ -13,6 +13,10 @@
     float: right;
 }
 
+.hide{
+    display:none;
+}
+
 header > div > h6, #scoreboard > h6 {
     margin: 0px;
 }
@@ -42,7 +46,6 @@ header > div > h6, #scoreboard > h6 {
     align-items: center;
     row-gap: 30px;
 }
-
 @media screen and (max-width: 300px) {
     #joinRmWelcome {
         font-size: 13px;
