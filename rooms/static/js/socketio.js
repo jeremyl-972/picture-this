@@ -37,10 +37,26 @@ socket.on('receive_audio', (data) => {
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
     const audioUrl = URL.createObjectURL(audioBlob);
-    // audio = new Audio(audioUrl);
-    // audioTag.play();
+
+    try {
+        const process = new ffmpeg(audioUrl);
+        process.then(function (audio) {
+            // Callback mode
+            audio.fnExtractSoundToMP3('../audio_file.mp3', function (error, file) {
+                if (!error)
+                    console.log('Audio file: ' + file);
+            });
+        }, function (err) {
+            console.log('Error: ' + err);
+        });
+    } catch (e) {
+        console.log(e.code);
+        console.log(e.msg);
+    }
+
     const srcElement = document.createElement("source");
-    srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
+    // srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
+    srcElement.src = '../audio_file.mp3';
     srcElement.type = 'audio/mp3'
     audioTag.appendChild(srcElement);
     // srcElement.srcObject = audioUrl;
