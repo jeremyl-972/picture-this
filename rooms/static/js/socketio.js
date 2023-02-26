@@ -39,7 +39,10 @@ socket.on('receive_audio', (data) => {
     const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
+    console.log('audioUrl:',audioUrl);
     audioTag.src = audioUrl;
+    console.log('audioTag.src:',audioTag.src);
+
     audioTag.load();
     audioTag.play();
     // const startPlaying = ()=> {
