@@ -40,6 +40,7 @@ socket.on('receive_audio', (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     audioTag.src = audioUrl;
+    audioTag.load();
     audioTag.play();
     // const startPlaying = ()=> {
     //     audioTag.removeEventListener('playing', startPlaying);
