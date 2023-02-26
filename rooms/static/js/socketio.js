@@ -3,7 +3,8 @@ const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
 const audioTag = document.getElementById("audioTag");
-let audioBtn = document.getElementById("audioBtn");
+const audioBtn = document.getElementById("audioBtn");
+const srcElement = document.getElementById("srcElement");
 console.log(audioTag);
 audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
@@ -40,7 +41,8 @@ socket.on('receive_audio', (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     console.log('audioUrl:',audioUrl);
-    audioTag.src = audioUrl;
+    srcElement.src = audioUrl;
+    srcElement.srcObject = audioUrl;
     console.log('audioTag.src:',audioTag.src);
 
     audioTag.load();
