@@ -47,7 +47,7 @@ socket.on('receive_audio', (data) => {
     console.log('srcElement.src:',srcElement.src);
     // console.log('srcElement.srcObject:',srcElement.srcObject);
     console.log(audioTag);
-    audioTag.load();
+    srcElement.load();
     audioTag.play();
 });
 
