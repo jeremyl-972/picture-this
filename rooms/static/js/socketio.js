@@ -2,6 +2,28 @@
 const langSelect = document.querySelector('.lang-select');
 langSelect.style.display = 'none';
 
+// User Enable Audio
+const audioTag = document.getElementById("audioTag");
+let audioBtn = document.getElementById("audioBtn");
+console.log(audioTag);
+// play blank audio on "accept"(btn click)
+audioBtn.addEventListener("click", ()=>{
+    audioBtn.classList.add("hide");
+    mic.style.display = 'inline-block';
+    audioTag.play();
+});
+// change source and play audio
+let src;
+const startPlaying = (src)=>{
+//   audioTag.removeEventListener('playing', startPlaying);
+  audioTag.src = src;
+  audioTag.play();
+};
+audioTag.addEventListener('playing', startPlaying);
+audioTag.addEventListener('error', ()=>{
+  console.log("error");
+});
+
 // const socket = io("http://localhost:5000");
 const socket = io("https://www.ilpicturethis.com")
 
@@ -28,7 +50,10 @@ socket.on('receive_audio', (data) => {
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks);
     const audioUrl = URL.createObjectURL(audioBlob);
-    audio = new Audio(audioUrl);
+    src = audioUrl
+    // audio = new Audio(audioUrl);
+    console.log(src);
+    audioTag.play();
 });
 
 // reroute to view_room when opponent leaves the room

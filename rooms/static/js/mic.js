@@ -1,26 +1,8 @@
 // GET MICROPHONE PERMISSION
 document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}))    
-// User Enable Audio
-const audioTag = document.getElementById("audioTag");
-let audioBtn = document.getElementById("audioBtn");
-console.log(audioTag);
-audioBtn.addEventListener("click", ()=>{
-  audioTag.play();
-});
-const startPlaying = ()=>{
-  audioTag.removeEventListener('playing', startPlaying);
-  audioBtn.classList.add("hide");
-  audioTag.src = 'https://freesound.org/data/previews/475/475736_4397472-lq.mp3';
-  audioTag.play();
-}
-audioTag.addEventListener('playing', startPlaying);
-audioTag.addEventListener('error', ()=>{
-  console.log("error");
-});
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
-mic.style.display = 'inline-block';
 const micToolTip = document.getElementById('tooltip');
 const recording = document.getElementById('recording');
 const clock = document.getElementById('clock');
