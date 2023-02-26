@@ -41,7 +41,7 @@ socket.on('receive_audio', (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     const srcElement = document.createElement("source");
-    srcElement.src = file;
+    srcElement.srcObject = file;
     srcElement.type = 'audio/mpeg'
     audioTag.appendChild(srcElement);
     // srcElement.srcObject = audioUrl;
