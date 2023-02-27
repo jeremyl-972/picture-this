@@ -48,11 +48,7 @@ def index():
 
 @socketio.on('send_audio')
 def send_audio(data):
-    print(f'{data} GETTING SOMETHING HERE')
-    blob = request.data
-    with open('./rooms/static/audio_file.mp3', 'ab') as f:
-        f.write(blob)
-        socketio.emit('receive_audio', f, room=data['room'])
+    socketio.emit('receive_audio', data, room=data['room'])
     
 
 @socketio.on('disconnect')

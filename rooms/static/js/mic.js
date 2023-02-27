@@ -67,6 +67,7 @@ async function notPressingDown(e) {
     recording.style.display = 'none';
     recorder = null;
     if (audio) {
+      audio.play();
         socket.emit('send_audio', {
           room: room_name,
           audio: audio.audioBlob

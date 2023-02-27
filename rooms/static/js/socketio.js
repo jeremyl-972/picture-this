@@ -33,22 +33,22 @@ let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 socket.on('receive_audio', (data) => {
-    // let audioChunks = [];
-    // audioChunks.push(data.audio)
-    // const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
-    console.log(data);
-    const audioUrl = URL.createObjectURL(data);
+    let audioChunks = [];
+    audioChunks.push(data.audio)
+    const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
+    const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
     const srcElement = document.createElement("source");
     // srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
     srcElement.src = audioUrl;
     srcElement.type = 'audio/mp3'
+    srcElement.srcObject = audioUrl;
     audioTag.appendChild(srcElement);
-    // srcElement.srcObject = audioUrl;
-    console.log('srcElement.src:',srcElement.src);
-    // console.log('srcElement.srcObject:',srcElement.srcObject);
     console.log(audioTag);
+
+    console.log('srcElement.src:',srcElement.src);
+    console.log('srcElement.srcObject:',srcElement.srcObject);
     audioTag.load();
     audioTag.play();
 });
