@@ -117,7 +117,8 @@ const recordAudio = () =>
     input = audioContext.createMediaStreamSource(stream);
     rec = new Recorder(input, {
       numChannels: 1
-    }) 
+    });
+    console.log(rec); 
 
     const start = () => rec.record();
 
@@ -126,6 +127,7 @@ const recordAudio = () =>
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
         rec.exportWAV((blob) => {
+          console.log(blob);
           audioBlob = blob;
         });
         console.log(audioBlob);
