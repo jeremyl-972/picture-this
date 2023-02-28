@@ -42,7 +42,7 @@ socket.on('receive_audio', (data) => {
     // 'http://techslides.com/demos/samples/sample.mp3';
     sourceTag.setAttribute('src', audioUrl);
     sourceTag.type = 'audio/mpeg'
-    audioTag.srcObject = audioUrl;
+    // sourceTag.srcObject = audioUrl;
     console.log(audioTag);
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
