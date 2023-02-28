@@ -106,7 +106,7 @@ function timer() {
 const recordAudio = () =>
   new Promise(async resolve => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new RecordRTC(stream, {type: 'audio'});
+    const mediaRecorder = new RecordRTC(stream, {type: 'audio', mimeType: 'audio/mpeg'});
     // const audioChunks = [];
 
     // mediaRecorder.addEventListener("dataavailable", event => {
