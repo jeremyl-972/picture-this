@@ -23,7 +23,6 @@ let word_object = {'word': null, 'word_value': null};
 // All the message receiving logic:
 const audioBtn = document.getElementById("audioBtn");
 // audioBtn.classList.remove('hide');
-const sourceTag = document.getElementById('sourceTag');
 audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
@@ -31,6 +30,9 @@ audioBtn.addEventListener("click", ()=>{
     audioTag.play();
 });
 socket.on('receive_audio', (data) => {
+    const audioTag = document.getElementById("audioTag");
+    const sourceTag = document.getElementById('sourceTag');
+
     let audioChunks = [];
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
@@ -44,7 +46,6 @@ socket.on('receive_audio', (data) => {
     console.log(audioTag);
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
-    const audioTag = document.getElementById("audioTag");
     audioTag.load();
     mic.classList.add("hide");
     audioBtn.classList.remove('hide');
