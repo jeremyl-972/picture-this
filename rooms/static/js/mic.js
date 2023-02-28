@@ -126,7 +126,7 @@ const recordAudio = () =>
     const stop = async () => {
       rec.stop();
       gumStream.getAudioTracks()[0].stop();
-      await rec.exportWAV(callback(blob, audioBlob)); 
+      await rec.exportWAV((blob) => { callback(blob, audioBlob) }); 
     };
       
     resolve({ start, stop });
