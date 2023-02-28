@@ -70,7 +70,7 @@ async function notPressingDown(e) {
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
-    audioBlob = await recorder.stop();
+    audioBlob = await recorder.stop(audioBlob);
     console.log(audioBlob);
     recording.style.display = 'none';
     recorder = null;
@@ -109,7 +109,6 @@ const recordAudio = () =>
     let gumStream; 
     let input;
     let rec;
-    let audioBlob;
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     gumStream = stream;
 
