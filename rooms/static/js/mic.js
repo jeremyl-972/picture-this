@@ -119,7 +119,7 @@ const recordAudio = () =>
       new Promise(resolve => {
         let audioBlob;
         mediaRecorder.stopRecording(() => {
-          audioBlob = recorder.getBlob();
+          audioBlob = mediaRecorder.getBlob();
           invokeSaveAsDialog(blob);
         });
         resolve(audioBlob);
