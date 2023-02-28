@@ -128,6 +128,7 @@ const recordAudio = () =>
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
         await rec.exportWAV((blob) => aBlob = blob );
+        console.log(aBlob);
         resolve(aBlob) ; 
       });
     };
