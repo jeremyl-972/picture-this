@@ -29,7 +29,7 @@ audioBtn.addEventListener("click", ()=>{
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
 });
-socket.on('receive_audio', (data) => {
+socket.on('receive_audio', async (data) => {
     const audioTag = document.getElementById("audioTag");
     const sourceTag = document.getElementById('sourceTag');
 
@@ -41,14 +41,13 @@ socket.on('receive_audio', (data) => {
     // audioTag.play();
     // 'http://techslides.com/demos/samples/sample.mp3';
     sourceTag.setAttribute('src', audioUrl);
+    sourceTag.srcObject = audioUrl;
     sourceTag.type = 'audio/mpeg'
-    // sourceTag.srcObject = audioUrl;
     console.log(audioTag);
-    console.log('sourceTag.src:',sourceTag.src);
-    console.log('sourceTag.srcObject:',sourceTag.srcObject);
-    audioTag.load();
-    mic.classList.add("hide");
-    audioBtn.classList.remove('hide');
+    await audioTag.load();
+    audioTag.play()
+    // mic.classList.add("hide");
+    // audioBtn.classList.remove('hide');
 });
 
 // reroute to view_room when opponent leaves the room
