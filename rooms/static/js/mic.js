@@ -122,8 +122,12 @@ const recordAudio = () =>
       new Promise(resolve => {
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
-        const audioBlob = rec.exportWAV();
+        let audioBlob;
+        rec.exportWAV((blob) => {
+          audioBlob = blob;
+        });
         console.log(audioBlob);
+
         resolve(audioBlob);
       });
 
