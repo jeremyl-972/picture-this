@@ -118,7 +118,7 @@ const recordAudio = () =>
     const stop = () =>
       new Promise(resolve => {
         mediaRecorder.addEventListener("stop", () => {
-          const audioBlob = new Blob(audioChunks, { type : 'audio/wav'});
+          const audioBlob = new Blob(audioChunks, { type : 'audio/mpeg'});
           const audioUrl = URL.createObjectURL(audioBlob);
           const audio = new Audio(audioUrl);
           const play = () => audio.play();

@@ -35,12 +35,12 @@ socket.on('receive_audio', async (data) => {
 
     let audioChunks = [];
     audioChunks.push(data.audio)
-    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
     const audioUrl = window.URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
     // 'http://techslides.com/demos/samples/sample.mp3';
-    sourceTag.setAttribute('src', 'http://techslides.com/demos/samples/sample.mp3');
+    sourceTag.setAttribute('src', audioUrl);
     sourceTag.srcObject = audioUrl;
     sourceTag.type = 'audio/mpeg'
     console.log(audioTag);
