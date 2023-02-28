@@ -106,26 +106,23 @@ function timer() {
 const recordAudio = () =>
   new Promise(async resolve => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new MediaRecorder(stream);
-    const audioChunks = [];
+    const mediaRecorder = new RecordRTC(stream, {type: 'audio'});
+    // const audioChunks = [];
 
-    mediaRecorder.addEventListener("dataavailable", event => {
-      audioChunks.push(event.data);
-    });
+    // mediaRecorder.addEventListener("dataavailable", event => {
+    //   audioChunks.push(event.data);
+    // });
 
-    const start = () => mediaRecorder.start();
+    const start = () => mediaRecorder.startRecording();
 
     const stop = () =>
       new Promise(resolve => {
-        mediaRecorder.addEventListener("stop", () => {
-          const audioBlob = new Blob(audioChunks, { type : 'audio/webm'});
-          const audioUrl = URL.createObjectURL(audioBlob);
-          const audio = new Audio(audioUrl);
-          const play = () => audio.play();
-          resolve({ audioBlob, audioUrl, play });
+        let audioBlob;
+        mediaRecorder.stopRecording(() => {
+          audioBlob = recorder.getBlob();
+          invokeSaveAsDialog(blob);
         });
-
-        mediaRecorder.stop();
+        resolve(audioBlob);
       });
 
     resolve({ start, stop });
