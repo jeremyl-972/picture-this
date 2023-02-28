@@ -106,6 +106,9 @@ function timer() {
 const recordAudio = () =>
   new Promise(async resolve => {
     let gumStream; 
+    let input;
+    let rec;
+    let audioBlob;
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     gumStream = stream;
 
@@ -122,7 +125,6 @@ const recordAudio = () =>
       new Promise(resolve => {
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
-        let audioBlob;
         rec.exportWAV((blob) => {
           audioBlob = blob;
         });
