@@ -105,23 +105,25 @@ function timer() {
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
 const recordAudio = () =>
   new Promise(async resolve => {
+    let gumStream; 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new RecordRTC(stream, {type: 'audio', mimeType: 'audio/mpeg'});
-    // const audioChunks = [];
+    gumStream = stream;
 
-    // mediaRecorder.addEventListener("dataavailable", event => {
-    //   audioChunks.push(event.data);
-    // });
+    const audioContext = new AudioContext;
+    /* use the stream */
+    input = audioContext.createMediaStreamSource(stream);
+    rec = new Recorder(input, {
+      numChannels: 1
+    }) 
 
-    const start = () => mediaRecorder.startRecording();
+    const start = () => rec.record();
 
     const stop = () =>
       new Promise(resolve => {
-        let audioBlob;
-        mediaRecorder.stopRecording(() => {
-          audioBlob = mediaRecorder.getBlob();
-          invokeSaveAsDialog(audioBlob);
-        });
+        rec.stop();
+        gumStream.getAudioTracks()[0].stop();
+        const audioBlob = rec.exportWAV();
+        console.log(audioBlob);
         resolve(audioBlob);
       });
 
