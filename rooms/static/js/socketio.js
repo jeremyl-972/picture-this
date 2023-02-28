@@ -37,10 +37,10 @@ socket.on('receive_audio', (data) => {
     const audioUrl = window.URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
-    // srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
-    sourceTag.setAttribute('src', audioUrl);
+    // 'http://techslides.com/demos/samples/sample.mp3';
+    sourceTag.setAttribute('src', 'http://techslides.com/demos/samples/sample.mp3');
     sourceTag.type = 'audio/mp3'
-    sourceTag.srcObject = audioUrl;
+    // sourceTag.srcObject = audioUrl;
     console.log(audioTag);
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
