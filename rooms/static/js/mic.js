@@ -126,17 +126,11 @@ const recordAudio = () =>
     const stop = async () => {
       rec.stop();
       gumStream.getAudioTracks()[0].stop();
-      await rec.exportWAV((blob) => { callback(blob, audioBlob) }); 
+      await rec.exportWAV((blob, audioBlob) => audioBlob = blob ); 
     };
       
     resolve({ start, stop });
   });
-
-function callback(blob, audioBlob) {
-  console.log(blob);
-  audioBlob = blob;
-  console.log(audioBlob);
-}
 
 let clockInterval;
 const startClock = () => {
