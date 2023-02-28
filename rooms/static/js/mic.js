@@ -71,6 +71,7 @@ async function notPressingDown(e) {
   cancelAnimationFrame(timerID);
   if (recorder) {
     audioBlob = await recorder.stop();
+    console.log(audioBlob);
     recording.style.display = 'none';
     recorder = null;
     if (audioBlob) {
