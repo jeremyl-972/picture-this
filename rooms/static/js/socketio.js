@@ -35,7 +35,7 @@ socket.on('receive_audio', async (data) => {
 
     let audioChunks = [];
     audioChunks.push(data.audio)
-    const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
     const audioUrl = window.URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
