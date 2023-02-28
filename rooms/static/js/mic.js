@@ -122,15 +122,12 @@ const recordAudio = () =>
 
     const start = () => rec.record();
 
-    const stop = () => {
-      let audioBlob;
-      new Promise(async(resolve) => {
+    const stop = async () => {
+      await new Promise(async (resolve) => {
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
         await rec.exportWAV((blob) => {
-          audioBlob = blob;
-          console.log(audioBlob);
-          resolve(audioBlob);
+          resolve(blob);
         }); 
       });
     };
