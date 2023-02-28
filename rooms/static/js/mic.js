@@ -127,14 +127,14 @@ const recordAudio = () =>
 
     const start = () => rec.record();
 
-    const stop = () => {
+    const stop = () =>
       new Promise(resolve => {
+        log(rec)
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
         resolve(rec) ; 
       });
-    };
-      
+  
     resolve({ start, stop });
   });
 
