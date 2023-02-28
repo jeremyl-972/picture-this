@@ -23,27 +23,28 @@ let word_object = {'word': null, 'word_value': null};
 // All the message receiving logic:
 const audioBtn = document.getElementById("audioBtn");
 // audioBtn.classList.remove('hide');
-const audioTag = document.getElementById("audioTag");
 const sourceTag = document.getElementById('sourceTag');
 audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
+    const audioTag = document.getElementById("audioTag");
     audioTag.play();
 });
 socket.on('receive_audio', (data) => {
     let audioChunks = [];
     audioChunks.push(data.audio)
-    const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
+    const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
     const audioUrl = window.URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
     // 'http://techslides.com/demos/samples/sample.mp3';
     sourceTag.setAttribute('src', 'http://techslides.com/demos/samples/sample.mp3');
-    sourceTag.type = 'audio/mp3'
+    // sourceTag.type = 'audio/mp3'
     // sourceTag.srcObject = audioUrl;
     console.log(audioTag);
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
+    const audioTag = document.getElementById("audioTag");
     audioTag.load();
     mic.classList.add("hide");
     audioBtn.classList.remove('hide');
