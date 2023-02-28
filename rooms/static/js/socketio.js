@@ -40,7 +40,7 @@ socket.on('receive_audio', async (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     // 'http://techslides.com/demos/samples/sample.mp3';
-    sourceTag.setAttribute('src', audioUrl);
+    sourceTag.setAttribute('src', 'http://techslides.com/demos/samples/sample.mp3');
     sourceTag.srcObject = audioUrl;
     sourceTag.type = 'audio/mpeg'
     console.log(audioTag);
