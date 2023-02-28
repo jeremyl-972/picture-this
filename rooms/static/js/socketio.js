@@ -1,16 +1,4 @@
 // MAIN LOGIC FOR VIEW-ROOM
-const langSelect = document.querySelector('.lang-select');
-langSelect.style.display = 'none';
-
-const audioTag = document.getElementById("audioTag");
-const audioBtn = document.getElementById("audioBtn");
-audioBtn.addEventListener("click", ()=>{
-    audioBtn.classList.add("hide");
-    mic.style.display = 'inline-block';
-    audioTag.play();
-    audioTag.removeAttribute('src');
-});
-
 // const socket = io("http://localhost:5000");
 const socket = io("https://www.ilpicturethis.com")
 
@@ -32,23 +20,32 @@ let GUESSING_PLAYER = {'name': null, 'lang': null};
 let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
+// All the message receiving logic:
+const audioBtn = document.getElementById("audioBtn");
+audioBtn.classList.remove('hide');
+const audioTag = document.getElementById("audioTag");
+const sourceTag = document.getElementById('sourceTag');
+audioBtn.addEventListener("click", ()=>{
+    audioBtn.classList.add("hide");
+    mic.style.display = 'inline-block';
+    audioTag.play();
+});
 socket.on('receive_audio', (data) => {
+    // mic.classList.add("hide");
+    // audioBtn.classList.remove('hide');
     let audioChunks = [];
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
     const audioUrl = URL.createObjectURL(audioBlob);
     // audio = new Audio(audioUrl);
     // audioTag.play();
-    const srcElement = document.createElement("source");
     // srcElement.src = 'http://techslides.com/demos/samples/sample.mp3';
-    srcElement.src = audioUrl;
-    srcElement.type = 'audio/mp3'
-    srcElement.srcObject = audioUrl;
-    audioTag.appendChild(srcElement);
+    sourceTag.setAttribute('src', audioUrl);
+    sourceTag.type = 'audio/mp3'
+    sourceTag.srcObject = audioUrl;
     console.log(audioTag);
-
-    console.log('srcElement.src:',srcElement.src);
-    console.log('srcElement.srcObject:',srcElement.srcObject);
+    console.log('sourceTag.src:',sourceTag.src);
+    console.log('sourceTag.srcObject:',sourceTag.srcObject);
     audioTag.load();
     audioTag.play();
 });

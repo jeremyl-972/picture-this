@@ -13,10 +13,6 @@
     float: right;
 }
 
-.hide{
-    display:none;
-}
-
 header > div > h6, #scoreboard > h6 {
     margin: 0px;
 }

@@ -6,6 +6,10 @@ html, body {
     font-family: 'EB Garamond', serif;
 }
 
+.hide {
+    display: none;
+}
+
 p {
     margin: 0;
 }
@@ -218,6 +222,7 @@ footer > a {
 }
     
 #recordBtn {
+    touch-action: none;
     padding-right: 10px;
     font-size: 28px;
     font-style: normal;

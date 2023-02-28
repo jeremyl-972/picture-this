@@ -143,7 +143,7 @@ const engTrans = {
         "topped": "!" + "הציון העליון הושג",
         "switching": "החלפת פניות",
         "guessBox": "&#160:ניחש" + "&#160",
-        "guessBtn": "לנחש",
+        "guessBtn": "למחוק",
         "clearBtn": "ברור",
         "selfGuessed": "ניחשת נכון",
         "opponentGuessed": "ניחש נכון",

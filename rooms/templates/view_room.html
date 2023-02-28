@@ -26,6 +26,8 @@
 {% block scripts %}
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
 <script>
+    const langSelect = document.getElementById('langSelect');
+    langSelect.classList.add('hide');
     const contentElement = document.querySelector('.content');
     contentElement.classList.remove('content');
     user = '{{current_user.username}}';

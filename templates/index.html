@@ -87,9 +87,11 @@
                 </span>
                 <span id="timeout"></span>
             </i>
-            <button id="audioBtn" type="button">Accept</button>
-            <audio id="audioTag" src="https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3"></audio>
-            <div class="lang-select">
+            <button class="hide" id="audioBtn" type="button">Accept</button>
+            <audio id="audioTag">
+                <source id="sourceTag" src="https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3">
+            </audio>
+            <div id="langSelect" class="lang-select">
                 <div hidden id="langList" class="lang-list">
                     <button id="english" value="en-US" class="lang-btn select-items top">&#x1F1FA;&#x1F1F8;&#160 English</button>
                     <button id="spanish" value="es-es" class="lang-btn select-items second">&#x1F1EA;&#x1F1F8;&#160 Espa&#xF1;ol</button>

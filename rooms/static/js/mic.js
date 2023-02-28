@@ -30,17 +30,20 @@ let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 15;
 
 // Listening for the mouse and touch events    
-mic.addEventListener("mousedown", pressingDown, false);
-mic.addEventListener("mouseup", notPressingDown, false);
-
-mic.addEventListener("touchstart", pressingDown, { passive: true}, false);
-mic.addEventListener("touchend", notPressingDown, false);
-
+if (isTouchDevice()) {
+  document.body.addEventListener('touchmove', (e) => e.preventDefault() );
+  mic.addEventListener("touchstart", pressingDown, { passive: true}, false);
+  mic.addEventListener("touchend", notPressingDown, false);
+} else {
+  mic.addEventListener("mousedown", pressingDown, false);
+  mic.addEventListener("mouseup", notPressingDown, false);
+}
 
 // THIS IS WHERE THE MAGIC HAPPENS ////////////////////////////////////////////////////
 mic.addEventListener("pressHold", async (e) => {
   e.preventDefault();
-  // when recording: close tooltip, show recording element, start clock
+  //reset clock, close tooltip, show recording element, start clock
+  stopClock();
   micToolTip.style.display = 'none';
   recording.style.display = 'flex';
   recorder = await recordAudio();
@@ -52,14 +55,17 @@ mic.addEventListener("pressHold", async (e) => {
 
 
 function pressingDown(e) {
-    btnPressed = true;
-    // Start the timer
-    requestAnimationFrame(timer);
-    if (e.cancelable) e.preventDefault();
+  mic.setAttribute('disabled', 'disabled');
+  micToolTip.style.display = 'none'
+  btnPressed = true;
+  // Start the timer
+  requestAnimationFrame(timer);
+  if (e.cancelable) e.preventDefault();
 };
 
 async function notPressingDown(e) {
   if (e) e.preventDefault();
+  stopClock(clockInterval);
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
@@ -67,22 +73,22 @@ async function notPressingDown(e) {
     recording.style.display = 'none';
     recorder = null;
     if (audio) {
-      audio.play();
-        socket.emit('send_audio', {
-          room: room_name,
-          audio: audio.audioBlob
-        })
-        audio = null;
+      socket.emit('send_audio', {
+        room: room_name,
+        audio: audio.audioBlob
+      })
+      audio = null;
     };
   };
   if (btnPressed) {
     micToolTip.style.display = 'flex'
-    setTimeout(() => micToolTip.style.display = 'none', 2000);
+    setTimeout(() => {
+      micToolTip.style.display = 'none'
+    }, 2000);
+    btnPressed = false;
   };
-  if (clockOn) stopClock(clockInterval);
-  btnPressed = false;
-  clockOn = false;
   counter = 0;
+  mic.removeAttribute('disabled');
 };
 
 // Runs at 60fps when you are pressing down
@@ -126,26 +132,28 @@ const recordAudio = () =>
 
 let clockInterval;
 const startClock = () => {
-    clockOn = true;
-    clockInterval = setInterval(() => {
-        let text = '';
-        const slicedString = clock.innerText.slice(2);
-        const number = parseInt(slicedString) + 1;
-        if (number > 15) {
-            notPressingDown();
-            showTimeout();
-        } else if (number < 10) {
-            text = String(number).padStart(2, '0');
-        } else {
-            text = number.toString();
-        };
-        clock.innerText = `0:${text}`;
+  clockOn = true;
+  clockInterval = setInterval(() => {
+    let text = '';
+    const slicedString = clock.innerText.slice(2);
+    const number = parseInt(slicedString) + 1;
+    if (number > 15) {
+      stopClock(clockInterval);
+      notPressingDown();
+      showTimeout();
+    } else if (number < 10) {
+        text = String(number).padStart(2, '0');
+    } else {
+        text = number.toString();
+    };
+    clock.innerText = `0:${text}`;
     }, 1000);
 };
 const stopClock = (interval) => {
-    recording.style.display = 'none';
-    clearInterval(interval);
-    clock.innerText = '0:00';
+  clearInterval(interval);
+  clockOn = false;
+  clock.innerText = '0:00';
+  recording.style.display = 'none';
 };
 const showTimeout = () => {
   mic.setAttribute('disabled', 'disabled');
@@ -155,3 +163,9 @@ const showTimeout = () => {
     mic.removeAttribute('disabled');
   },2000);
 };
+
+function isTouchDevice() {
+  return (('ontouchstart' in window) ||
+     (navigator.maxTouchPoints > 0) ||
+     (navigator.msMaxTouchPoints > 0));
+}
