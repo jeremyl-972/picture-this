@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedi
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
-mic.style.display = 'inline-block';
+// mic.style.display = 'inline-block';
 const micToolTip = document.getElementById('tooltip');
 const recording = document.getElementById('recording');
 const clock = document.getElementById('clock');

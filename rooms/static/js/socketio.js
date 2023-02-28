@@ -22,7 +22,7 @@ let word_object = {'word': null, 'word_value': null};
 
 // All the message receiving logic:
 const audioBtn = document.getElementById("audioBtn");
-// audioBtn.classList.remove('hide');
+audioBtn.classList.remove('hide');
 audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
@@ -40,9 +40,9 @@ socket.on('receive_audio', (data) => {
     // audio = new Audio(audioUrl);
     // audioTag.play();
     // 'http://techslides.com/demos/samples/sample.mp3';
-    sourceTag.setAttribute('src', 'http://techslides.com/demos/samples/sample.mp3');
-    // sourceTag.type = 'audio/mp3'
-    // sourceTag.srcObject = audioUrl;
+    sourceTag.setAttribute('src', audioUrl);
+    sourceTag.type = 'audio/mpeg'
+    audioTag.srcObject = audioUrl;
     console.log(audioTag);
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
