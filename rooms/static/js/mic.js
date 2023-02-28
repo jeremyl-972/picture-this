@@ -70,17 +70,22 @@ async function notPressingDown(e) {
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
-    audioBlob = await recorder.stop(audioBlob);
+    const Rec = await recorder.stop();
+    Rec.exportWAV((blob) => {
+      if (blob) {
+        console.log(blob);
+        socket.emit('send_audio', {
+          room: room_name,
+          audio: blob
+        })
+        audio = null;
+      };
+    });
+
     console.log(audioBlob);
     recording.style.display = 'none';
     recorder = null;
-    if (audioBlob) {
-      socket.emit('send_audio', {
-        room: room_name,
-        audio: audioBlob
-      })
-      audio = null;
-    };
+    
   };
   if (btnPressed) {
     micToolTip.style.display = 'flex'
@@ -123,13 +128,10 @@ const recordAudio = () =>
     const start = () => rec.record();
 
     const stop = () => {
-      new Promise( async (resolve) => {
-        let aBlob;
+      new Promise(resolve => {
         rec.stop();
         gumStream.getAudioTracks()[0].stop();
-        await rec.exportWAV((blob) => aBlob = blob );
-        console.log(aBlob);
-        resolve(aBlob) ; 
+        resolve(rec) ; 
       });
     };
       
