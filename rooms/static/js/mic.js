@@ -70,13 +70,13 @@ async function notPressingDown(e) {
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
-    audio = await recorder.stop();
+    audioBlob = await recorder.stop();
     recording.style.display = 'none';
     recorder = null;
     if (audio) {
       socket.emit('send_audio', {
         room: room_name,
-        audio: audio.audioBlob
+        audio: audioBlob
       })
       audio = null;
     };
@@ -134,7 +134,6 @@ const recordAudio = () =>
       });
     };
       
-
     resolve({ start, stop });
   });
 
