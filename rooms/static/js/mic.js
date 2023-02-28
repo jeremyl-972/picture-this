@@ -24,7 +24,7 @@ let btnPressed = false;
 let timerID;
 let counter = 0;
 let recorder;
-let audio;
+let audioBlob;
 let clockOn;
 
 let pressHoldEvent = new CustomEvent("pressHold");
