@@ -120,7 +120,7 @@ const recordAudio = () =>
         let audioBlob;
         mediaRecorder.stopRecording(() => {
           audioBlob = mediaRecorder.getBlob();
-          invokeSaveAsDialog(blob);
+          invokeSaveAsDialog(audioBlob);
         });
         resolve(audioBlob);
       });
