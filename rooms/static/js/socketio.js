@@ -22,7 +22,7 @@ let word_object = {'word': null, 'word_value': null};
 
 // All the message receiving logic:
 const audioBtn = document.getElementById("audioBtn");
-audioBtn.classList.remove('hide');
+// audioBtn.classList.remove('hide');
 const audioTag = document.getElementById("audioTag");
 const sourceTag = document.getElementById('sourceTag');
 audioBtn.addEventListener("click", ()=>{
@@ -31,8 +31,6 @@ audioBtn.addEventListener("click", ()=>{
     audioTag.play();
 });
 socket.on('receive_audio', (data) => {
-    // mic.classList.add("hide");
-    // audioBtn.classList.remove('hide');
     let audioChunks = [];
     audioChunks.push(data.audio)
     const audioBlob = new Blob(audioChunks, { type : 'audio/mp3'});
@@ -47,7 +45,8 @@ socket.on('receive_audio', (data) => {
     console.log('sourceTag.src:',sourceTag.src);
     console.log('sourceTag.srcObject:',sourceTag.srcObject);
     audioTag.load();
-    audioTag.play();
+    mic.classList.add("hide");
+    audioBtn.classList.remove('hide');
 });
 
 // reroute to view_room when opponent leaves the room
