@@ -30,10 +30,10 @@ audioBtn.addEventListener("click", ()=>{
     mic.style.display = 'inline-block';
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
-    audioTag.pause();
 });
 // All the message receiving logic:
 if (audioEngaged) {
+    console.log('audioEngaged: ', audioEngaged);
     socket.on('receive_audio', async (data) => {
         const audioTag = document.getElementById("audioTag");
         const sourceTag = document.getElementById('sourceTag');
@@ -41,11 +41,11 @@ if (audioEngaged) {
         audioChunks.push(data.audio);
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const audioUrl = window.URL.createObjectURL(audioBlob);
-        var sound = new Howl({
+        const sound = new Howl({
             src: [audioUrl]
           });
-          console.log(sound);
-          sound.play();
+        console.log(sound);
+        sound.play();
     });
 };
 
