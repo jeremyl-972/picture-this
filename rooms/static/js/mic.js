@@ -110,7 +110,7 @@ const recordAudio = () =>
     let gumStream; 
     let input;
     let rec;
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: {echoCancellation: true} });
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: {echoCancellation: false} });
     gumStream = stream;
 
     const audioContext = new AudioContext;
