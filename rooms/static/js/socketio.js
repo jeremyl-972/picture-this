@@ -21,7 +21,7 @@ let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 // enable user engagment on audio element (for mobile devices)
-const audioEngaged = false;
+let audioEngaged = false;
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
 audioBtn.addEventListener("click", ()=>{

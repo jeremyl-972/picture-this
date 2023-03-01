@@ -368,16 +368,16 @@ footer > a {
 
 @keyframes glowing {
     0% {
-    background-color: #dee2e6cb;
-    box-shadow: 0 0 5px #dee2e6cb;
+    background-color: #dee2e697;
+    box-shadow: 0 0 5px #dee2e697;
     }
     50% {
-    background-color: #dee2e6;
-    box-shadow: 0 0 20px #dee2e6;
+    background-color: #dee2e6ed;
+    box-shadow: 0 0 20px #dee2e6ed;
     }
     100% {
-    background-color: #dee2e6cb;
-    box-shadow: 0 0 5px #dee2e6cb;
+    background-color: #dee2e697;
+    box-shadow: 0 0 5px #dee2e697;
     }
 }
 
