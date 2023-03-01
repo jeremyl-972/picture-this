@@ -30,11 +30,13 @@ audioBtn.addEventListener("click", ()=>{
     mic.style.display = 'inline-block';
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
+    console.log(audioEngaged);
 });
 // All the message receiving logic:
 if (audioEngaged) {
-    console.log('audioEngaged: ', audioEngaged);
     socket.on('receive_audio', async (data) => {
+        console.log('audioEngaged: ', audioEngaged);
+
         const audioTag = document.getElementById("audioTag");
         const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
