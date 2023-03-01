@@ -44,7 +44,7 @@ socket.on('receive_audio', async (data) => {
         sourceTag.setAttribute('src', audioUrl);
         sourceTag.srcObject = audioUrl;
         sourceTag.type = 'audio/wav';
-        // audioTag.load();
+        audioTag.load();
         audioTag.play();
     };
 });
