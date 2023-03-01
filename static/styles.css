@@ -7,7 +7,7 @@ html, body {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 p {
@@ -368,16 +368,16 @@ footer > a {
 
 @keyframes glowing {
     0% {
-    background-color: #dee2e697;
-    box-shadow: 0 0 5px #dee2e697;
+    background-color: #dee2e670;
+    box-shadow: 0 0 5px #dee2e670;
     }
     50% {
-    background-color: #dee2e6ed;
-    box-shadow: 0 0 20px #dee2e6ed;
+    background-color: #dee2e6d4;
+    box-shadow: 0 0 20px #dee2e6d4;
     }
     100% {
-    background-color: #dee2e697;
-    box-shadow: 0 0 5px #dee2e697;
+    background-color: #dee2e670;
+    box-shadow: 0 0 5px #dee2e670;
     }
 }
 
