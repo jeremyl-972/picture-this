@@ -39,8 +39,7 @@ socket.on('receive_audio', async (data) => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const audioUrl = window.URL.createObjectURL(audioBlob);
         const sound = new Howl({
-            src: [audioUrl],
-            html5: true
+            src: audioUrl
           });
         console.log(sound);
         sound.play();
