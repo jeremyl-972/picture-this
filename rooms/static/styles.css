@@ -1,3 +1,8 @@
+html {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 .array_container {
     list-style: none;
     padding-top: 15px;

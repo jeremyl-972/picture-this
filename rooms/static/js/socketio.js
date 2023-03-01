@@ -1,5 +1,4 @@
 // MAIN LOGIC FOR VIEW-ROOM
-document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 // const socket = io("http://localhost:5000");
 const socket = io("https://www.ilpicturethis.com")
 
