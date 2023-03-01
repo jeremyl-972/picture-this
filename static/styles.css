@@ -222,7 +222,6 @@ footer > a {
 }
 
 #audioBtn {
-    background-color: #dee2e6;
     color: #038ccb;
     animation: glowing 1300ms infinite;
 }
@@ -369,18 +368,18 @@ footer > a {
 
 @keyframes glowing {
     0% {
-      background-color: #2ba805;
-      box-shadow: 0 0 5px #2ba805;
+    background-color: #dee2e6cb;
+    box-shadow: 0 0 5px #dee2e6cb;
     }
     50% {
-      background-color: #49e819;
-      box-shadow: 0 0 20px #49e819;
+    background-color: #dee2e6;
+    box-shadow: 0 0 20px #dee2e6;
     }
     100% {
-      background-color: #2ba805;
-      box-shadow: 0 0 5px #2ba805;
+    background-color: #dee2e6cb;
+    box-shadow: 0 0 5px #dee2e6cb;
     }
-  }
+}
 
 @media screen and (max-width: 1400px) {
     .wrapper {
