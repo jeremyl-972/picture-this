@@ -117,8 +117,7 @@ const recordAudio = () =>
     /* use the stream */
     input = audioContext.createMediaStreamSource(stream);
     rec = new Recorder(input, {
-      numChannels: 1,
-      mimeType: 'audio/mpeg'
+      numChannels: 1
     });
 
     const start = () => rec.record();

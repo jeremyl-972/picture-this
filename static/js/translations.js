@@ -9,7 +9,8 @@ const engTrans = {
         "logoutLink": "Log Out:",
         "registerLink": "Register",
         "loginLink": "Login",
-        "seeCodeText": "See the code &#160"
+        "seeCodeText": "See the code &#160",
+        "sound": "Enable Sound"
     },
     "registerAndLogin": {
         "loginHeader": "Login",
@@ -93,7 +94,8 @@ const engTrans = {
         "logoutLink": "להתנתק:",
         "registerLink": "הירשם",
         "loginLink": "התחברות",
-        "seeCodeText": `ראה את הקוד` + '&#160'
+        "seeCodeText": `ראה את הקוד` + '&#160',
+        "sound": "אפשר סאונד"
     },
     "registerAndLogin": {
         "loginHeader": "התחברות",
@@ -177,7 +179,8 @@ const spanTrans = {
         "logoutLink": "Cerrar sesión:",
         "registerLink": "Registro",
         "loginLink": "Acceso",
-        "seeCodeText": "ver el código &#160"
+        "seeCodeText": "ver el código &#160",
+        "sound": "Activar sonido"
     },
     "registerAndLogin": {
         "loginHeader": "Acceso",
@@ -262,7 +265,8 @@ const portugseTrans = {
         "logoutLink": "Sair:",
         "registerLink": "Registro",
         "loginLink": "Conecte-se",
-        "seeCodeText": "Veja o código &#160"
+        "seeCodeText": "Veja o código &#160",
+        "sound": "Habilitar som"
     },
     "registerAndLogin": {
         "loginHeader": "Conecte-se",
@@ -347,7 +351,8 @@ const frnchTrans = {
         "logoutLink": "Se déconnecter:",
         "registerLink": "Enregistrer",
         "loginLink": "Connexion",
-        "seeCodeText": "Voir le code &#160"
+        "seeCodeText": "Voir le code &#160",
+        "sound": "Activer le son"
     },
     "registerAndLogin": {
         "loginHeader": "Connexion",
@@ -422,7 +427,7 @@ const frnchTrans = {
 
 
 const indexPageElementIds = [
-    'langSpan', 'roomsLink', 'logoutLink', 'registerLink', 'loginLink', 'seeCodeText'
+    'langSpan', 'roomsLink', 'logoutLink', 'registerLink', 'loginLink', 'seeCodeText', 'sound'
 ];
 
 const loadingTextId = [

@@ -220,6 +220,12 @@ footer > a {
     gap: 8px;
     justify-content: center;
 }
+
+#audioBtn {
+    background-color: #dee2e6;
+    color: #038ccb;
+    animation: glowing 1300ms infinite;
+}
     
 #recordBtn {
     touch-action: none;
@@ -290,7 +296,7 @@ footer > a {
 }
 
 .lang-select {
-    width: 125px;
+    width: 150px;
     position: relative;
 }
 
@@ -360,6 +366,21 @@ footer > a {
     box-shadow: 9999px 0 0 1px #DC7D19, 10008px 0 0 -1px #DC7D19, 9990px 0 0 -1px #DC7D19;
     }
 }
+
+@keyframes glowing {
+    0% {
+      background-color: #2ba805;
+      box-shadow: 0 0 5px #2ba805;
+    }
+    50% {
+      background-color: #49e819;
+      box-shadow: 0 0 20px #49e819;
+    }
+    100% {
+      background-color: #2ba805;
+      box-shadow: 0 0 5px #2ba805;
+    }
+  }
 
 @media screen and (max-width: 1400px) {
     .wrapper {

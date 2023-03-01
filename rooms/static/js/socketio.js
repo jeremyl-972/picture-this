@@ -21,9 +21,11 @@ let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
 // enable user engagment on audio element (for mobile devices)
+const audioEngaged = false;
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
 audioBtn.addEventListener("click", ()=>{
+    audioEngaged = true;
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
     const audioTag = document.getElementById("audioTag");
@@ -35,13 +37,14 @@ socket.on('receive_audio', async (data) => {
     const sourceTag = document.getElementById('sourceTag');
     let audioChunks = [];
     audioChunks.push(data.audio);
-    const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
     const audioUrl = window.URL.createObjectURL(audioBlob);
     sourceTag.setAttribute('src', audioUrl);
     sourceTag.srcObject = audioUrl;
-    sourceTag.type = 'audio/mpeg';
-    await audioTag.load();
-    audioTag.play();
+    sourceTag.type = 'audio/wav';
+    audioTag.load();
+    audioTag.volume = 1.0;
+    audioEngaged && audioTag.play();
 });
 
 // reroute to view_room when opponent leaves the room
