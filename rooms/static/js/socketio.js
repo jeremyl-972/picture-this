@@ -30,22 +30,24 @@ audioBtn.addEventListener("click", ()=>{
     mic.style.display = 'inline-block';
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
+    audioTag.pause();
 });
 // All the message receiving logic:
-socket.on('receive_audio', async (data) => {
-    const audioTag = document.getElementById("audioTag");
-    const sourceTag = document.getElementById('sourceTag');
-    let audioChunks = [];
-    audioChunks.push(data.audio);
-    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-    const audioUrl = window.URL.createObjectURL(audioBlob);
-    sourceTag.setAttribute('src', audioUrl);
-    sourceTag.srcObject = audioUrl;
-    sourceTag.type = 'audio/wav';
-    audioTag.load();
-    audioTag.volume = 1.0;
-    audioEngaged && audioTag.play();
-});
+if (audioEngaged) {
+    socket.on('receive_audio', async (data) => {
+        const audioTag = document.getElementById("audioTag");
+        const sourceTag = document.getElementById('sourceTag');
+        let audioChunks = [];
+        audioChunks.push(data.audio);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = window.URL.createObjectURL(audioBlob);
+        var sound = new Howl({
+            src: [audioUrl]
+          });
+          console.log(sound);
+          sound.play();
+    });
+};
 
 // reroute to view_room when opponent leaves the room
 socket.on('leave_room_announcement', (data) => {
