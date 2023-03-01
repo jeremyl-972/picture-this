@@ -34,6 +34,7 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
+        console.log('audio sent');
         const audioTag = document.getElementById("audioTag");
         const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
