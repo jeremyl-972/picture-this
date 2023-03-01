@@ -24,8 +24,6 @@ let btnPressed = false;
 let timerID;
 let counter = 0;
 let recorder;
-let audioBlob;
-let clockOn;
 
 let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 15;
@@ -81,11 +79,8 @@ async function notPressingDown(e) {
         audio = null;
       };
     });
-
-    console.log(audioBlob);
     recording.style.display = 'none';
-    recorder = null;
-    
+    recorder = null; 
   };
   if (btnPressed) {
     micToolTip.style.display = 'flex'
@@ -109,6 +104,7 @@ function timer() {
 };
 
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
+// using Recorder.js to format recordings in all browsers
 const recordAudio = () =>
   new Promise(async resolve => {
     let gumStream; 
@@ -123,7 +119,6 @@ const recordAudio = () =>
     rec = new Recorder(input, {
       numChannels: 1
     });
-    console.log(rec); 
 
     const start = () => rec.record();
 
@@ -140,7 +135,6 @@ const recordAudio = () =>
 
 let clockInterval;
 const startClock = () => {
-  clockOn = true;
   clockInterval = setInterval(() => {
     let text = '';
     const slicedString = clock.innerText.slice(2);
@@ -159,7 +153,6 @@ const startClock = () => {
 };
 const stopClock = (interval) => {
   clearInterval(interval);
-  clockOn = false;
   clock.innerText = '0:00';
   recording.style.display = 'none';
 };

@@ -1,4 +1,5 @@
 // MAIN LOGIC FOR VIEW-ROOM
+document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 // const socket = io("http://localhost:5000");
 const socket = io("https://www.ilpicturethis.com")
 
@@ -20,7 +21,7 @@ let GUESSING_PLAYER = {'name': null, 'lang': null};
 let score_object = {'score': 0, 'topScore': 0, 'topped': false};
 let word_object = {'word': null, 'word_value': null};
 
-// All the message receiving logic:
+// enable user engagment on audio element (for mobile devices)
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
 audioBtn.addEventListener("click", ()=>{
@@ -29,25 +30,19 @@ audioBtn.addEventListener("click", ()=>{
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
 });
+// All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     const audioTag = document.getElementById("audioTag");
     const sourceTag = document.getElementById('sourceTag');
-
     let audioChunks = [];
-    audioChunks.push(data.audio)
+    audioChunks.push(data.audio);
     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
     const audioUrl = window.URL.createObjectURL(audioBlob);
-    // audio = new Audio(audioUrl);
-    // audioTag.play();
-    // 'http://techslides.com/demos/samples/sample.mp3';
     sourceTag.setAttribute('src', audioUrl);
     sourceTag.srcObject = audioUrl;
-    sourceTag.type = 'audio/wav'
-    console.log(audioTag);
+    sourceTag.type = 'audio/wav';
     await audioTag.load();
-    audioTag.play()
-    // mic.classList.add("hide");
-    // audioBtn.classList.remove('hide');
+    audioTag.play();
 });
 
 // reroute to view_room when opponent leaves the room

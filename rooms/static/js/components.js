@@ -103,7 +103,7 @@ const difficulty_buttons = () => {
     return btnContainer;
 };
 
-// create word_buttons and on click, initialize and display canvas 
+// create word_buttons and on click, initialize canvas 
 const word_buttons = (list, diff_level) => {
     const onClick = async (e) => {
         clearComponent();
@@ -113,7 +113,7 @@ const word_buttons = (list, diff_level) => {
         const wordDiv = make__div("center-up-flex column");
         wordDiv.setAttribute('id', 'wordDiv')
         wordDiv.innerText = word;
-        // on click, create canvas but hide and display with time clock
+        // on click, create canvas but hide it
         const canvasContainer = make_canvas();
         component.append(wordDiv, canvasContainer);
         new DrawableCanvasElement("canvas", "clearBtn", onEmitSketch);

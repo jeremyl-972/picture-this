@@ -48,6 +48,7 @@ def index():
 
 @socketio.on('send_audio')
 def send_audio(data):
+    print(data)
     socketio.emit('receive_audio', data, room=data['room'], include_self=False)
     
 
