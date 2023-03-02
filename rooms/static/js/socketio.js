@@ -262,7 +262,7 @@ function createSoundWithBuffer(buffer) {
     audioSource.connect( context.destination );
     const gainNode = context.createGain()
     gainNode.connect(context.destination)
-    gainNode.gain.value = 1
+    gainNode.gain.value = 3
     
     context.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
