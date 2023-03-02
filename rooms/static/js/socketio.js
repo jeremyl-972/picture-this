@@ -38,13 +38,8 @@ socket.on('receive_audio', async (data) => {
         // const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
         audioChunks.push(data.audio);
-        console.log(audioChunks);
-
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const context = new AudioContext();
         createSoundWithBuffer(audioChunks[0])
-
-
         // const audioUrl = window.URL.createObjectURL(audioBlob);
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
@@ -260,15 +255,15 @@ const timed_out = () => {
         }, 3000);
     };
 };
-function createSoundWithBuffer( buffer ) {
+function createSoundWithBuffer(buffer) {
     const context = new AudioContext();
     const audioSource = context.createBufferSource();
+    console.log(context.destination);
     audioSource.connect( context.destination );
     
-    context.decodeAudioData( buffer, function( res ) {
-      audioSource.buffer = res;
+    context.decodeAudioData( buffer, (res) => {
+        audioSource.buffer = res;
         audioSource.start( 0 );
-        console.log(audioSource);
-    } );
-  
-  }
+        console.log('', audioSource);
+    });
+  };
