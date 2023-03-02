@@ -258,12 +258,14 @@ const timed_out = () => {
 function createSoundWithBuffer(buffer) {
     const context = new AudioContext();
     const audioSource = context.createBufferSource();
-    console.log(context.destination);
+    console.log('destination', context.destination);
     audioSource.connect( context.destination );
+    const gainNode = context.createGain();
+    gainNode.gain.value = 1; // set volume to 100%
     
     context.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
         audioSource.start( 0 );
-        console.log('', audioSource);
+        console.log('audioSource', audioSource);
     });
   };
