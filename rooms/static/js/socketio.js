@@ -34,7 +34,7 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        console.log('audio sent');
+        console.log(data);
         const audioTag = document.getElementById("audioTag");
         const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
@@ -45,7 +45,6 @@ socket.on('receive_audio', async (data) => {
         sourceTag.srcObject = audioUrl;
         sourceTag.type = 'audio/wav';
         audioTag.load();
-        connectToSpeaker(audioTag, 2);
         audioTag.play();
     };
 });
