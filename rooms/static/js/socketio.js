@@ -261,9 +261,9 @@ function createSoundWithBuffer(buffer) {
     gainNode.connect(context.destination);
 
     // Set Audio Session Category to "Playback"
-    if (typeof audioCtx.suspend === 'function') {
-        audioCtx.suspend();
-        audioCtx.resume();
+    if (typeof context.suspend === 'function') {
+        context.suspend();
+        context.resume();
     }
     const audioSource = context.createBufferSource();
     audioSource.connect(gainNode);
