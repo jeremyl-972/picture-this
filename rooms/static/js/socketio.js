@@ -256,23 +256,20 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const gainNode = audioCtx.createGain();
-    gainNode.connect(audioCtx.destination);
+    const context = new AudioContext();
+    const gainNode = context.createGain();
+    gainNode.connect(context.destination);
 
     // Set Audio Session Category to "Playback"
     if (typeof audioCtx.suspend === 'function') {
-    audioCtx.suspend();
-    audioCtx.resume();
+        audioCtx.suspend();
+        audioCtx.resume();
     }
-
-    const source = audioCtx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(gainNode);
-
-    audioCtx.decodeAudioData( buffer, (res) => {
+    const audioSource = context.createBufferSource();
+    audioSource.connect(gainNode);
+    context.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
-        audioSource.start( 0 );
+        audioSource.start(0);
         console.log('audioSource', audioSource);
     });
 };
