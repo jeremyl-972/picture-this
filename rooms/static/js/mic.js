@@ -114,6 +114,8 @@ const recordAudio = () =>
     gumStream = stream;
 
     const audioContext = new AudioContext;
+    console.log(audioContext.sampleRate);
+
     /* use the stream */
     input = audioContext.createMediaStreamSource(stream);
     rec = new Recorder(input, {

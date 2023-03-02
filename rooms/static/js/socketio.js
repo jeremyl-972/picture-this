@@ -279,7 +279,7 @@ function playSound(buffer, context) {
     console.log(float32Buffer);
     const audioBuffer = new AudioBuffer({
         length: float32Buffer.length,
-        // sampleRate: sampleRateOfTheAudioContextOfTheSender
+        sampleRate: sampleRateOfTheAudioContextOfTheSender
     });
     audioBuffer.copyToChannel(float32Buffer, 0, 0);
     const source = context.createBufferSource(); // creates a sound source
