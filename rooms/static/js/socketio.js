@@ -286,6 +286,6 @@ function playSound(buffer, context) {
     source.buffer = audioBuffer;                // tell the source which sound to play
     source.connect(context.destination); 
     console.log(source);      // connect the source to the context's destination (the speakers)
-    source.noteOn(0);                         // play the source now
+    source.start(0);                         // play the source now
 }
 
