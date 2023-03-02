@@ -257,7 +257,7 @@ const timed_out = () => {
 };
 function createSoundWithBuffer(buffer) {
     // get users media stream
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
     .then(function(stream) {
         // find the audio track in the media stream:
         let audioTrack = stream.getAudioTracks()[0];
@@ -265,7 +265,7 @@ function createSoundWithBuffer(buffer) {
         audioTrack.enabled = false;
 
         // set up audio
-        const context = new AudioContext();
+        const context = new (window.AudioContext || window.webkitAudioContext)();
         const gainNode = context.createGain();
         gainNode.connect(context.destination);
 
