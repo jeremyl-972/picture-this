@@ -34,14 +34,15 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        console.log(data);
         // const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
-        // let audioChunks = [];
-        // audioChunks.push(data.audio);
+        let audioChunks = [];
+        audioChunks.push(data.audio);
+        console.log(audioChunks);
+
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const context = new AudioContext();
-        playSound(data.audio, context)
+        createSoundWithBuffer(audioChunks)
 
 
         // const audioUrl = window.URL.createObjectURL(audioBlob);
@@ -259,33 +260,21 @@ const timed_out = () => {
         }, 3000);
     };
 };
-
-function connectToSpeaker(audio, gain) {
-    // for legacy browsers
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-
-    const audioNode = audioContext.createMediaStreamSource(audio);
-    const gainNode = audioContext.createGain();
-    // some device volume too low ex) iPad
-    gainNode.gain.value = gain;
-    audioNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-}; 
-
-
-function playSound(buffer, context) {
-    const float32Buffer = new Float32Array(buffer);
-    console.log(float32Buffer);
-    const audioBuffer = new AudioBuffer({
-        length: float32Buffer.length,
-        sampleRate: 48000
-    });
-    audioBuffer.copyToChannel(float32Buffer, 0, 0);
-    const source = context.createBufferSource(); // creates a sound source
-    source.buffer = audioBuffer;                // tell the source which sound to play
-    source.connect(context.destination); 
-    console.log(source);      // connect the source to the context's destination (the speakers)
-    source.start(0);                         // play the source now
-}
-
+function createSoundWithBuffer( buffer ) {
+    /*
+    This audio context is unprefixed!
+    */
+    var context = new AudioContext();
+    var audioSource = context.createBufferSource();
+    audioSource.connect( context.destination );
+    
+    context.decodeAudioData( buffer, function( res ) {
+      audioSource.buffer = res;
+      /*
+        Do something with the sound, for instance, play it.
+        Watch out: all the sounds will sound at the same time!
+      */
+        audioSource.noteOn( 0 );
+    } );
+  
+  }
