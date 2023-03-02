@@ -256,15 +256,17 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
+    // Create audio element
+    const audio = new Audio();
+
+    // Set audio output destination to main speaker on iOS
+    if (audio.setSinkId) {
+        audio.setSinkId('default');
+    }
     const context = new AudioContext();
     const gainNode = context.createGain();
     gainNode.connect(context.destination);
 
-    // Set Audio Session Category to "Playback"
-    if (typeof context.suspend === 'function') {
-        context.suspend();
-        context.resume();
-    }
     const audioSource = context.createBufferSource();
     audioSource.connect(gainNode);
     context.decodeAudioData( buffer, (res) => {
