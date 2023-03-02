@@ -274,7 +274,7 @@ function createSoundWithBuffer( buffer ) {
         Do something with the sound, for instance, play it.
         Watch out: all the sounds will sound at the same time!
       */
-        audioSource.noteOn( 0 );
+        audioSource.start( 0 );
     } );
   
   }
