@@ -256,22 +256,32 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    // Create audio element
-    const audio = new Audio();
+    // get users media stream
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    .then(function(stream) {
+        // find the audio track in the media stream:
+        let audioTrack = stream.getAudioTracks()[0];
+        // disable the audio track:
+        audioTrack.enabled = false;
 
-    // Set audio output destination to main speaker on iOS
-    if (audio.setSinkId) {
-        audio.setSinkId('default');
-    }
-    const context = new AudioContext();
-    const gainNode = context.createGain();
-    gainNode.connect(context.destination);
+        // set up audio
+        const context = new AudioContext();
+        const gainNode = context.createGain();
+        gainNode.connect(context.destination);
 
-    const audioSource = context.createBufferSource();
-    audioSource.connect(gainNode);
-    context.decodeAudioData( buffer, (res) => {
-        audioSource.buffer = res;
-        audioSource.start(0);
-        console.log('audioSource', audioSource);
+        const audioSource = context.createBufferSource();
+        audioSource.connect(gainNode);
+        context.decodeAudioData( buffer, (res) => {
+            audioSource.buffer = res;
+            audioSource.start(0);
+            console.log('audioSource', audioSource);
+            // re-enable the audio track after playback is complete
+            audioSource.onended = function() {
+                audioTrack.enabled = true;
+            };
+        });
+    })
+    .catch(function(error) {
+        console.log("getUserMedia failed: " + error.message);
     });
 };
