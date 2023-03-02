@@ -256,15 +256,21 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    const context = new AudioContext();
-    const audioSource = context.createBufferSource();
-    console.log('destination', context.destination);
-    audioSource.connect( context.destination );
-    // const gainNode = context.createGain()
-    // gainNode.connect(context.destination)
-    // gainNode.gain.value = 3
-    audioSource.numberOfOutputs = 1
-    context.decodeAudioData( buffer, (res) => {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const gainNode = audioCtx.createGain();
+    gainNode.connect(audioCtx.destination);
+
+    // Set Audio Session Category to "Playback"
+    if (typeof audioCtx.suspend === 'function') {
+    audioCtx.suspend();
+    audioCtx.resume();
+    }
+
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(gainNode);
+
+    audioCtx.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
         audioSource.start( 0 );
         console.log('audioSource', audioSource);
