@@ -35,17 +35,21 @@ audioBtn.addEventListener("click", ()=>{
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
         console.log(data);
-        const audioTag = document.getElementById("audioTag");
-        const sourceTag = document.getElementById('sourceTag');
-        let audioChunks = [];
-        audioChunks.push(data.audio);
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const audioUrl = window.URL.createObjectURL(audioBlob);
-        sourceTag.setAttribute('src', audioUrl);
-        sourceTag.srcObject = audioUrl;
-        sourceTag.type = 'audio/wav';
-        audioTag.load();
-        audioTag.play();
+        // const audioTag = document.getElementById("audioTag");
+        // const sourceTag = document.getElementById('sourceTag');
+        // let audioChunks = [];
+        // audioChunks.push(data.audio);
+        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const context = new AudioContext();
+        playSound(audioChunks, context)
+
+
+        // const audioUrl = window.URL.createObjectURL(audioBlob);
+        // sourceTag.setAttribute('src', audioUrl);
+        // sourceTag.srcObject = audioUrl;
+        // sourceTag.type = 'audio/wav';
+        // audioTag.load();
+        // audioTag.play();
     };
 });
 
@@ -268,3 +272,11 @@ function connectToSpeaker(audio, gain) {
     audioNode.connect(gainNode);
     gainNode.connect(audioContext.destination);
 }; 
+
+
+function playSound(buffer, context) {
+    const source = context.createBufferSource(); // creates a sound source
+    source.buffer = buffer;                    // tell the source which sound to play
+    source.connect(context.destination);       // connect the source to the context's destination (the speakers)
+    source.noteOn(0);                          // play the source now
+}
