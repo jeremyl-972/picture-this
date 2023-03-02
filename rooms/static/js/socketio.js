@@ -39,12 +39,13 @@ socket.on('receive_audio', async (data) => {
         const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
         audioChunks.push(data.audio);
-        const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const audioUrl = window.URL.createObjectURL(audioBlob);
         sourceTag.setAttribute('src', audioUrl);
         sourceTag.srcObject = audioUrl;
-        sourceTag.type = 'audio/mpeg';
+        sourceTag.type = 'audio/wav';
         audioTag.load();
+        connectToSpeaker(audioTag, 2);
         audioTag.play();
     };
 });
@@ -255,3 +256,16 @@ const timed_out = () => {
         }, 3000);
     };
 };
+
+function connectToSpeaker(audio, gain) {
+    // for legacy browsers
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+
+    const audioNode = audioContext.createMediaStreamSource(audio);
+    const gainNode = audioContext.createGain();
+    // some device volume too low ex) iPad
+    gainNode.gain.value = gain;
+    audioNode.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+}; 
