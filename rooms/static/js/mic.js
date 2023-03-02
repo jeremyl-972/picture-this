@@ -24,6 +24,8 @@ let btnPressed = false;
 let timerID;
 let counter = 0;
 let recorder;
+let audio;
+let clockOn;
 
 let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 15;
@@ -68,19 +70,16 @@ async function notPressingDown(e) {
   // Stop the timer
   cancelAnimationFrame(timerID);
   if (recorder) {
-    const Rec = await recorder.stop();
-    Rec.exportWAV((blob) => {
-      if (blob) {
-        console.log(blob);
-        socket.emit('send_audio', {
-          room: room_name,
-          audio: blob
-        })
-        audio = null;
-      };
-    });
+    audio = await recorder.stop();
     recording.style.display = 'none';
-    recorder = null; 
+    recorder = null;
+    if (audio) {
+      socket.emit('send_audio', {
+        room: room_name,
+        audio: audio.audioBlob
+      })
+      audio = null;
+    };
   };
   if (btnPressed) {
     micToolTip.style.display = 'flex'
@@ -104,39 +103,37 @@ function timer() {
 };
 
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
-// using Recorder.js to format recordings in all browsers
 const recordAudio = () =>
   new Promise(async resolve => {
-    let gumStream; 
-    let input;
-    let rec;
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true});
-    gumStream = stream;
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(stream);
+    const audioChunks = [];
 
-    const audioContext = new AudioContext;
-    console.log(audioContext.sampleRate);
-
-    /* use the stream */
-    input = audioContext.createMediaStreamSource(stream);
-    rec = new Recorder(input, {
-      numChannels: 1
+    mediaRecorder.addEventListener("dataavailable", event => {
+      audioChunks.push(event.data);
     });
 
-    const start = () => rec.record();
+    const start = () => mediaRecorder.start();
 
     const stop = () =>
       new Promise(resolve => {
-        console.log(rec);
-        rec.stop();
-        gumStream.getAudioTracks()[0].stop();
-        resolve(rec) ; 
+        mediaRecorder.addEventListener("stop", () => {
+          const audioBlob = new Blob(audioChunks, { type : 'audio/wav'});
+          const audioUrl = URL.createObjectURL(audioBlob);
+          const audio = new Audio(audioUrl);
+          const play = () => audio.play();
+          resolve({ audioBlob, audioUrl, play });
+        });
+
+        mediaRecorder.stop();
       });
-  
+
     resolve({ start, stop });
   });
 
 let clockInterval;
 const startClock = () => {
+  clockOn = true;
   clockInterval = setInterval(() => {
     let text = '';
     const slicedString = clock.innerText.slice(2);
@@ -155,6 +152,7 @@ const startClock = () => {
 };
 const stopClock = (interval) => {
   clearInterval(interval);
+  clockOn = false;
   clock.innerText = '0:00';
   recording.style.display = 'none';
 };

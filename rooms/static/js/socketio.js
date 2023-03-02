@@ -260,8 +260,6 @@ function createSoundWithBuffer(buffer) {
     const audioSource = context.createBufferSource();
     console.log('destination', context.destination);
     audioSource.connect( context.destination );
-    const gainNode = context.createGain();
-    gainNode.gain.value = 1; // set volume to 100%
     
     context.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
