@@ -284,7 +284,8 @@ function playSound(buffer, context) {
     audioBuffer.copyToChannel(float32Buffer, 0, 0);
     const source = context.createBufferSource(); // creates a sound source
     source.buffer = audioBuffer;                // tell the source which sound to play
-    source.connect(context.destination);       // connect the source to the context's destination (the speakers)
+    source.connect(context.destination); 
+    console.log(source);      // connect the source to the context's destination (the speakers)
     source.noteOn(0);                         // play the source now
 }
 
