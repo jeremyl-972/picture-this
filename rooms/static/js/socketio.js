@@ -260,10 +260,13 @@ function createSoundWithBuffer(buffer) {
     const audioSource = context.createBufferSource();
     console.log('destination', context.destination);
     audioSource.connect( context.destination );
+    const gainNode = context.createGain()
+    gainNode.connect(context.destination)
+    gainNode.gain.value = 1
     
     context.decodeAudioData( buffer, (res) => {
         audioSource.buffer = res;
         audioSource.start( 0 );
         console.log('audioSource', audioSource);
     });
-  };
+};
