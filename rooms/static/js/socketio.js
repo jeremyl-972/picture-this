@@ -42,7 +42,7 @@ socket.on('receive_audio', async (data) => {
 
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const context = new AudioContext();
-        createSoundWithBuffer(audioChunks)
+        createSoundWithBuffer(audioChunks[0])
 
 
         // const audioUrl = window.URL.createObjectURL(audioBlob);
