@@ -256,32 +256,46 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    // get users media stream
-    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
-    .then(function(stream) {
-        // find the audio track in the media stream:
-        let audioTrack = stream.getAudioTracks()[0];
-        // disable the audio track:
-        audioTrack.enabled = false;
+    // // get users media stream
+    // navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
+    // .then(function(stream) {
+    //     // find the audio track in the media stream:
+    //     let audioTrack = stream.getAudioTracks()[0];
+    //     // disable the audio track:
+    //     audioTrack.enabled = false;
 
-        // set up audio
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        const gainNode = context.createGain();
-        gainNode.connect(context.destination);
+    //     // set up audio
+    //     const context = new (window.AudioContext || window.webkitAudioContext)();
+    //     const gainNode = context.createGain();
+    //     gainNode.connect(context.destination);
 
-        const audioSource = context.createBufferSource();
-        audioSource.connect(gainNode);
-        context.decodeAudioData( buffer, (res) => {
-            audioSource.buffer = res;
-            audioSource.start(0);
-            console.log('audioSource', audioSource);
-            // re-enable the audio track after playback is complete
-            audioSource.onended = function() {
-                audioTrack.enabled = true;
-            };
-        });
-    })
-    .catch(function(error) {
-        console.log("getUserMedia failed: " + error.message);
-    });
+    //     const audioSource = context.createBufferSource();
+    //     audioSource.connect(gainNode);
+    //     context.decodeAudioData( buffer, (res) => {
+    //         audioSource.buffer = res;
+    //         audioSource.start(0);
+    //         console.log('audioSource', audioSource);
+    //         // re-enable the audio track after playback is complete
+    //         audioSource.onended = function() {
+    //             audioTrack.enabled = true;
+    //         };
+    //     });
+    // })
+    // .catch(function(error) {
+    //     console.log("getUserMedia failed: " + error.message);
+    // });
+    // create a new Tone.js context
+    const context = new Tone.Context();
+
+    // create a Tone.js buffer from the ArrayBuffer
+    const toneBuffer = new Tone.Buffer(buffer);
+
+    // create a Tone.js player with the buffer
+    const player = new Tone.Player(toneBuffer);
+
+    // connect the player to the main output
+    player.toDestination();
+
+    // start the playback
+    player.start();
 };
