@@ -276,7 +276,11 @@ function connectToSpeaker(audio, gain) {
 
 function playSound(buffer, context) {
     const float32Buffer = new Float32Array(buffer);
-    const audioBuffer = new AudioBuffer();
+    console.log(float32Buffer);
+    const audioBuffer = new AudioBuffer({
+        length: float32Buffer.length,
+        // sampleRate: sampleRateOfTheAudioContextOfTheSender
+    });
     audioBuffer.copyToChannel(float32Buffer, 0, 0);
     const source = context.createBufferSource(); // creates a sound source
     source.buffer = audioBuffer;                // tell the source which sound to play
