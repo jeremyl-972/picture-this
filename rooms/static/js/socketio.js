@@ -30,6 +30,7 @@ audioBtn.addEventListener("click", ()=>{
     mic.style.display = 'inline-block';
     const audioTag = document.getElementById("audioTag");
     audioTag.play();
+    Tone.start();
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
