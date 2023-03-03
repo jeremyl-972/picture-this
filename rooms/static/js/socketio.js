@@ -256,6 +256,7 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
+    console.log(buffer);
     // // get users media stream
     // navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
     // .then(function(stream) {
