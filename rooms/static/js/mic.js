@@ -1,6 +1,10 @@
 // GET MICROPHONE PERMISSION
-const stream = navigator.mediaDevices.getUserMedia({ audio: true });
-const mediaRecorder = new MediaRecorder(stream);   
+let stream;
+let mediaRecorder;
+document.addEventListener('DOMContentLoaded', async () => {
+  stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  mediaRecorder = new MediaRecorder(stream);
+});    
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
@@ -125,7 +129,6 @@ const recordAudio = () =>
         });
 
         mediaRecorder.stop();
-        stream.getTracks()[0].stop(); // stop the media stream and release the microphone
       });
 
     resolve({ start, stop });
