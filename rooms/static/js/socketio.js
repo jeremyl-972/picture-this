@@ -267,7 +267,7 @@ oscillator.connect(oscillatorGain);
 oscillatorGain.gain.value = 0;
 
 // create a new MediaStreamTrack from the oscillator output
-const track = oscillatorGain.stream.getTracks()[0];
+const track = oscillatorGain.connect(audioContext.createMediaStreamDestination()).stream.getAudioTracks()[0];
 
 // add the track to the empty stream
 emptyStream.addTrack(track);
@@ -276,6 +276,7 @@ emptyStream.addTrack(track);
 const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
   mediaStream: emptyStream
 });
+
 
 
     // set up audio
