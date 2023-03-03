@@ -290,7 +290,7 @@ function createSoundWithBuffer(buffer, audioTag) {
 
     // create a new Howl object with the HTMLAudioElement as the `html5` option
     const sound = new Howl({
-    src: [arrayBuffer],
+    src: [buffer],
     html5: audioTag,
     });
 
