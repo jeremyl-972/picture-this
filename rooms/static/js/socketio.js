@@ -256,23 +256,16 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    // get users media stream
-    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
-    .then(function(stream) {
-        // // find the audio track in the media stream:
-        // let audioTrack = stream.getAudioTracks()[0];
-        // // disable the audio track:
-        // audioTrack.enabled = false;
-        // audioTrack.stop();
-        // stream.removeTrack(audioTrack);
-        const audioContext = new AudioContext();
-        // create a new empty MediaStream object
+        // create a new empty MediaStream object with one audio track
         const emptyStream = new MediaStream();
+        const audioTrack = new MediaStreamTrack({ kind: "audio" });
+        emptyStream.addTrack(audioTrack);
 
         // use the empty stream for the microphone input
         const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
         mediaStream: emptyStream
         });
+
 
 
         // set up audio
@@ -292,8 +285,5 @@ function createSoundWithBuffer(buffer) {
         audioSource.onended = function() {
             audioTrack.enabled = true;
         };
-    })
-    .catch(function(error) {
-        console.log("getUserMedia failed: " + error.message);
-    });
+    
 };
