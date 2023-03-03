@@ -34,12 +34,12 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        const audioTag = document.getElementById("audioTag");
+        // const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        createSoundWithBuffer(audioChunks[0], audioTag);
+        createSoundWithBuffer(audioChunks[0])
         // const audioUrl = window.URL.createObjectURL(audioBlob);
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
@@ -255,45 +255,33 @@ const timed_out = () => {
         }, 3000);
     };
 };
-function createSoundWithBuffer(buffer, audioTag) {
-    console.log(buffer);
-    // // get users media stream
-    // navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
-    // .then(function(stream) {
-    //     // find the audio track in the media stream:
-    //     let audioTrack = stream.getAudioTracks()[0];
-    //     // disable the audio track:
-    //     audioTrack.enabled = false;
+function createSoundWithBuffer(buffer) {
+    // get users media stream
+    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
+    .then(function(stream) {
+        // find the audio track in the media stream:
+        let audioTrack = stream.getAudioTracks()[0];
+        // disable the audio track:
+        audioTrack.enabled = false;
 
-    //     // set up audio
-    //     const context = new (window.AudioContext || window.webkitAudioContext)();
-    //     const gainNode = context.createGain();
-    //     gainNode.connect(context.destination);
+        // set up audio
+        const context = new (window.AudioContext || window.webkitAudioContext)();
+        const gainNode = context.createGain();
+        gainNode.connect(context.destination);
 
-    //     const audioSource = context.createBufferSource();
-    //     audioSource.connect(gainNode);
-    //     context.decodeAudioData( buffer, (res) => {
-    //         audioSource.buffer = res;
-    //         audioSource.start(0);
-    //         console.log('audioSource', audioSource);
-    //         // re-enable the audio track after playback is complete
-    //         audioSource.onended = function() {
-    //             audioTrack.enabled = true;
-    //         };
-    //     });
-    // })
-    // .catch(function(error) {
-    //     console.log("getUserMedia failed: " + error.message);
-    // });
-
-    // create a new HTMLAudioElement
-
-    // create a new Howl object with the HTMLAudioElement as the `html5` option
-    const sound = new Howl({
-    src: [buffer],
-    html5: audioTag,
+        const audioSource = context.createBufferSource();
+        audioSource.connect(gainNode);
+        context.decodeAudioData( buffer, (res) => {
+            audioSource.buffer = res;
+            audioSource.start(0);
+            console.log('audioSource', audioSource);
+            // re-enable the audio track after playback is complete
+            audioSource.onended = function() {
+                audioTrack.enabled = true;
+            };
+        });
+    })
+    .catch(function(error) {
+        console.log("getUserMedia failed: " + error.message);
     });
-
-    // play the audio using the HTMLAudioElement's built-in `play` method
-    audioTag.play();
 };

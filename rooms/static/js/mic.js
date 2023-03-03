@@ -1,5 +1,5 @@
 // GET MICROPHONE PERMISSION
-document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}))    
+document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}));    
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
@@ -105,8 +105,10 @@ function timer() {
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
 const recordAudio = () =>
   new Promise(async resolve => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new MediaRecorder(stream);
+    const audioContext = new AudioContext();
+
+    // const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(audioContext.destination);
     const audioChunks = [];
 
     mediaRecorder.addEventListener("dataavailable", event => {
