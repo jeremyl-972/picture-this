@@ -259,14 +259,10 @@ function createSoundWithBuffer(buffer) {
     // get users media stream
     navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
     .then(function(stream) {
-        // To stop the stream:
-        const tracks = stream.getTracks();
-        console.log(tracks);
-        tracks.forEach(track => {console.log(track); track.stop()});
-        // // find the audio track in the media stream:
-        // let audioTrack = stream.getAudioTracks()[0];
-        // // disable the audio track:
-        // audioTrack.enabled = false;
+        // find the audio track in the media stream:
+        let audioTrack = stream.getAudioTracks()[0];
+        // disable the audio track:
+        audioTrack.enabled = false;
 
         // set up audio
         const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -275,15 +271,15 @@ function createSoundWithBuffer(buffer) {
 
         const audioSource = context.createBufferSource();
         audioSource.connect(gainNode);
+        console.log(audioTrack);
         context.decodeAudioData( buffer, (res) => {
             audioSource.buffer = res;
             audioSource.start(0);
-            console.log('audioSource', audioSource);
-            // re-enable the audio track after playback is complete
-            // audioSource.onended = function() {
-            //     audioTrack.enabled = true;
-            // };
         });
+        // re-enable the audio track after playback is complete
+        audioSource.onended = function() {
+            audioTrack.enabled = true;
+        };
     })
     .catch(function(error) {
         console.log("getUserMedia failed: " + error.message);

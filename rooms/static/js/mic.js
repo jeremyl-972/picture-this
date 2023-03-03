@@ -1,5 +1,5 @@
 // GET MICROPHONE PERMISSION
-// document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}));    
+document.addEventListener('DOMContentLoaded', navigator.mediaDevices.getUserMedia({audio: true}));    
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
@@ -122,9 +122,6 @@ const recordAudio = () =>
           const audioUrl = URL.createObjectURL(audioBlob);
           const audio = new Audio(audioUrl);
           const play = () => audio.play();
-          // To stop the stream later:
-          const tracks = stream.getTracks();
-          tracks.forEach(track => track.stop());
           resolve({ audioBlob, audioUrl, play });
         });
 
