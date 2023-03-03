@@ -258,7 +258,8 @@ const timed_out = () => {
 function createSoundWithBuffer(buffer) {
         // create a new empty MediaStream object with one audio track
         const emptyStream = new MediaStream();
-        const audioTrack = new MediaStreamTrack({ kind: "audio" });
+        // add an audio track to the stream
+        const audioTrack = emptyStream.getAudioTracks()[0];
         emptyStream.addTrack(audioTrack);
 
         // use the empty stream for the microphone input
