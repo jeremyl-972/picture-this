@@ -264,6 +264,7 @@ function createSoundWithBuffer(buffer) {
         // disable the audio track:
         audioTrack.enabled = false;
         audioTrack.stop();
+        stream.removeTrack(audioTrack);
 
         // set up audio
         const context = new (window.AudioContext || window.webkitAudioContext)();
