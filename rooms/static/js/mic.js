@@ -1,6 +1,6 @@
 // GET MICROPHONE PERMISSION
 let stream;
-document.addEventListener('DOMContentLoaded', stream = await navigator.mediaDevices.getUserMedia({audio: true}));    
+document.addEventListener('DOMContentLoaded', () => {stream = navigator.mediaDevices.getUserMedia({audio: true})});    
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
