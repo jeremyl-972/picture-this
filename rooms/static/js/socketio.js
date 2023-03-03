@@ -259,12 +259,21 @@ function createSoundWithBuffer(buffer) {
     // get users media stream
     navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
     .then(function(stream) {
-        // find the audio track in the media stream:
-        let audioTrack = stream.getAudioTracks()[0];
-        // disable the audio track:
-        audioTrack.enabled = false;
-        audioTrack.stop();
-        stream.removeTrack(audioTrack);
+        // // find the audio track in the media stream:
+        // let audioTrack = stream.getAudioTracks()[0];
+        // // disable the audio track:
+        // audioTrack.enabled = false;
+        // audioTrack.stop();
+        // stream.removeTrack(audioTrack);
+        const audioContext = new AudioContext();
+        // create a new empty MediaStream object
+        const emptyStream = new MediaStream();
+
+        // use the empty stream for the microphone input
+        const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
+        mediaStream: emptyStream
+        });
+
 
         // set up audio
         const context = new (window.AudioContext || window.webkitAudioContext)();
