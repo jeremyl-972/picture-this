@@ -287,17 +287,18 @@ function createSoundWithBuffer(buffer) {
     //     console.log("getUserMedia failed: " + error.message);
     // });
     // create a new Tone.js context
-    const context = new Tone.Context();
+// create a new Tone.js player object
+const player = new Tone.Player();
 
-    // create a Tone.js buffer from the ArrayBuffer
-    const toneBuffer = new Tone.Buffer(buffer);
+// convert the ArrayBuffer to a Tone.js buffer
+const audioBuffer = Tone.Buffer.from(buffer);
 
-    // create a Tone.js player with the buffer
-    const player = new Tone.Player(toneBuffer);
+// set the buffer to the player object
+player.buffer = audioBuffer;
 
-    // connect the player to the main output
-    player.toDestination();
+// connect the player to the Tone.js output
+player.toDestination();
 
-    // start the playback
-    player.start();
+// start playing the audio
+player.start();
 };
