@@ -1,5 +1,5 @@
 // GET MICROPHONE PERMISSION
-const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+const stream = navigator.mediaDevices.getUserMedia({ audio: true });
 const mediaRecorder = new MediaRecorder(stream);   
 
 // DEFINE DOM ELEMENTS
