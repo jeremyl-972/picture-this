@@ -286,19 +286,22 @@ function createSoundWithBuffer(buffer) {
     // .catch(function(error) {
     //     console.log("getUserMedia failed: " + error.message);
     // });
-    // create a new Tone.js context
-// create a new Tone.js player object
-const player = new Tone.Player();
 
-// convert the ArrayBuffer to a Tone.js buffer
-const audioBuffer = Tone.Buffer.from(buffer);
+    // create a new Tone.js player object
+    const player = new Tone.Player();
 
-// set the buffer to the player object
-player.buffer = audioBuffer;
+    // create an AudioContext
+    const context = Tone.context;
 
-// connect the player to the Tone.js output
-player.toDestination();
+    // decode the ArrayBuffer into an AudioBuffer
+    context.decodeAudioData(buffer, (audioBuffer) => {
+    // set the buffer to the player object
+    player.buffer = audioBuffer;
 
-// start playing the audio
-player.start();
+    // connect the player to the Tone.js output
+    player.toDestination();
+
+    // start playing the audio
+    player.start();
+    });
 };
