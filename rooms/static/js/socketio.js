@@ -256,26 +256,27 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    // create a new empty MediaStream object with one audio track
-    const emptyStream = new MediaStream();
-    const audioContext = new AudioContext();
-    const oscillator = audioContext.createOscillator();
-    const oscillatorGain = audioContext.createGain();
+// create a new empty MediaStream object
+const emptyStream = new MediaStream();
+const audioContext = new AudioContext();
+const oscillator = audioContext.createOscillator();
+const oscillatorGain = audioContext.createGain();
 
-    // connect the oscillator to the gain node and set the gain value
-    oscillator.connect(oscillatorGain);
-    oscillatorGain.gain.value = 0;
+// connect the oscillator to the gain node and set the gain value
+oscillator.connect(oscillatorGain);
+oscillatorGain.gain.value = 0;
 
-    // create a new MediaStreamTrack from the oscillator output
-    const track = oscillatorGain.stream.getAudioTracks()[0];
+// create a new MediaStreamTrack from the oscillator output
+const track = oscillatorGain.stream.getTracks()[0];
 
-    // add the track to the empty stream
-    emptyStream.addTrack(track);
+// add the track to the empty stream
+emptyStream.addTrack(track);
 
-    // use the empty stream for the microphone input
-    const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
-    mediaStream: emptyStream
-    });
+// use the empty stream for the microphone input
+const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
+  mediaStream: emptyStream
+});
+
 
     // set up audio
     const context = new (window.AudioContext || window.webkitAudioContext)();
