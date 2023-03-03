@@ -275,6 +275,7 @@ function createSoundWithBuffer(buffer) {
         context.decodeAudioData( buffer, (res) => {
             audioSource.buffer = res;
             audioSource.start(0);
+            console.log(audioTrack);
         });
         // re-enable the audio track after playback is complete
         audioSource.onended = function() {
