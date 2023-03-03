@@ -129,6 +129,12 @@ const recordAudio = () =>
         });
 
         mediaRecorder.stop();
+        // Get the audio track from the MediaStream
+        const audioTrack = stream.getAudioTracks()[0];
+        // Stop the audio track
+        audioTrack.stop();
+
+        
       });
 
     resolve({ start, stop });
