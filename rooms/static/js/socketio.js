@@ -35,12 +35,12 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        // const audioTag = document.getElementById("audioTag");
+        const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        createSoundWithBuffer(audioChunks[0])
+        createSoundWithBuffer(audioChunks[0], audioTag);
         // const audioUrl = window.URL.createObjectURL(audioBlob);
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
@@ -256,7 +256,7 @@ const timed_out = () => {
         }, 3000);
     };
 };
-function createSoundWithBuffer(buffer) {
+function createSoundWithBuffer(buffer, audioTag) {
     console.log(buffer);
     // // get users media stream
     // navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false }, video: false })
@@ -287,21 +287,14 @@ function createSoundWithBuffer(buffer) {
     //     console.log("getUserMedia failed: " + error.message);
     // });
 
-    // create a new Tone.js player object
-    const player = new Tone.Player();
+    // create a new HTMLAudioElement
 
-    // create an AudioContext
-    const context = Tone.context;
-
-    // decode the ArrayBuffer into an AudioBuffer
-    context.decodeAudioData(buffer, (audioBuffer) => {
-    // set the buffer to the player object
-    player.buffer = audioBuffer;
-
-    // connect the player to the Tone.js output
-    player.toDestination();
-
-    // start playing the audio
-    player.start();
+    // create a new Howl object with the HTMLAudioElement as the `html5` option
+    const sound = new Howl({
+    src: [arrayBuffer],
+    html5: audioTag,
     });
+
+    // play the audio using the HTMLAudioElement's built-in `play` method
+    audioTag.play();
 };
