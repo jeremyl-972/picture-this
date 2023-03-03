@@ -256,35 +256,42 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-        // create a new empty MediaStream object with one audio track
-        const emptyStream = new MediaStream();
-        // add an audio track to the stream
-        const audioTrack = emptyStream.getAudioTracks()[0];
-        emptyStream.addTrack(audioTrack);
+    // create a new empty MediaStream object with one audio track
+    const emptyStream = new MediaStream();
+    const audioContext = new AudioContext();
+    const oscillator = audioContext.createOscillator();
+    const oscillatorGain = audioContext.createGain();
 
-        // use the empty stream for the microphone input
-        const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
-        mediaStream: emptyStream
-        });
+    // connect the oscillator to the gain node and set the gain value
+    oscillator.connect(oscillatorGain);
+    oscillatorGain.gain.value = 0;
 
+    // create a new MediaStreamTrack from the oscillator output
+    const track = oscillatorGain.stream.getAudioTracks()[0];
 
+    // add the track to the empty stream
+    emptyStream.addTrack(track);
 
-        // set up audio
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        const gainNode = context.createGain();
-        gainNode.connect(context.destination);
+    // use the empty stream for the microphone input
+    const microphoneInput = new MediaStreamAudioSourceNode(audioContext, {
+    mediaStream: emptyStream
+    });
 
-        const audioSource = context.createBufferSource();
-        audioSource.connect(gainNode);
+    // set up audio
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const gainNode = context.createGain();
+    gainNode.connect(context.destination);
+
+    const audioSource = context.createBufferSource();
+    audioSource.connect(gainNode);
+    console.log(audioTrack);
+    context.decodeAudioData( buffer, (res) => {
+        audioSource.buffer = res;
+        audioSource.start(0);
         console.log(audioTrack);
-        context.decodeAudioData( buffer, (res) => {
-            audioSource.buffer = res;
-            audioSource.start(0);
-            console.log(audioTrack);
-        });
-        // re-enable the audio track after playback is complete
-        audioSource.onended = function() {
-            audioTrack.enabled = true;
-        };
-    
+    });
+    // re-enable the audio track after playback is complete
+    audioSource.onended = function() {
+        audioTrack.enabled = true;
+    }; 
 };
