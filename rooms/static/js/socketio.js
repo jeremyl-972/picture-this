@@ -256,15 +256,29 @@ const timed_out = () => {
     };
 };
 function createSoundWithBuffer(buffer) {
-    const context = new AudioContext();
-    const gainNode = context.createGain();
-    gainNode.connect(context.destination);
+    const audioContext = new AudioContext();
+    // const gainNode = context.createGain();
+    // gainNode.connect(context.destination);
 
-    const audioSource = context.createBufferSource();
-    audioSource.connect(gainNode);
-    context.decodeAudioData( buffer, (res) => {
-        audioSource.buffer = res;
-        audioSource.start(0);
-        console.log('audioSource', audioSource);
-    });
+    // const audioSource = context.createBufferSource();
+    // audioSource.connect(gainNode);
+    // context.decodeAudioData( buffer, (res) => {
+    //     audioSource.buffer = res;
+    //     audioSource.start(0);
+    //     console.log('audioSource', audioSource);
+    // });
+    // Load the audio data into the audio element
+    const audioElement = document.getElementById("audioTag");
+
+audioElement.src = URL.createObjectURL(new Blob([buffer]));
+
+// Mute the receiver speaker
+audioElement.muted = true;
+
+// Connect the audio element to the audio context
+const source = audioContext.createMediaElementSource(audioElement);
+source.connect(audioContext.destination);
+
+// Play the audio
+audioElement.play();
 };
