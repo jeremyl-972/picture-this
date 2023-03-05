@@ -34,31 +34,27 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        const deviceList = await navigator.mediaDevices.enumerateDevices();
-        console.log(deviceList);
         let audioChunks = [];
         audioChunks.push(data.audio);
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         const audioUrl = window.URL.createObjectURL(audioBlob);
         const audioTag = document.getElementById("audioTag");
-        // Create audio context
-        const audioCtx = new AudioContext();
-        // Create an AudioNode from the HTML audio element
-        var audio = new Audio(audioUrl);
-        var audioNode = audioCtx.createMediaElementSource(audio);
-        // Explicitly route the audio output to the device's main speaker
-        // audioNode.setSinkId('default');
-        // Set the audio volume to an appropriate level
-        audio.volume = 1;
-        // Play the audio for 500ms to satisfy the user interaction requirement on mobile devices
-        audio.play();
-        // const sourceTag = document.getElementById('sourceTag');
-        // sourceTag.setAttribute('src', audioUrl);
-        // sourceTag.srcObject = audioUrl;
-        // sourceTag.type = 'audio/wav';
-        // audioTag.load();
-        // audioTag.play();
+        const sourceTag = document.getElementById('sourceTag');
+        sourceTag.setAttribute('src', audioUrl);
+        sourceTag.srcObject = audioUrl;
+        sourceTag.type = 'audio/wav';
+        audioTag.load();
+
+        // Create an AudioContext object
+        var audioContext = new AudioContext();
+        // Create a MediaElementAudioSourceNode from the audio element
+        var sourceNode = audioContext.createMediaElementSource(audioTag);
+        // Connect the source node to the AudioContext destination
+        sourceNode.connect(audioContext.destination);
+        // Use the setSinkId method to set the output device to the main speaker
+        audioContext.destination.setSinkId('default');
         // createSoundWithBuffer(audioChunks[0]);
+        audioTag.play();
     };
 });
 
