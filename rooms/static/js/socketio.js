@@ -52,7 +52,8 @@ socket.on('receive_audio', async (data) => {
         // Connect the source node to the AudioContext destination
         sourceNode.connect(audioContext.destination);
         // Use the setSinkId method to set the output device to the main speaker
-        audioContext.destination.setSinkId('default');
+        // audioContext.destination.setSinkId('default');
+        console.log(audioContext);
         // createSoundWithBuffer(audioChunks[0]);
         audioTag.play();
     };
