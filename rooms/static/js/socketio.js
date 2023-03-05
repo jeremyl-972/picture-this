@@ -34,18 +34,32 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        // const audioTag = document.getElementById("audioTag");
-        // const sourceTag = document.getElementById('sourceTag');
         let audioChunks = [];
         audioChunks.push(data.audio);
-        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        createSoundWithBuffer(audioChunks[0])
-        // const audioUrl = window.URL.createObjectURL(audioBlob);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = window.URL.createObjectURL(audioBlob);
+        const audioTag = document.getElementById("audioTag");
+        // Create audio context
+        const audioCtx = new AudioContext();
+        // Create an AudioNode from the HTML audio element
+        var audio = new Audio(audioUrl);
+        var audioNode = audioCtx.createMediaElementSource(audio);
+
+        // Explicitly route the audio output to the device's main speaker
+        audioNode.setSinkId('default');
+
+        // Set the audio volume to an appropriate level
+        audio.volume = 1;
+
+        // Play the audio for 500ms to satisfy the user interaction requirement on mobile devices
+        audio.play();
+        // const sourceTag = document.getElementById('sourceTag');
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
+        // createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -255,30 +269,16 @@ const timed_out = () => {
         }, 3000);
     };
 };
-function createSoundWithBuffer(buffer) {
-    const audioContext = new AudioContext();
-    // const gainNode = context.createGain();
-    // gainNode.connect(context.destination);
+// function createSoundWithBuffer(buffer) {
+//     const context = new AudioContext();
+//     const gainNode = context.createGain();
+//     gainNode.connect(context.destination);
 
-    // const audioSource = context.createBufferSource();
-    // audioSource.connect(gainNode);
-    // context.decodeAudioData( buffer, (res) => {
-    //     audioSource.buffer = res;
-    //     audioSource.start(0);
-    //     console.log('audioSource', audioSource);
-    // });
-    // Load the audio data into the audio element
-    const audioElement = document.getElementById("audioTag");
-
-audioElement.src = URL.createObjectURL(new Blob([buffer]));
-
-// Mute the receiver speaker
-audioElement.muted = true;
-
-// Connect the audio element to the audio context
-const source = audioContext.createMediaElementSource(audioElement);
-source.connect(audioContext.destination);
-
-// Play the audio
-audioElement.play();
-};
+//     const audioSource = context.createBufferSource();
+//     audioSource.connect(gainNode);
+//     context.decodeAudioData( buffer, (res) => {
+//         audioSource.buffer = res;
+//         audioSource.start(0);
+//         console.log('audioSource', audioSource);
+//     });
+// };
