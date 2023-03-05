@@ -36,26 +36,16 @@ socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
         let audioChunks = [];
         audioChunks.push(data.audio);
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const audioUrl = window.URL.createObjectURL(audioBlob);
-        const audioTag = document.getElementById("audioTag");
-        const sourceTag = document.getElementById('sourceTag');
-        sourceTag.setAttribute('src', audioUrl);
-        sourceTag.srcObject = audioUrl;
-        sourceTag.type = 'audio/wav';
-        audioTag.load();
-
-        // Create an AudioContext object
-        var audioContext = new AudioContext();
-        // Create a MediaElementAudioSourceNode from the audio element
-        var sourceNode = audioContext.createMediaElementSource(audioTag);
-        // Connect the source node to the AudioContext destination
-        sourceNode.connect(audioContext.destination);
-        // Use the setSinkId method to set the output device to the main speaker
-        // audioContext.destination.setSinkId('default');
-        console.log(audioContext);
-        // createSoundWithBuffer(audioChunks[0]);
-        audioTag.play();
+        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        // const audioUrl = window.URL.createObjectURL(audioBlob);
+        // const audioTag = document.getElementById("audioTag");
+        // const sourceTag = document.getElementById('sourceTag');
+        // sourceTag.setAttribute('src', audioUrl);
+        // sourceTag.srcObject = audioUrl;
+        // sourceTag.type = 'audio/wav';
+        // audioTag.load();
+        // audioTag.play();
+        playAudio(arrayBuffer)(audioChunks[0]);
     };
 });
 
@@ -265,16 +255,18 @@ const timed_out = () => {
         }, 3000);
     };
 };
-// function createSoundWithBuffer(buffer) {
-//     const context = new AudioContext();
-//     const gainNode = context.createGain();
-//     gainNode.connect(context.destination);
 
-//     const audioSource = context.createBufferSource();
-//     audioSource.connect(gainNode);
-//     context.decodeAudioData( buffer, (res) => {
-//         audioSource.buffer = res;
-//         audioSource.start(0);
-//         console.log('audioSource', audioSource);
-//     });
-// };
+async function playAudio(arrayBuffer) {
+    const audioContext = new AudioContext();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    // Create a source node from the audio buffer
+    const sourceNode = new AudioBufferSourceNode(audioContext, { buffer: audioBuffer });
+    // Create an AudioWorkletNode that will pass through the audio data unchanged
+    await audioContext.audioWorklet.addModule('workletProcessor.js');
+    const workletNode = new AudioWorkletNode(audioContext, 'workletProcessor');
+    // Connect the source node to the worklet node to the destination
+    sourceNode.connect(workletNode);
+    workletNode.connect(audioContext.destination);
+    // Start playing the audio
+    sourceNode.start();
+  }
