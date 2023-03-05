@@ -34,6 +34,7 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
+        navigator.mediaDevices.enumerateDevices()
         let audioChunks = [];
         audioChunks.push(data.audio);
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
@@ -44,13 +45,10 @@ socket.on('receive_audio', async (data) => {
         // Create an AudioNode from the HTML audio element
         var audio = new Audio(audioUrl);
         var audioNode = audioCtx.createMediaElementSource(audio);
-
         // Explicitly route the audio output to the device's main speaker
-        audioNode.setSinkId('default');
-
+        // audioNode.setSinkId('default');
         // Set the audio volume to an appropriate level
         audio.volume = 1;
-
         // Play the audio for 500ms to satisfy the user interaction requirement on mobile devices
         audio.play();
         // const sourceTag = document.getElementById('sourceTag');
