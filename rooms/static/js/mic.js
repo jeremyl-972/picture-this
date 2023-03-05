@@ -2,8 +2,22 @@
 let stream;
 let mediaRecorder;
 let audioTrack;
+const audioContext = new AudioContext();
+const mediaStreamDestination = audioContext.createMediaStreamDestination();
+mediaStreamDestination.connect(audioContext.destination);
 document.addEventListener('DOMContentLoaded', async () => {
-  stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      channelCount: 1,
+      sampleRate: 48000,
+      sampleSize: 16,
+      latency: 0,
+      deviceId: audioDeviceId,
+      mediaStreamDestination: mediaStreamDestination
+    }
+  });
 });    
 
 // DEFINE DOM ELEMENTS
@@ -110,14 +124,14 @@ function timer() {
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
 const recordAudio = () =>
   new Promise(async resolve => {
-    // Get the audio track from the MediaStream
-    audioTrack = stream.getAudioTracks()[0];
-    if (audioTrack) {
-      // Start the audio track
-      audioTrack.enabled = true;
-    };
+    // // Get the audio track from the MediaStream
+    // audioTrack = stream.getAudioTracks()[0];
+    // if (audioTrack) {
+    //   // Start the audio track
+    //   audioTrack.enabled = true;
+    // };
     const audioChunks = [];
-    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder = new MediaRecorder(mediaStreamDestination.stream);
     mediaRecorder.addEventListener("dataavailable", event => {
       audioChunks.push(event.data);
     });
@@ -136,7 +150,7 @@ const recordAudio = () =>
 
         mediaRecorder.stop();
         // Stop the audio track
-        audioTrack.enabled = false;
+        // audioTrack.enabled = false;
       });
 
     resolve({ start, stop });
