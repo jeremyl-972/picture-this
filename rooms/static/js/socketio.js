@@ -34,7 +34,7 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        const deviceList = navigator.mediaDevices.enumerateDevices();
+        const deviceList = await navigator.mediaDevices.enumerateDevices();
         console.log(deviceList);
         let audioChunks = [];
         audioChunks.push(data.audio);
