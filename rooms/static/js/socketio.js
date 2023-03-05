@@ -45,7 +45,7 @@ socket.on('receive_audio', async (data) => {
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
-        playAudio(arrayBuffer)(audioChunks[0]);
+        playAudio(audioChunks[0]);
     };
 });
 
