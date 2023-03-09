@@ -24,17 +24,13 @@ let word_object = {'word': null, 'word_value': null};
 let audioEngaged = false;
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
-const audioElement = new Audio('https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3');
-
 
 audioBtn.addEventListener("click", ()=>{
     audioEngaged = true;
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
-    // const audioTag = document.getElementById("audioTag");
-    // audioTag.play();
-    audioElement.play();
-    console.log(audioElement);
+    const audioTag = document.getElementById("audioTag");
+    audioTag.play();
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
@@ -43,15 +39,16 @@ socket.on('receive_audio', async (data) => {
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         // const audioUrl = window.URL.createObjectURL(audioBlob);
-        // const audioTag = document.getElementById("audioTag");
+        const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
-        // audioTag.play();
-        console.log(audioElement);
-        createSoundWithBuffer(audioElement, audioChunks[0])
+        audioTag.play();
+        // create the AudioContext
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        createSoundWithBuffer(audioCtx, audioChunks[0])
         // createSoundWithBuffer(audioChunks[0]);
     };
 });
@@ -262,10 +259,7 @@ const timed_out = () => {
         }, 3000);
     };
 };
-async function createSoundWithBuffer(audioElement, arrayBuffer) {
-// create an audio context
-const audioCtx = audioElement.audioContext;
-
+async function createSoundWithBuffer(audioCtx, arrayBuffer) {
 // create an AudioBuffer from the ArrayBuffer
 const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
