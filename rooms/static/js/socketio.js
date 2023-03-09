@@ -26,6 +26,7 @@ const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
 const audioElement = new Audio('https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3');
 
+
 audioBtn.addEventListener("click", ()=>{
     audioEngaged = true;
     audioBtn.classList.add("hide");
@@ -49,6 +50,7 @@ socket.on('receive_audio', async (data) => {
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
+        console.log(audioElement);
         createSoundWithBuffer(audioElement, audioChunks[0])
         // createSoundWithBuffer(audioChunks[0]);
     };
