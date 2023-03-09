@@ -43,7 +43,7 @@ socket.on('receive_audio', async (data) => {
         sourceTag.setAttribute('src', 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3');
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
-        // audioTag.load();
+        audioTag.load();
         audioTag.play();
         // create the AudioContext
         // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
