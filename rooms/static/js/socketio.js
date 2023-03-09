@@ -38,14 +38,15 @@ socket.on('receive_audio', async (data) => {
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         // const audioUrl = window.URL.createObjectURL(audioBlob);
-        // const audioTag = document.getElementById("audioTag");
+        const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
-        createSoundWithBuffer(audioChunks[0]);
+        createSoundWithBuffer(audioTag, audioChunks[0])
+        // createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -255,9 +256,9 @@ const timed_out = () => {
         }, 3000);
     };
 };
-async function createSoundWithBuffer(arrayBuffer) {
+async function createSoundWithBuffer(audioElement, arrayBuffer) {
 // create an audio context
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const audioCtx = audioElement.audioContext;;
 
 // create an AudioBuffer from the ArrayBuffer
 const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
