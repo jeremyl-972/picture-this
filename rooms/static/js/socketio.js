@@ -24,14 +24,15 @@ let word_object = {'word': null, 'word_value': null};
 let audioEngaged = false;
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
+const audioElement = new Audio('https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3');
+
 audioBtn.addEventListener("click", ()=>{
     audioEngaged = true;
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
-    const audioTag = document.getElementById("audioTag");
-    console.log(audioTag.audioContext);
-    audioTag.play();
-    console.log(audioTag.audioContext);
+    // const audioTag = document.getElementById("audioTag");
+    // audioTag.play();
+    audioElement.play();
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
@@ -40,14 +41,14 @@ socket.on('receive_audio', async (data) => {
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         // const audioUrl = window.URL.createObjectURL(audioBlob);
-        const audioTag = document.getElementById("audioTag");
+        // const audioTag = document.getElementById("audioTag");
         // const sourceTag = document.getElementById('sourceTag');
         // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
-        createSoundWithBuffer(audioTag, audioChunks[0])
+        createSoundWithBuffer(audioElement, audioChunks[0])
         // createSoundWithBuffer(audioChunks[0]);
     };
 });
@@ -259,7 +260,7 @@ const timed_out = () => {
     };
 };
 async function createSoundWithBuffer(audioElement, arrayBuffer) {
-// get the audio context
+// create an audio context
 const audioCtx = audioElement.audioContext;
 
 // create an AudioBuffer from the ArrayBuffer
