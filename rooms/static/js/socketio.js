@@ -45,7 +45,7 @@ socket.on('receive_audio', async (data) => {
         // sourceTag.type = 'audio/wav';
         // audioTag.load();
         // audioTag.play();
-        playAudio(audioChunks[0]);
+        createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -255,18 +255,20 @@ const timed_out = () => {
         }, 3000);
     };
 };
+async function createSoundWithBuffer(arrayBuffer) {
+// create an audio context
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-async function playAudio(arrayBuffer) {
-    const audioContext = new AudioContext();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    // Create a source node from the audio buffer
-    const sourceNode = new AudioBufferSourceNode(audioContext, { buffer: audioBuffer });
-    // Create an AudioWorkletNode that will pass through the audio data unchanged
-    await audioContext.audioWorklet.addModule('workletProcessor.js');
-    const workletNode = new AudioWorkletNode(audioContext, 'workletProcessor');
-    // Connect the source node to the worklet node to the destination
-    sourceNode.connect(workletNode);
-    workletNode.connect(audioContext.destination);
-    // Start playing the audio
-    sourceNode.start();
-  }
+// create an AudioBuffer from the ArrayBuffer
+const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+// create an AudioBufferSourceNode and set its buffer property to the AudioBuffer
+const sourceNode = audioCtx.createBufferSource();
+sourceNode.buffer = audioBuffer;
+
+// connect the AudioBufferSourceNode to the destination node representing the main speaker
+sourceNode.connect(audioCtx.destination);
+
+// start playing the audio
+sourceNode.start();
+};
