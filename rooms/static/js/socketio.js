@@ -24,13 +24,11 @@ let word_object = {'word': null, 'word_value': null};
 let audioEngaged = false;
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
-const audioTag = document.getElementById("audioTag");
-const sourceTag = document.getElementById('sourceTag');
-
 audioBtn.addEventListener("click", ()=>{
     audioEngaged = true;
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
+    const audioTag = document.getElementById("audioTag");
     audioTag.play();
 });
 // All the message receiving logic:
@@ -40,14 +38,14 @@ socket.on('receive_audio', async (data) => {
         audioChunks.push(data.audio);
         // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
         // const audioUrl = window.URL.createObjectURL(audioBlob);
-        sourceTag.setAttribute('src', 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3');
+        // const audioTag = document.getElementById("audioTag");
+        // const sourceTag = document.getElementById('sourceTag');
+        // sourceTag.setAttribute('src', audioUrl);
         // sourceTag.srcObject = audioUrl;
         // sourceTag.type = 'audio/wav';
-        audioTag.load();
-        audioTag.play();
-        // create the AudioContext
-        // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        // createSoundWithBuffer(audioCtx, audioChunks[0])
+        // audioTag.load();
+        // audioTag.play();
+        createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -257,7 +255,10 @@ const timed_out = () => {
         }, 3000);
     };
 };
-async function createSoundWithBuffer(audioCtx, arrayBuffer) {
+async function createSoundWithBuffer(arrayBuffer) {
+// create an audio context
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
 // create an AudioBuffer from the ArrayBuffer
 const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
@@ -270,4 +271,5 @@ sourceNode.connect(audioCtx.destination);
 
 // start playing the audio
 sourceNode.start();
+
 };

@@ -3,7 +3,9 @@ let stream;
 let mediaRecorder;
 let audioTrack;
 document.addEventListener('DOMContentLoaded', async () => {
-  stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  stream = await navigator.mediaDevices.getUserMedia({audio: {
+        echoCancellation: {ideal: false},
+    }});
 });    
 
 // DEFINE DOM ELEMENTS
