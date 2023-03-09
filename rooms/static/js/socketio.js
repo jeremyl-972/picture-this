@@ -22,30 +22,31 @@ let word_object = {'word': null, 'word_value': null};
 
 // enable user engagment on audio element (for mobile devices)
 let audioEngaged = false;
+const audioTag = document.getElementById("audioTag");
+const sourceTag = document.getElementById('sourceTag');
 const audioBtn = document.getElementById("audioBtn");
 audioBtn.classList.remove('hide');
 audioBtn.addEventListener("click", ()=>{
     audioEngaged = true;
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
-    const audioTag = document.getElementById("audioTag");
     audioTag.play();
+    audioTag.setAttribute('playsinline', '');
+    audioTag.setAttribute('muted', '');
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
         let audioChunks = [];
         audioChunks.push(data.audio);
-        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        // const audioUrl = window.URL.createObjectURL(audioBlob);
-        // const audioTag = document.getElementById("audioTag");
-        // const sourceTag = document.getElementById('sourceTag');
-        // sourceTag.setAttribute('src', audioUrl);
-        // sourceTag.srcObject = audioUrl;
-        // sourceTag.type = 'audio/wav';
-        // audioTag.load();
-        // audioTag.play();
-        createSoundWithBuffer(audioChunks[0]);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = window.URL.createObjectURL(audioBlob);
+        sourceTag.setAttribute('src', audioUrl);
+        sourceTag.srcObject = audioUrl;
+        sourceTag.type = 'audio/wav';
+        audioTag.load();
+        audioTag.play();
+        // createSoundWithBuffer(audioChunks[0]);
     };
 });
 
