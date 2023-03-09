@@ -33,6 +33,7 @@ audioBtn.addEventListener("click", ()=>{
     // const audioTag = document.getElementById("audioTag");
     // audioTag.play();
     audioElement.play();
+    console.log(audioElement);
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
