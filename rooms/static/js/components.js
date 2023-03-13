@@ -212,7 +212,7 @@ const make_guess_form = () => {
     announcementElement.style.marginBottom = '10px';
     const onClick = () => {
         const loadBtn = document.getElementById('loadBtn');
-        const newNode = document.createTextNode('Guess');
+        const newNode = document.createTextNode(t('guessBtn'));
         loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
 
         const guessInput = document.getElementById('guessInput');
