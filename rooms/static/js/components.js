@@ -222,7 +222,7 @@ const make_guess_form = () => {
     };
     const guessBtn = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', t('socketio.guessBtn'), onClick, 'guessBtn');
     guessBtn.setAttribute('disabled', 'disabled');
-    const loadBtn = loadingBtn('Guess');
+    const loadBtn = loadingBtn(t('guessBtn'));
 
     const guessInput = document.createElement('input');
     guessInput.className = 'form-control';
