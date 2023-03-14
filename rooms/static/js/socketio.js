@@ -37,18 +37,16 @@ audioBtn.addEventListener("click", ()=>{
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
-        toggleMic();
         let audioChunks = [];
         audioChunks.push(data.audio);
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const audioUrl = window.URL.createObjectURL(audioBlob);
-        sourceTag.setAttribute('src', audioUrl);
-        sourceTag.srcObject = audioUrl;
-        sourceTag.type = 'audio/wav';
-        audioTag.load();
-        await audioTag.play();
-        toggleMic();
-        // createSoundWithBuffer(audioChunks[0]);
+        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        // const audioUrl = window.URL.createObjectURL(audioBlob);
+        // sourceTag.setAttribute('src', audioUrl);
+        // sourceTag.srcObject = audioUrl;
+        // sourceTag.type = 'audio/wav';
+        // audioTag.load();
+        // await audioTag.play();
+        createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -258,6 +256,7 @@ const timed_out = () => {
         }, 3000);
     };
 };
+
 async function createSoundWithBuffer(arrayBuffer) {
 // create an audio context
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
