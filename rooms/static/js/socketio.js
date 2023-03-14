@@ -39,14 +39,14 @@ socket.on('receive_audio', async (data) => {
     if (audioEngaged) {
         let audioChunks = [];
         audioChunks.push(data.audio);
-        // const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        // const audioUrl = window.URL.createObjectURL(audioBlob);
-        // sourceTag.setAttribute('src', audioUrl);
-        // sourceTag.srcObject = audioUrl;
-        // sourceTag.type = 'audio/wav';
-        // audioTag.load();
-        // await audioTag.play();
-        createSoundWithBuffer(audioChunks[0]);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = window.URL.createObjectURL(audioBlob);
+        sourceTag.setAttribute('src', audioUrl);
+        sourceTag.srcObject = audioUrl;
+        sourceTag.type = 'audio/wav';
+        audioTag.load();
+        audioTag.play();
+        // createSoundWithBuffer(audioChunks[0]);
     };
 });
 
@@ -256,7 +256,6 @@ const timed_out = () => {
         }, 3000);
     };
 };
-
 async function createSoundWithBuffer(arrayBuffer) {
 // create an audio context
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -269,8 +268,4 @@ sourceNode.buffer = audioBuffer;
 sourceNode.connect(audioCtx.destination);
 // start playing the audio
 sourceNode.start();
-};
-
-const toggleMic = function(){
-    stream.getAudioTracks()[0].enabled = !stream.getAudioTracks()[0].enabled;
 };

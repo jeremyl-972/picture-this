@@ -1,31 +1,9 @@
 // GET MICROPHONE PERMISSION
-// let stream;
+let stream;
 let mediaRecorder;
-let recordedChunks = [];
 document.addEventListener('DOMContentLoaded', async () => {
-  await navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(strm => {
-      // Create an AudioContext
-      const audioContext = new AudioContext();
-      // Create a MediaStreamAudioSourceNode from the stream
-      const sourceNode = audioContext.createMediaStreamSource(strm);
-      // Pause the AudioContext
-      audioContext.suspend();
-      // Create an AudioDestinationNode to send the audio to the main speaker
-      const destinationNode = audioContext.destination;
-      // Connect the source node to the destination node
-      sourceNode.connect(destinationNode);
-
-      mediaRecorder = new MediaRecorder(strm);
-      mediaRecorder.addEventListener("dataavailable", event => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      });
-    })
-    .catch(error => {
-      console.error(error);
-    }); 
+  stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  mediaRecorder = new MediaRecorder(stream);
 });    
 
 // DEFINE DOM ELEMENTS
@@ -132,12 +110,18 @@ function timer() {
 // recorder adapted from: https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
 const recordAudio = () =>
   new Promise(async resolve => {
+    const audioChunks = [];
+
+    mediaRecorder.addEventListener("dataavailable", event => {
+      audioChunks.push(event.data);
+    });
+
     const start = () => mediaRecorder.start();
 
     const stop = () =>
       new Promise(resolve => {
         mediaRecorder.addEventListener("stop", () => {
-          const audioBlob = new Blob(recordedChunks, { type : 'audio/mpeg'});
+          const audioBlob = new Blob(audioChunks, { type : 'audio/mpeg'});
           const audioUrl = URL.createObjectURL(audioBlob);
           const audio = new Audio(audioUrl);
           const play = () => audio.play();

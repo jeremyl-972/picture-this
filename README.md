@@ -1,14 +1,7 @@
-# picture-this
-A quick-draw/guessing game app
-
-Build a ‘Draw & Guess’ game for 2 players. 
-
-The game includes 5 views: 
-Welcome view 
-Word choosing view 
-Drawing view 
-Guessing view (reuse of drawing view with an input for entering the word) 
-Waiting view 
+# PICTURE THIS
+#### Video Demo:  <URL HERE>
+#### Description:
+A web based quick-draw/guessing game app for 2 players.
 
 The first player starts the game by choosing between 10 given words (easy, medium, hard), then they will try to draw the word’s meaning. 
 While drawing, the second player will see the drawing and will try to guess the word. Once succeeded, they will get to pick a new word, draw it, and so on. 
