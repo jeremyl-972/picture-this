@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const audioContext = new AudioContext();
       // Create a MediaStreamAudioSourceNode from the stream
       const sourceNode = audioContext.createMediaStreamSource(strm);
+      // Pause the AudioContext
+      audioContext.suspend();
       // Create an AudioDestinationNode to send the audio to the main speaker
       const destinationNode = audioContext.destination;
       // Connect the source node to the destination node
