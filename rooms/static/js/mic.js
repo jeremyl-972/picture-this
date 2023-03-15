@@ -8,12 +8,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
-// mic.style.display = 'inline-block';
 const micToolTip = document.getElementById('tooltip');
 const recording = document.getElementById('recording');
 const clock = document.getElementById('clock');
 
-// FASTPRESS RECORD BTN - TOOLTIP OPENS
 // hide tooltip when clicking outside mic
 document.addEventListener('click', (e) => {
     if (!mic.contains(e.target)) {
@@ -59,7 +57,7 @@ mic.addEventListener("pressHold", async (e) => {
 }, false);
 //////////////////////////////////////////////////////////////////////////////////////
 
-
+// FASTPRESS RECORD BTN - TOOLTIP OPENS
 function pressingDown(e) {
   mic.setAttribute('disabled', 'disabled');
   micToolTip.style.display = 'none'
