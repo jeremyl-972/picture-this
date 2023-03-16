@@ -116,7 +116,10 @@ const recordAudio = () =>
       audioChunks.push(event.data);
     });
 
-    const start = () => mediaRecorder.start();
+    const start = () => {
+      microphoneTrack.enabled = true;
+      mediaRecorder.start();
+    }
 
     const stop = () =>
       new Promise(resolve => {
@@ -129,7 +132,7 @@ const recordAudio = () =>
         });
 
         mediaRecorder.stop();
-        microphoneTrack.stop();
+        microphoneTrack.enabled = false;
       });
 
     resolve({ start, stop });
