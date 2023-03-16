@@ -1,8 +1,10 @@
 // GET MICROPHONE PERMISSION
 let stream;
 let mediaRecorder;
+let microphoneTrack = null;
 document.addEventListener('DOMContentLoaded', async () => {
   stream = await navigator.mediaDevices.getUserMedia({audio: true});
+  microphoneTrack = stream.getAudioTracks()[0];
   mediaRecorder = new MediaRecorder(stream);
 });    
 
@@ -127,6 +129,7 @@ const recordAudio = () =>
         });
 
         mediaRecorder.stop();
+        microphoneTrack.stop();
       });
 
     resolve({ start, stop });
