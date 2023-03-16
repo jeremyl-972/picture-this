@@ -255,16 +255,27 @@ const timed_out = () => {
     };
 };
 async function createSoundWithBuffer(arrayBuffer) {
-// create an audio context
-// const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const audioCtx = new AudioContext();
-// create an AudioBuffer from the ArrayBuffer
-const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-// create an AudioBufferSourceNode and set its buffer property to the AudioBuffer
-const sourceNode = audioCtx.createBufferSource();
-sourceNode.buffer = audioBuffer;
-// connect the AudioBufferSourceNode to the destination node representing the main speaker
-sourceNode.connect(audioCtx.destination);
-// start playing the audio
-sourceNode.start();
+    // Get the user's microphone audio
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function (stream) {
+        // Create nodes for the user's microphone audio
+        var audioContext = new AudioContext();
+        var sourceNode = audioContext.createMediaStreamSource(stream);
+        var destinationNode = audioContext.destination;
+
+        // Connect the microphone audio to the destination node
+        sourceNode.connect(destinationNode);
+
+        // Create a node for the AudioBuffer playback
+        var bufferNode = audioContext.createBufferSource();
+        bufferNode.buffer = arrayBuffer;
+        bufferNode.connect(destinationNode);
+
+        // Start playing the AudioBuffer
+        bufferNode.start();
+
+        // Start recording the microphone audio
+        // ...
+    });
+
 };
