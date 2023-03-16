@@ -31,8 +31,6 @@ audioBtn.addEventListener("click", ()=>{
     audioBtn.classList.add("hide");
     mic.style.display = 'inline-block';
     audioTag.play();
-    audioTag.setAttribute('playsinline', '');
-    audioTag.setAttribute('muted', '');
 });
 // All the message receiving logic:
 socket.on('receive_audio', async (data) => {
@@ -258,7 +256,8 @@ const timed_out = () => {
 };
 async function createSoundWithBuffer(arrayBuffer) {
 // create an audio context
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const audioCtx = new AudioContext();
 // create an AudioBuffer from the ArrayBuffer
 const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 // create an AudioBufferSourceNode and set its buffer property to the AudioBuffer
