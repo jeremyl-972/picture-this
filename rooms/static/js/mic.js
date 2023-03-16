@@ -1,15 +1,14 @@
 // GET MICROPHONE PERMISSION
 let stream;
 let mediaRecorder;
-let microphoneTrack = null;
 document.addEventListener('DOMContentLoaded', async () => {
   stream = await navigator.mediaDevices.getUserMedia({audio: true});
-  microphoneTrack = stream.getAudioTracks()[0];
   mediaRecorder = new MediaRecorder(stream);
 });    
 
 // DEFINE DOM ELEMENTS
 const mic = document.getElementById('recordBtn');
+// mic.style.display = 'inline-block';
 const micToolTip = document.getElementById('tooltip');
 const recording = document.getElementById('recording');
 const clock = document.getElementById('clock');
@@ -59,7 +58,7 @@ mic.addEventListener("pressHold", async (e) => {
 }, false);
 //////////////////////////////////////////////////////////////////////////////////////
 
-// FASTPRESS RECORD BTN - TOOLTIP OPENS
+
 function pressingDown(e) {
   mic.setAttribute('disabled', 'disabled');
   micToolTip.style.display = 'none'
@@ -116,10 +115,7 @@ const recordAudio = () =>
       audioChunks.push(event.data);
     });
 
-    const start = () => {
-      microphoneTrack.enabled = true;
-      mediaRecorder.start();
-    }
+    const start = () => mediaRecorder.start();
 
     const stop = () =>
       new Promise(resolve => {
@@ -132,7 +128,6 @@ const recordAudio = () =>
         });
 
         mediaRecorder.stop();
-        microphoneTrack.enabled = false;
       });
 
     resolve({ start, stop });
