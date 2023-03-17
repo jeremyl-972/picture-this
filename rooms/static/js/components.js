@@ -212,7 +212,7 @@ const make_guess_form = () => {
     announcementElement.style.marginBottom = '10px';
     const onClick = () => {
         const loadBtn = document.getElementById('loadBtn');
-        const newNode = document.createTextNode(t('guessBtn'));
+        const newNode = document.createTextNode(t('socketio.guessBtn'));
         loadBtn.replaceChild(newNode, loadBtn.childNodes[2]);
 
         const guessInput = document.getElementById('guessInput');
@@ -222,7 +222,7 @@ const make_guess_form = () => {
     };
     const guessBtn = make_button('', 'flex-shrink: 0; margin-right: 0 !important; width: 90px', '', t('socketio.guessBtn'), onClick, 'guessBtn');
     guessBtn.setAttribute('disabled', 'disabled');
-    const loadBtn = loadingBtn(t('guessBtn'));
+    const loadBtn = loadingBtn(t('socketio.guessBtn'));
 
     const guessInput = document.createElement('input');
     guessInput.className = 'form-control';
