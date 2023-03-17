@@ -21,3 +21,9 @@ CREATE TABLE sio_connected_clients (
 	FOREIGN KEY (room_name) REFERENCES rooms (name),
     PRIMARY KEY (user_id, room_name)
 );
+CREATE TABLE words 
+(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    word	VARCHAR(512),
+    points	INT
+);

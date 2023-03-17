@@ -1,13 +1,6 @@
 -- AWS RDS does not support importing files so we need to execute this script 
 -- for inserting the words
 
-CREATE TABLE words 
-(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    word	VARCHAR(512),
-    points	INT
-);
-
 INSERT INTO words (word, points) VALUES
 	('cat', '1'),
 	('sun', '1'),

@@ -3,19 +3,20 @@
 #### Description:
 --A web based quick-draw/guessing game app for 2 players built with the Flask framework.
 
---The first player starts the game by choosing between 10 given words (easy, medium, hard), then they will try to draw the word’s meaning. 
+--The first player starts the game by choosing a difficulty level (easy, medium, hard). Then the first player selects one of 10 words (randomly pulled from the word table in the database). Then they will try to draw the word’s meaning. 
 While drawing, the second player will see the drawing and will try to guess the word. Once succeeded, they will get to pick a new word, draw it, and so on. 
---Rules: The first player who starts the game will have to wait for the second player to join (refresh at both tabs for starting a new game). Players can guess as many times they want. 
+--Rules: 
+-The first player who starts the game will have to wait for the second player to join. 
+-Players can guess as many times they want within a 90 second window. After that, the timer will time out and automatically switch the player's views.
 --When guessing correct, the game session will earn points: 
 Easy word - 1 point, Medium word - 3 points, Hard word - 5 points 
-
 
 #### Interesting Features
 
 ### Two Way Communication
 In the frontend, I was able to implement socketio for sending and receiving data (rooms/static/js/socketio.js).
 On the backend, I was thankful that the flask-socketio library existed and is handling the distribution of the data between clients in a given room.
-When a user enters a room, a socket id is generated and then saved to a table in the database to keep track of how many users are in a room. Once there are 2 users in a room, that room is no longer available to join and a different room needs to be selected or created. On logout or leaving the page, the client record is deleted from the table.
+When a user enters a room, a socket id is generated and then saved to a table in the database to keep track of how many users are in a room. Once there are 2 users in a room, that room is no longer available to join and a different room needs to be selected or created. On leaving the page or logout, the client record is deleted from the table.
 
 ### Creating the word bank
 -- When there are two players logged in and they both enter a gameroom,
@@ -42,10 +43,11 @@ It all works perfectly on the desktop. However, I found that on ios mobile safar
 This the one part of the project that is still in progress.
 
 ### Database
-I'm using AWS RDS to host a MySql database with only 3 tables (mysql/schema.sql): 
+I'm using AWS RDS to host a MySql database with only 4 tables (mysql/schema.sql): 
 --users -> records username, hash, and preferred language 
 --socketio_connected_clients -> records user_id, room_name, and socketId
 --rooms -> records room_name, creation_time, created_by, and high score for the room
+--words -> records word, and point_value of the word
 
 #### Challenges along the way
 To my dismay, Heroku announced they are no longer hosting apps for free. I needed an alternative. Since I've seen a trend in companies using AWS, I decided to research how I could get the app hosted with their free tier.
