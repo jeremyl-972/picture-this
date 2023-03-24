@@ -3,12 +3,12 @@ const langList = document.getElementById('langList');
 const langSpan = document.getElementById('langSpan');
 let language;
 let clickedLangBtn = false;
-const supportedLanguages = ["iw", "he", "fr", "fr-FR", "pt", "es-es", "en"];
+const supportedLanguages = ["iw", "he", "fr", "fr-FR", "pt", "es-es", "en", "es"];
 
 document.addEventListener("DOMContentLoaded", async () => {
   setMainForLoading();
-  const storedLang = getStoredLanguage();
-  if (storedLang) {
+  const storedLang = await getStoredLanguage();
+  if (typeof storedLang !== undefined) {
     language = storedLang;
     console.log("storedLang:", storedLang);
   } else if (supportedLanguages.includes(navigator.language) || supportedLanguages.includes(navigator.userLanguage)) {
