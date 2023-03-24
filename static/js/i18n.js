@@ -63,13 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     collection[i].addEventListener('click', () => {
       langSpan.innerText = t('loadingText.switchSpan');
       clickedLangBtn = true;
+      changeLng(collection[i].getAttributeNode("value").nodeValue);
       if (document.getElementById('title').innerText == 'Join Room') {
         joinRoomWelcome();
       }
       if (document.getElementById('title').innerText == 'Login') {
         registerPrompt();
       }
-      changeLng(collection[i].getAttributeNode("value").nodeValue);
     });
   };
 
