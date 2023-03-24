@@ -10,10 +10,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // const storedLang = await getStoredLanguage();
   if (supportedLanguages.includes(navigator.language) || supportedLanguages.includes(navigator.userLanguage)) {
     language = navigator.language;
-    console.log("navLang");
   } else {
     language = "en-US"
-    console.log("default");
   };
 
   console.log('inital-lang:', language);
