@@ -63,13 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     collection[i].addEventListener('click', () => {
       langSpan.innerText = t('loadingText.switchSpan');
       clickedLangBtn = true;
-      changeLng(collection[i].getAttributeNode("value").nodeValue);
-      if (document.getElementById('title').innerText == 'Picture This: Join Room') {
+      if (document.getElementById('title').innerText == 'Join Room') {
         joinRoomWelcome();
       }
-      if (document.getElementById('title').innerText == 'Picture This: Login') {
+      if (document.getElementById('title').innerText == 'Login') {
         registerPrompt();
       }
+      changeLng(collection[i].getAttributeNode("value").nodeValue);
     });
   };
 
@@ -158,7 +158,6 @@ function registerPrompt() {
   signupPrompt.innerHTML = '';
   console.log(i18next.language);
   if (i18next.language === 'iw') {
-    console.log("reverse order");
     signupPrompt.append(signupAtag, firstTimeSpan);
   } else {
     signupPrompt.append(firstTimeSpan, signupAtag);

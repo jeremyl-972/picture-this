@@ -105,8 +105,8 @@ const engTrans = {
         "confirmPswrdLabel": "אשר סיסמה",
         "loginBtn": "התחברות",
         "registerBtn": "הירשם",
-        "firstTime": "?פעם ראשונה",
-        "signupAtag": "הירשם"
+        "firstTime": "&#160?פעם ראשונה",
+        "signupAtag": "הירשם" 
     },
     "intro": {
         "intro": "!" + "משחק של שרטוט מהיר וניחוש מהנה",
