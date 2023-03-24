@@ -3,7 +3,7 @@ const langList = document.getElementById('langList');
 const langSpan = document.getElementById('langSpan');
 let language;
 let clickedLangBtn = false;
-const supportedLanguages = ["iw", "he", "fr", "fr-FR", "pt", "es-es", "en", "es"];
+const supportedLanguages = ["iw", "he", "fr", "fr-FR", "pt", "es-es", "es", "en-US", "es"];
 
 document.addEventListener("DOMContentLoaded", async () => {
   setMainForLoading();
@@ -63,13 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     collection[i].addEventListener('click', () => {
       langSpan.innerText = t('loadingText.switchSpan');
       clickedLangBtn = true;
+      changeLng(collection[i].getAttributeNode("value").nodeValue);
       if (document.getElementById('title').innerText == 'Picture This: Join Room') {
         joinRoomWelcome();
       }
       if (document.getElementById('title').innerText == 'Picture This: Login') {
         registerPrompt();
       }
-      changeLng(collection[i].getAttributeNode("value").nodeValue);
     });
   };
 
@@ -144,9 +144,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const createOneSpan = document.getElementById('createRoomATag').cloneNode(true);
     welcomeElement.innerHTML = ''
     if (i18next.language === 'en-US') {       
-        welcomeElement.append(selectRoomSpan, createOneSpan, welcomeReceiver, welcomeSpan)
+      welcomeElement.append(selectRoomSpan, createOneSpan, welcomeReceiver, welcomeSpan)
     } else {
-        welcomeElement.append(welcomeSpan, welcomeReceiver, selectRoomSpan, createOneSpan)
+      welcomeElement.append(welcomeSpan, welcomeReceiver, selectRoomSpan, createOneSpan)
     };
   };
 });
@@ -156,9 +156,11 @@ function registerPrompt() {
   const firstTimeSpan = document.getElementById('firstTime').cloneNode(true);
   const signupAtag = document.getElementById('signupAtag').cloneNode(true);
   signupPrompt.innerHTML = '';
+  console.log(i18next.language);
   if (i18next.language === 'iw') {
-      signupPrompt.append(signupAtag, firstTimeSpan);
+    console.log("reverse order");
+    signupPrompt.append(signupAtag, firstTimeSpan);
   } else {
-      signupPrompt.append(firstTimeSpan, signupAtag);
+    signupPrompt.append(firstTimeSpan, signupAtag);
   };
 };

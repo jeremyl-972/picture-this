@@ -105,7 +105,7 @@ const engTrans = {
         "confirmPswrdLabel": "אשר סיסמה",
         "loginBtn": "התחברות",
         "registerBtn": "הירשם",
-        "firstTime": "&#160?" + "פעם ראשונה",
+        "firstTime": "?פעם ראשונה",
         "signupAtag": "הירשם"
     },
     "intro": {
