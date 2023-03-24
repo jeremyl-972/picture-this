@@ -7,13 +7,10 @@ let clickedLangBtn = false;
 document.addEventListener("DOMContentLoaded", async () => {
   setMainForLoading();
 
-  const sysLanguage = await getStoredLanguage() || "en-US" || navigator.language || navigator.userLanguage;
+  language = await getStoredLanguage() || "en-US" || navigator.language || navigator.userLanguage;
   console.log('inital-lang:', language);
   console.log('navigator.language:', navigator.language);
-  console.log('navigator.userLanguage:', navigator.userLanguage);
-  if (sysLanguage === "") {
-
-  }   
+  console.log('navigator.userLanguage:', navigator.userLanguage);  
   i18next.init({
     lng: `${language}`,
     debug: true,
