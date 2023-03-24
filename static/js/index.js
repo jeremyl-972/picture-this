@@ -106,7 +106,10 @@ async function storeLanguage(language) {
 };
 
 async function getStoredLanguage() {
-    return await localforage.getItem('language');
+    const lang = await localforage.getItem('language');
+    if (lang) {
+        return lang;
+    } else return false;
 };
 
 async function setUserLanguage(language) {

@@ -7,11 +7,13 @@ const supportedLanguages = ["iw", "he", "fr", "fr-FR", "pt", "es-es", "es", "en-
 
 document.addEventListener("DOMContentLoaded", async () => {
   setMainForLoading();
-  // const storedLang = await getStoredLanguage();
-  if (supportedLanguages.includes(navigator.language) || supportedLanguages.includes(navigator.userLanguage)) {
+  const storedLang = await getStoredLanguage();
+  if (storedLang) {
+    language = storedLang;
+  } else if (supportedLanguages.includes(navigator.language) || supportedLanguages.includes(navigator.userLanguage)) {
     language = navigator.language;
   } else {
-    language = "en-US"
+    language = "en-US";
   };
 
   console.log('inital-lang:', language);
