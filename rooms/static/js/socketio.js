@@ -141,8 +141,7 @@ const emittingSketch = (sketch_url) => {
 
 socket.on('getting_sketch', (data) => {
     getting_sketch(data);
-    const guessForm = make_guess_form();
-    component.appendChild(guessForm);
+    once(generateGuessForm);
 });
 
 
@@ -267,3 +266,17 @@ sourceNode.connect(audioCtx.destination);
 // start playing the audio
 sourceNode.start();
 };
+
+const once = fn => {
+    let called = false;
+    return function(...args) {
+      if (called) return;
+      called = true;
+      return fn.apply(this, args);
+    };
+  };
+
+  const generateGuessForm = () => {
+    const guessForm = make_guess_form();
+    component.appendChild(guessForm);
+  };
