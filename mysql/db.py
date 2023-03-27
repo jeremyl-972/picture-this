@@ -63,7 +63,7 @@ def save_user(username, password, language):
         db['cur'].execute("INSERT INTO users (username, hash, language) VALUES(%s, %s, %s)", (username, hash, language))
         db["conn"].commit()
         close_db()
-        return {"error": False, "message": {t[language]['registered']}}
+        return {"error": False, "message": f"{t[language]['registered']}"}
 
 def get_user_language(username):
     db["cur"].execute("SELECT language FROM users WHERE username = %s", (username))

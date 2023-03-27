@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   console.log('inital-lang:', language);
   console.log('navigator.language:', navigator.language);
-  console.log('navigator.userLanguage:', navigator.userLanguage);  
+  setLangInput(language);
+
   i18next.init({
     lng: `${language}`,
     debug: true,
@@ -92,19 +93,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       setMainForLoading();
       if (user) await setUserLanguage(i18next.language);
     };
-        
-    const titleElement = document.getElementById('title');
-    const title = titleElement.innerText;
-    const langInput = document.getElementById('langInput');
 
-    // manipulate the DOM so a form send will carry the language value
-    if (
-        title === 'Picture This: Register' ||
-        title === 'Picture This: Login' ||
-        title === 'Picture This: Create Room'
-      ) {
-      langInput.setAttribute('value', i18next.language);
-    };
+    setLangInput(i18next.language);
+        
+    // const titleElement = document.getElementById('title');
+    // const title = titleElement.innerText;
+    // const langInput = document.getElementById('langInput');
+    // // manipulate the DOM so a form send will carry the language value
+    // if (
+    //     title === 'Register' ||
+    //     title === 'Login' ||
+    //     title === 'Create Room'
+    //   ) {
+    //   langInput.setAttribute('value', i18next.language);
+    // };
     // align registerPrompt elements
     if (document.getElementById('title').innerText == 'Picture This: Login') {
       registerPrompt();
@@ -161,5 +163,15 @@ function registerPrompt() {
     signupPrompt.append(signupAtag, firstTimeSpan);
   } else {
     signupPrompt.append(firstTimeSpan, signupAtag);
+  };
+};
+
+function setLangInput(lang) {
+  const titleElement = document.getElementById('title');
+  const title = titleElement.innerText;
+  const langInput = document.getElementById('langInput');
+  if (title === 'Register' || title === 'Login' || title === 'Create Room') {
+    // manipulate the DOM so a form send will carry the language value
+    langInput.setAttribute('value', lang);
   };
 };

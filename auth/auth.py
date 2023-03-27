@@ -17,6 +17,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         lang = request.form['language']
+        print(f"language: {lang}")
         user = None
         error = None
 
@@ -63,6 +64,7 @@ def register():
         confirmation = request.form['confirmation']
         lang = request.form['language']
         error = None
+        print(f"register route - lang: {lang}")
 
         if not username:
             error = t[lang]['nameReqErr']
