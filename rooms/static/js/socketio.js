@@ -129,9 +129,8 @@ socket.on('start_timer', () => {
     startTimer();
 });
 
-let printedForm = false;
+
 const emittingSketch = (sketch_url) => {
-    printedForm = false;
     socket.emit('emit_sketch', {
         room: room_name,
         url: sketch_url,
@@ -139,14 +138,11 @@ const emittingSketch = (sketch_url) => {
     });
 };
 
+
 socket.on('getting_sketch', (data) => {
     getting_sketch(data);
-    if (printedForm != true) {
-        console.log("printing form");
-        const guessForm = make_guess_form();
-        component.appendChild(guessForm);
-    };
-    printedForm = true;
+    const guessForm = make_guess_form();
+    component.appendChild(guessForm);
 });
 
 
