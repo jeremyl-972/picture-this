@@ -129,7 +129,7 @@ socket.on('start_timer', () => {
     startTimer();
 });
 
-let receivingSketch;
+let receivingSketch = false;
 const emittingSketch = (sketch_url) => {
     receivingSketch = false;
     socket.emit('emit_sketch', {
