@@ -1,5 +1,5 @@
 # PICTURE THIS
-#### Link: https://ilpicturethis.com
+#### Link: https://www.ilpicturethis.com
 #### Video Demo:  https://youtu.be/GhMMDZL_hoI
 #### Description:
 --A web based quick-draw/guessing game app for 2 players built with the Flask framework.
@@ -12,7 +12,7 @@ While drawing, the second player will see the drawing and will try to guess the 
 --When guessing correct, the game session will earn points: 
 Easy word - 1 point, Medium word - 3 points, Hard word - 5 points 
 
-#### Interesting Features
+#### Interesting Features:
 
 ### Two Way Communication
 In the frontend, I was able to implement socketio for sending and receiving data (rooms/static/js/socketio.js).
